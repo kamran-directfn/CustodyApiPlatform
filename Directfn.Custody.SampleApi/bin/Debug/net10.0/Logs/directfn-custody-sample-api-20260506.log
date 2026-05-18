@@ -1,0 +1,480 @@
+[2026-05-06 19:49:53 INF] CorrelationId= Now listening on: http://localhost:5088
+[2026-05-06 19:49:54 INF] CorrelationId= Application started. Press Ctrl+C to shut down.
+[2026-05-06 19:49:54 INF] CorrelationId= Hosting environment: Development
+[2026-05-06 19:49:54 INF] CorrelationId= Content root path: E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 19:50:00 INF] CorrelationId=de853f9faeb545ea9d0adf087cbedc95 HTTP GET /swagger/index.html responded 304 in 64.6739 ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 118.1301ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId=efb8911988b145f2acc97c842ea49e96 HTTP GET /swagger/index.js responded 304 in 5.9608 ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 26.2811ms
+[2026-05-06 19:50:00 INF] CorrelationId=a37f95964a44415783b285690f1f0520 HTTP GET /swagger/swagger-ui.css responded 304 in 19.0776 ms
+[2026-05-06 19:50:00 INF] CorrelationId=aacf113945af49168418c64c365d95e1 HTTP GET /swagger/index.css responded 304 in 17.2649 ms
+[2026-05-06 19:50:00 INF] CorrelationId=bb646d12ec324584aa75cec9b56fb695 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 13.4718 ms
+[2026-05-06 19:50:00 INF] CorrelationId=bfbaa9793baf4d25a08a0612d3a61d3f HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 22.3933 ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 37.3357ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 40.4302ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 41.5866ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 45.5237ms
+[2026-05-06 19:50:00 INF] CorrelationId=2d32e818f4824dd8a7abfe6c214d226e HTTP GET /swagger/index.js responded 304 in 0.2537 ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 39.652ms
+[2026-05-06 19:50:00 INF] CorrelationId=e4be83bee6f3438f8b7f654f5a0d92dc HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.1112 ms
+[2026-05-06 19:50:00 INF] CorrelationId=d523572320c541aea37ad7f9ad5ecb34 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0755 ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 35.4027ms
+[2026-05-06 19:50:00 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 32.2149ms
+[2026-05-06 19:50:01 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 19:50:01 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 19:50:01 INF] CorrelationId=f603f2a512104429b7e5b28b2df94d6e HTTP GET /swagger/favicon-32x32.png responded 304 in 0.3007 ms
+[2026-05-06 19:50:01 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 8.9212ms
+[2026-05-06 19:50:01 INF] CorrelationId=329350dcfcd14f5f98f46c7f2cf302fe HTTP GET /swagger/v1/swagger.json responded 200 in 67.9138 ms
+[2026-05-06 19:50:01 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 75.0429ms
+[2026-05-06 19:50:09 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/HealthTest - null null
+[2026-05-06 19:50:09 WRN] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Failed to determine the https port for redirect.
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Executing endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Route matched with {action = "Get", controller = "HealthTest"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller Directfn.Custody.SampleApi.Controllers.HealthTestController (Directfn.Custody.SampleApi).
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Executing OkObjectResult, writing value of type 'Directfn.Custody.ApiFramework.Responses.ApiResponse`1[[<>f__AnonymousType0`3[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Directfn.Custody.SampleApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Executed action Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi) in 28.0216ms
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca Executed endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 19:50:09 INF] CorrelationId=f3af12a56c0c476f8949e8c04e920dca HTTP GET /api/HealthTest responded 200 in 70.6981 ms
+[2026-05-06 19:50:09 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/HealthTest - 200 null application/json; charset=utf-8 77.5883ms
+[2026-05-06 19:50:20 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/HealthTest/unexpected-error - null null
+[2026-05-06 19:50:20 INF] CorrelationId=LOG-TEST-500 Executing endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.TestUnexpectedError (Directfn.Custody.SampleApi)'
+[2026-05-06 19:50:20 INF] CorrelationId=LOG-TEST-500 Route matched with {action = "TestUnexpectedError", controller = "HealthTest"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult TestUnexpectedError() on controller Directfn.Custody.SampleApi.Controllers.HealthTestController (Directfn.Custody.SampleApi).
+[2026-05-06 19:50:20 INF] CorrelationId=LOG-TEST-500 Executed action Directfn.Custody.SampleApi.Controllers.HealthTestController.TestUnexpectedError (Directfn.Custody.SampleApi) in 0.8615ms
+[2026-05-06 19:50:20 INF] CorrelationId=LOG-TEST-500 Executed endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.TestUnexpectedError (Directfn.Custody.SampleApi)'
+[2026-05-06 19:50:20 ERR] CorrelationId=LOG-TEST-500 HTTP GET /api/HealthTest/unexpected-error responded 500 in 23.6869 ms
+System.InvalidOperationException: Testing unexpected exception.
+   at Directfn.Custody.SampleApi.Controllers.HealthTestController.TestUnexpectedError() in E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi\Controllers\HealthTestController.cs:line 42
+   at lambda_method4(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+[2026-05-06 19:50:20 ERR] CorrelationId=LOG-TEST-500 Unhandled exception occurred. CorrelationId: LOG-TEST-500
+System.InvalidOperationException: Testing unexpected exception.
+   at Directfn.Custody.SampleApi.Controllers.HealthTestController.TestUnexpectedError() in E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi\Controllers\HealthTestController.cs:line 42
+   at lambda_method4(Closure, Object, Object[])
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Directfn.Custody.ApiFramework.Middleware.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\Middleware\GlobalExceptionMiddleware.cs:line 32
+[2026-05-06 19:50:20 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/HealthTest/unexpected-error - 500 null application/json 55.435ms
+[2026-05-06 19:59:11 INF] CorrelationId= Application is shutting down...
+[2026-05-06 20:03:47 INF] CorrelationId= Now listening on: http://localhost:5088
+[2026-05-06 20:03:47 INF] CorrelationId= Application started. Press Ctrl+C to shut down.
+[2026-05-06 20:03:47 INF] CorrelationId= Hosting environment: Development
+[2026-05-06 20:03:47 INF] CorrelationId= Content root path: E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:03 INF] CorrelationId=667f3736ce96467eb55f1fa18d944a44 HTTP GET /swagger/index.html responded 304 in 82.1013 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 126.3013ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:03 INF] CorrelationId=5a72e82275f64b7ba93399562e2467e4 HTTP GET /swagger/index.js responded 200 in 8.0361 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 200 null application/javascript;charset=utf-8 23.5055ms
+[2026-05-06 20:04:03 INF] CorrelationId=fe9a34c5cebd4119a473c4c05c3ff920 HTTP GET /swagger/index.css responded 304 in 4.6979 ms
+[2026-05-06 20:04:03 INF] CorrelationId=8eb987e7891341628e032799ba0fa2ec HTTP GET /swagger/swagger-ui.css responded 304 in 10.5025 ms
+[2026-05-06 20:04:03 INF] CorrelationId=c70d06dfb64e4d3784f5fdca532241c1 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 17.8907 ms
+[2026-05-06 20:04:03 INF] CorrelationId=4a2971a4328e4410882b86b569576ead HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 19.8433 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 32.5635ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 36.2731ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 37.9727ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 41.0643ms
+[2026-05-06 20:04:03 INF] CorrelationId=48ec6867592b43939a63bce5c6c29156 HTTP GET /swagger/index.js responded 200 in 0.9738 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 200 null application/javascript;charset=utf-8 48.6443ms
+[2026-05-06 20:04:03 INF] CorrelationId=a94173a0e1e241048ff8959e6ef76ee2 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.1015 ms
+[2026-05-06 20:04:03 INF] CorrelationId=24f75cf0ba2c4f158d003923c8a04966 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0972 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 45.092ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 36.6368ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:03 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:03 INF] CorrelationId=1f2ba5e3d9d04755a738f4375b6ee6b4 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.2247 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 11.0932ms
+[2026-05-06 20:04:03 INF] CorrelationId=67c3561c9fa947e2b74f1e354034f7a6 HTTP GET /swagger/v1/swagger.json responded 200 in 82.7771 ms
+[2026-05-06 20:04:03 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 89.7981ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:08 INF] CorrelationId=863ccdb845754c9ea1083e677b744692 HTTP GET /swagger/index.html responded 304 in 0.1764 ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 6.0863ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId=1b4dc04efecd4e2eb32e936039249c91 HTTP GET /swagger/index.css responded 304 in 0.1902 ms
+[2026-05-06 20:04:08 INF] CorrelationId=a4abf15af2f747ca8da75890100e5d45 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0704 ms
+[2026-05-06 20:04:08 INF] CorrelationId=7db63ea2c3b546b6964483f7a02807f5 HTTP GET /swagger/swagger-ui.css responded 304 in 0.0643 ms
+[2026-05-06 20:04:08 INF] CorrelationId=e1d32078f4b14021a56a0767627a8d4b HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0563 ms
+[2026-05-06 20:04:08 INF] CorrelationId=e50b2dfff3904b92b61369618fddd482 HTTP GET /swagger/index.js responded 304 in 0.2266 ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 20.0477ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 21.9481ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 25.4129ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 28.1163ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 30.5914ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:08 INF] CorrelationId=9c93bd7f6f334c3590fa0c60a709ca88 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.1244 ms
+[2026-05-06 20:04:08 INF] CorrelationId=3131b56350404b79a2384474724b7f6a HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.1014 ms
+[2026-05-06 20:04:08 INF] CorrelationId=83dd798811394371b6040dd751eaee01 HTTP GET /swagger/index.js responded 304 in 0.4272 ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 45.9643ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 42.8174ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 42.3261ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:08 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:08 INF] CorrelationId=44cd241d90ee4e47a8b6b6574d2d3a5f HTTP GET /swagger/v1/swagger.json responded 200 in 2.3550 ms
+[2026-05-06 20:04:08 INF] CorrelationId=9c8e98b4370f40838e0879e45891a88d HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0754 ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 11.8346ms
+[2026-05-06 20:04:08 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 7.7702ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:14 INF] CorrelationId=f0c1b000a7434b85b11c4b1d5e9e7312 HTTP GET /swagger/index.html responded 304 in 0.1589 ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 6.2924ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId=88d04a4ec4ad41cbb2352bfcf1e5f242 HTTP GET /swagger/swagger-ui.css responded 304 in 0.1241 ms
+[2026-05-06 20:04:14 INF] CorrelationId=54eeeb0ab6b145de9ef8699c787fdd54 HTTP GET /swagger/index.css responded 304 in 0.0667 ms
+[2026-05-06 20:04:14 INF] CorrelationId=7e85c7a01e584e319f241c80c42cc366 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0484 ms
+[2026-05-06 20:04:14 INF] CorrelationId=db79de48623a49d4abe5a1130e34852f HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0621 ms
+[2026-05-06 20:04:14 INF] CorrelationId=c54114e98a3440d5aa64210c123e3d6f HTTP GET /swagger/index.js responded 304 in 0.2284 ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 21.2472ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 23.5864ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 25.7868ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 28.0714ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 30.4375ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:14 INF] CorrelationId=5ab42ef58aa045e7a36b10013ee2df2c HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0745 ms
+[2026-05-06 20:04:14 INF] CorrelationId=b8283115187f4b35840ed619feafe8a8 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0775 ms
+[2026-05-06 20:04:14 INF] CorrelationId=9f4a13fb84b54d479347c43d008fb3c5 HTTP GET /swagger/index.js responded 304 in 0.2413 ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 37.9162ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 39.1875ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 40.1706ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:14 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:14 INF] CorrelationId=8e2fe19d5e3c434a9a79f868a79152c6 HTTP GET /swagger/v1/swagger.json responded 200 in 1.5218 ms
+[2026-05-06 20:04:14 INF] CorrelationId=ebfa525485234af2be25c2cccf8bdd39 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0645 ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 16.5884ms
+[2026-05-06 20:04:14 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 11.0926ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:15 INF] CorrelationId=359b463e74934d3cb0c1a994c480b567 HTTP GET /swagger/index.html responded 304 in 0.2303 ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 8.8487ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId=d82687ca216547b49699ec2ab1168ca8 HTTP GET /swagger/swagger-ui.css responded 304 in 0.2269 ms
+[2026-05-06 20:04:15 INF] CorrelationId=f487e6aba7614ed9a3b4c8994c0af2c8 HTTP GET /swagger/index.css responded 304 in 0.0676 ms
+[2026-05-06 20:04:15 INF] CorrelationId=167a6fa5bd4048c5845310617b42a2e5 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0617 ms
+[2026-05-06 20:04:15 INF] CorrelationId=ee2b516ca0a849cbb5170faf41f5a2e5 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0572 ms
+[2026-05-06 20:04:15 INF] CorrelationId=45d3e9329d074537b995f71312db123e HTTP GET /swagger/index.js responded 304 in 0.2223 ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 19.3279ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 22.3145ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 24.0128ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 26.8191ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 28.6565ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:15 INF] CorrelationId=99844b86c5f14084bcc9df565cb65b5e HTTP GET /swagger/v1/swagger.json responded 200 in 0.9873 ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 10.863ms
+[2026-05-06 20:04:15 INF] CorrelationId=f1f6f9cd2f1f46e49711ef5753a6fe97 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0545 ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 11.6075ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:15 INF] CorrelationId=8c829514ccca4af8b42c9ab029d88b34 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0638 ms
+[2026-05-06 20:04:15 INF] CorrelationId=7923910b32994a978b174096f1966dd0 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0748 ms
+[2026-05-06 20:04:15 INF] CorrelationId=c522fa3970be4bf48289c3c14f7c0d92 HTTP GET /swagger/index.js responded 304 in 0.2478 ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 15.275ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 16.7633ms
+[2026-05-06 20:04:15 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 19.1833ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:16 INF] CorrelationId=3b1bf0a038f4454e82792c15a5f2f9ab HTTP GET /swagger/index.html responded 304 in 0.1879 ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 7.8822ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:16 INF] CorrelationId=588ee1a130994ca384706d2ff661ae64 HTTP GET /swagger/swagger-ui.css responded 304 in 0.0494 ms
+[2026-05-06 20:04:16 INF] CorrelationId=48e1130fa9c741fd87b0b0828eaa90c0 HTTP GET /swagger/index.css responded 304 in 0.0699 ms
+[2026-05-06 20:04:16 INF] CorrelationId=d3e666df849049648050f07703f15309 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0539 ms
+[2026-05-06 20:04:16 INF] CorrelationId=30ff04171fb747cab5b610a48949b661 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0704 ms
+[2026-05-06 20:04:16 INF] CorrelationId=cd6a0cf57390434ea82f060b5c3f4079 HTTP GET /swagger/index.js responded 304 in 0.1941 ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 20.8539ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 24.4121ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 26.1667ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 28.9908ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 31.288ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:16 INF] CorrelationId=86687c588af346179e6c01f2da7db800 HTTP GET /swagger/v1/swagger.json responded 200 in 0.9051 ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 6.0285ms
+[2026-05-06 20:04:16 INF] CorrelationId=aaf9b17368e04c0c8329e736cf600f26 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0683 ms
+[2026-05-06 20:04:16 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 12.4496ms
+[2026-05-06 20:04:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:17 INF] CorrelationId=11f303fe61cc41d7b885f367782b56e6 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0650 ms
+[2026-05-06 20:04:17 INF] CorrelationId=f93ff76117d24899ab1ff43ca5a30e22 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0789 ms
+[2026-05-06 20:04:17 INF] CorrelationId=e6d6dda7f84440b2a5c1b7c9cfcb824f HTTP GET /swagger/index.js responded 304 in 0.1816 ms
+[2026-05-06 20:04:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 19.0324ms
+[2026-05-06 20:04:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 19.353ms
+[2026-05-06 20:04:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 22.0538ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:18 INF] CorrelationId=1736add913c246b69dc2b7f1b1278e66 HTTP GET /swagger/index.html responded 304 in 0.1874 ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 7.2458ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId=4ec2aa41ddf349219dcc29adcdb71a95 HTTP GET /swagger/swagger-ui.css responded 304 in 1.1726 ms
+[2026-05-06 20:04:18 INF] CorrelationId=36b4fdb0439c4bc48b966e753d03825e HTTP GET /swagger/index.css responded 304 in 0.0458 ms
+[2026-05-06 20:04:18 INF] CorrelationId=3944f396b0ae40a3bc893285a797d6d2 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0469 ms
+[2026-05-06 20:04:18 INF] CorrelationId=652a2c134f8d43c7abcf8c674940810d HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0474 ms
+[2026-05-06 20:04:18 INF] CorrelationId=638d586fb78b4e2487026ee870b57266 HTTP GET /swagger/index.js responded 304 in 0.1901 ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 18.7715ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 21.5317ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 23.9516ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 25.2573ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 27.8426ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:18 INF] CorrelationId=522ac6b2ee4749448e08c43493e06274 HTTP GET /swagger/v1/swagger.json responded 200 in 0.7959 ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.1677ms
+[2026-05-06 20:04:18 INF] CorrelationId=829dcbc31e7f4696a63701984d2140f5 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0550 ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 13.5627ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:18 INF] CorrelationId=33a91c0bd25b4f0fb910fc7890b111cb HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.1515 ms
+[2026-05-06 20:04:18 INF] CorrelationId=4e9207ae8683471ca5cf0008a8186014 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0495 ms
+[2026-05-06 20:04:18 INF] CorrelationId=9e2ad7363a96475bba6ca3739d55aef6 HTTP GET /swagger/index.js responded 304 in 0.2781 ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 14.426ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 17.09ms
+[2026-05-06 20:04:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 20.723ms
+[2026-05-06 20:04:24 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/HealthTest - null null
+[2026-05-06 20:04:24 WRN] CorrelationId=45129ca867014854b1c08e855a435cd1 Failed to determine the https port for redirect.
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 Executing endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 Route matched with {action = "Get", controller = "HealthTest"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller Directfn.Custody.SampleApi.Controllers.HealthTestController (Directfn.Custody.SampleApi).
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 Executing OkObjectResult, writing value of type 'Directfn.Custody.ApiFramework.Responses.ApiResponse`1[[<>f__AnonymousType0`3[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Directfn.Custody.SampleApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 Executed action Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi) in 34.8003ms
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 Executed endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:04:24 INF] CorrelationId=45129ca867014854b1c08e855a435cd1 HTTP GET /api/HealthTest responded 200 in 67.3318 ms
+[2026-05-06 20:04:24 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/HealthTest - 200 null application/json; charset=utf-8 76.558ms
+[2026-05-06 20:04:30 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/HealthTest - null null
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 Executing endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 Route matched with {action = "Get", controller = "HealthTest"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller Directfn.Custody.SampleApi.Controllers.HealthTestController (Directfn.Custody.SampleApi).
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 Executing OkObjectResult, writing value of type 'Directfn.Custody.ApiFramework.Responses.ApiResponse`1[[<>f__AnonymousType0`3[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Directfn.Custody.SampleApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 Executed action Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi) in 3.6682ms
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 Executed endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:04:30 INF] CorrelationId=bb264e03de244d949039414a8805c6a4 HTTP GET /api/HealthTest responded 200 in 17.7645 ms
+[2026-05-06 20:04:30 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/HealthTest - 200 null application/json; charset=utf-8 26.6417ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:04:33 INF] CorrelationId=293a479f21fb4f37903d948bdfc65fc3 HTTP GET /swagger/index.html responded 304 in 0.1386 ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 9.0525ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId=cc73019115914848a9afc24d2d259bc4 HTTP GET /swagger/swagger-ui.css responded 304 in 0.0501 ms
+[2026-05-06 20:04:33 INF] CorrelationId=a04502e5d5b94dbd948e7c7c83a4122f HTTP GET /swagger/index.css responded 304 in 0.0509 ms
+[2026-05-06 20:04:33 INF] CorrelationId=57df4cdc0f104ff7814e727b8a2097ac HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0317 ms
+[2026-05-06 20:04:33 INF] CorrelationId=d3a1f1e153514a8e9fdaa91c9da808f4 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0216 ms
+[2026-05-06 20:04:33 INF] CorrelationId=a6caa7e0f2cf4c2c8d2302b138b5953d HTTP GET /swagger/index.js responded 304 in 0.3207 ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 19.0023ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 21.2443ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 22.9982ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 24.8917ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 26.6056ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:04:33 INF] CorrelationId=f0c15ed4d13e4e4f832d6d0977f87633 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0453 ms
+[2026-05-06 20:04:33 INF] CorrelationId=bffdff730b604f45ba5c4841e4b1462d HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0624 ms
+[2026-05-06 20:04:33 INF] CorrelationId=04083401118f46e5be156cf0bc85074c HTTP GET /swagger/index.js responded 304 in 6.2885 ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 35.1297ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 33.2469ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 38.6985ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:04:33 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:04:33 INF] CorrelationId=dfdf4b7c78294ea0b59d673c455c0b20 HTTP GET /swagger/v1/swagger.json responded 200 in 1.4583 ms
+[2026-05-06 20:04:33 INF] CorrelationId=b5390b5d61a6434d8995ab34baf23916 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0550 ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.8754ms
+[2026-05-06 20:04:33 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 13.2241ms
+[2026-05-06 20:06:24 INF] CorrelationId= Application is shutting down...
+[2026-05-06 20:06:30 INF] CorrelationId= Now listening on: http://localhost:5088
+[2026-05-06 20:06:30 INF] CorrelationId= Application started. Press Ctrl+C to shut down.
+[2026-05-06 20:06:30 INF] CorrelationId= Hosting environment: Development
+[2026-05-06 20:06:30 INF] CorrelationId= Content root path: E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi
+[2026-05-06 20:07:31 INF] CorrelationId= Application is shutting down...
+[2026-05-06 20:07:36 INF] CorrelationId= Now listening on: http://localhost:5088
+[2026-05-06 20:07:36 INF] CorrelationId= Application started. Press Ctrl+C to shut down.
+[2026-05-06 20:07:36 INF] CorrelationId= Hosting environment: Development
+[2026-05-06 20:07:36 INF] CorrelationId= Content root path: E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi
+[2026-05-06 20:08:06 INF] CorrelationId= Request starting HTTP/1.1 OPTIONS http://localhost:5088/api/HealthTest - null 0
+[2026-05-06 20:08:06 WRN] CorrelationId=6f1a69aaa1fa43578f26219c0ed5bb9e Failed to determine the https port for redirect.
+[2026-05-06 20:08:06 INF] CorrelationId=6f1a69aaa1fa43578f26219c0ed5bb9e CORS policy execution successful.
+[2026-05-06 20:08:06 INF] CorrelationId=6f1a69aaa1fa43578f26219c0ed5bb9e HTTP OPTIONS /api/HealthTest responded 204 in 20.7510 ms
+[2026-05-06 20:08:06 INF] CorrelationId= Request finished HTTP/1.1 OPTIONS http://localhost:5088/api/HealthTest - 204 null null 57.9765ms
+[2026-05-06 20:19:47 INF] CorrelationId= Application is shutting down...
+[2026-05-06 20:19:52 INF] CorrelationId= Now listening on: http://localhost:5088
+[2026-05-06 20:19:52 INF] CorrelationId= Application started. Press Ctrl+C to shut down.
+[2026-05-06 20:19:52 INF] CorrelationId= Hosting environment: Development
+[2026-05-06 20:19:52 INF] CorrelationId= Content root path: E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.SampleApi
+[2026-05-06 20:19:56 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:19:57 INF] CorrelationId=448a034a4f9549b8b668e17e76fd96c3 HTTP GET /swagger/index.html responded 304 in 120.7488 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 192.934ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId=ec7a6a37deb64d53894b5c76fe25d411 HTTP GET /swagger/index.js responded 304 in 1.2753 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 48.103ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId=c1d8552f079e4a18a31918b5ec57b805 HTTP GET /swagger/index.js responded 304 in 0.9219 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 9.8618ms
+[2026-05-06 20:19:57 INF] CorrelationId=d2694085f26143c4b8460afac7ba726b HTTP GET /swagger/swagger-ui.css responded 304 in 19.3173 ms
+[2026-05-06 20:19:57 INF] CorrelationId=969111470e284602a46133d9f6a3784e HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 19.3196 ms
+[2026-05-06 20:19:57 INF] CorrelationId=97f2bdc3ae5c40639cfc2d48a66da512 HTTP GET /swagger/index.css responded 304 in 19.3171 ms
+[2026-05-06 20:19:57 INF] CorrelationId=92a4dced4cda4565884dc2f4b121714a HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 22.4699 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 89.5351ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 73.6553ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 75.6969ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 70.4164ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId=851b72ad64a64f3e9bc6fecf08f163cc HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.2003 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 7.8789ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:19:57 INF] CorrelationId=488fa5f9be0d406594a5cebe1f6ec1c6 HTTP GET /swagger/favicon-32x32.png responded 304 in 0.1870 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 5.5723ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:19:57 INF] CorrelationId=476e21729d414e3cbb3e80e4b37bbac5 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.3508 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 8.4858ms
+[2026-05-06 20:19:57 INF] CorrelationId=c97afa540bee42bab08ea0b792d112a4 HTTP GET /swagger/v1/swagger.json responded 200 in 159.1327 ms
+[2026-05-06 20:19:57 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 166.7696ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 20:19:59 INF] CorrelationId=712b08aef4334df381e2d0292aeda4d1 HTTP GET /swagger/index.html responded 304 in 0.3716 ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 7.4869ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId=14145ec262684a2081e740ad88b93355 HTTP GET /swagger/index.css responded 304 in 0.2287 ms
+[2026-05-06 20:19:59 INF] CorrelationId=93e12e036d41430cbcd23d7327ebb766 HTTP GET /swagger/swagger-ui.css responded 304 in 0.0791 ms
+[2026-05-06 20:19:59 INF] CorrelationId=642fd25d27c74fec92ea7597207cacc9 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0855 ms
+[2026-05-06 20:19:59 INF] CorrelationId=50adc8486a414bbab2cdce3ba58270ec HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0874 ms
+[2026-05-06 20:19:59 INF] CorrelationId=f2424bffd18c40a8a68bbc32584228c1 HTTP GET /swagger/index.js responded 304 in 0.2636 ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 18.3679ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 21.4178ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 24.1548ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 24.6948ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 28.4311ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 20:19:59 INF] CorrelationId=da2c8b6b12314e90a01232bdce512019 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.0948 ms
+[2026-05-06 20:19:59 INF] CorrelationId=0f67f7fd7937473b82710b1820a3fef9 HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.0930 ms
+[2026-05-06 20:19:59 INF] CorrelationId=257264d151eb4dcc8b42e31b30850f44 HTTP GET /swagger/index.js responded 304 in 0.2986 ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 35.1031ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 33.6161ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 32.2653ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 20:19:59 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 20:19:59 INF] CorrelationId=d1d24b381e8546ecb60768ef25b03ef1 HTTP GET /swagger/v1/swagger.json responded 200 in 1.8444 ms
+[2026-05-06 20:19:59 INF] CorrelationId=c1bedd35bc5044b193fe9e999bf07d6a HTTP GET /swagger/favicon-32x32.png responded 304 in 0.1243 ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.0435ms
+[2026-05-06 20:19:59 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 15.4163ms
+[2026-05-06 20:20:49 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/HealthTest - null null
+[2026-05-06 20:20:49 WRN] CorrelationId=025b218e2e9c4e43ab64b1ca22c729c9 Failed to determine the https port for redirect.
+[2026-05-06 20:20:49 INF] CorrelationId=025b218e2e9c4e43ab64b1ca22c729c9 HTTP GET /api/HealthTest responded 404 in 4.1309 ms
+[2026-05-06 20:20:49 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/HealthTest - 404 0 null 32.8145ms
+[2026-05-06 20:20:49 INF] CorrelationId= Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5088/api/HealthTest, Response status code: 404
+[2026-05-06 20:21:30 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/api/v1/HealthTest - null null
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 Executing endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 Route matched with {action = "Get", controller = "HealthTest"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller Directfn.Custody.SampleApi.Controllers.HealthTestController (Directfn.Custody.SampleApi).
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 Executing OkObjectResult, writing value of type 'Directfn.Custody.ApiFramework.Responses.ApiResponse`1[[<>f__AnonymousType0`4[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Directfn.Custody.SampleApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 Executed action Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi) in 30.7747ms
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 Executed endpoint 'Directfn.Custody.SampleApi.Controllers.HealthTestController.Get (Directfn.Custody.SampleApi)'
+[2026-05-06 20:21:30 INF] CorrelationId=VERSION-TEST-1 HTTP GET /api/v1/HealthTest responded 200 in 53.8701 ms
+[2026-05-06 20:21:30 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/api/v1/HealthTest - 200 null application/json; charset=utf-8 77.1597ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+[2026-05-06 21:05:17 INF] CorrelationId=11a46591da79420a8e1e8eee60e282bd HTTP GET /swagger/index.html responded 304 in 0.8271 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 304 null null 72.3292ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.css - null null
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId=29f5c196898c41c69e5e839138899f75 HTTP GET /swagger/index.js responded 304 in 0.5716 ms
+[2026-05-06 21:05:17 INF] CorrelationId=9002da55f39e4d6eb0fa7e63c64ab2aa HTTP GET /swagger/index.css responded 304 in 0.0846 ms
+[2026-05-06 21:05:17 INF] CorrelationId=6d02276710314281b83712e5f55a68b7 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.7553 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 58.5737ms
+[2026-05-06 21:05:17 INF] CorrelationId=f370ce92e2ff42c0aeec85e4f11821eb HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.1149 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 51.1574ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.css - 304 null null 51.6954ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId=9f5cdddf51f94a91bff364be3f9c3097 HTTP GET /swagger/swagger-ui.css responded 304 in 0.1344 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 60.2422ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+[2026-05-06 21:05:17 INF] CorrelationId=b69981447d9847fdb6916e9ea8eed722 HTTP GET /swagger/index.js responded 304 in 0.2635 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 304 null null 610.7023ms
+[2026-05-06 21:05:17 INF] CorrelationId=98e8d677411d4cd585212f6567b3b15a HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 0.1045 ms
+[2026-05-06 21:05:17 INF] CorrelationId=7f50d360e4154586bb340d67cdc67c42 HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 0.2707 ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.js - 304 null null 670.4896ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 304 null null 649.1116ms
+[2026-05-06 21:05:17 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 304 null null 629.0315ms
+[2026-05-06 21:05:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+[2026-05-06 21:05:18 INF] CorrelationId=d87111f4f3544874b11dcae03d343951 HTTP GET /swagger/v1/swagger.json responded 200 in 2.3735 ms
+[2026-05-06 21:05:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 5.4609ms
+[2026-05-06 21:05:18 INF] CorrelationId= Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+[2026-05-06 21:05:18 INF] CorrelationId=d1fe4a1902a0457a89e00b6a7d08cbdc HTTP GET /swagger/favicon-32x32.png responded 304 in 0.0708 ms
+[2026-05-06 21:05:18 INF] CorrelationId= Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 304 null null 4.9188ms

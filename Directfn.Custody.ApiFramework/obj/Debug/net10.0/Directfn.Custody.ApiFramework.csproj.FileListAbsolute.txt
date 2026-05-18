@@ -1,0 +1,12 @@
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.GeneratedMSBuildEditorConfig.editorconfig
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.AssemblyInfoInputs.cache
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.AssemblyInfo.cs
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.csproj.CoreCompileInputs.cache
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\bin\Debug\net10.0\Directfn.Custody.ApiFramework.deps.json
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\bin\Debug\net10.0\Directfn.Custody.ApiFramework.dll
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\bin\Debug\net10.0\Directfn.Custody.ApiFramework.pdb
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.dll
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\refint\Directfn.Custody.ApiFramework.dll
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.pdb
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\ref\Directfn.Custody.ApiFramework.dll
+E:\Company\Custody-Revamp\CustodyApiPlatform\Directfn.Custody.ApiFramework\obj\Debug\net10.0\Directfn.Custody.ApiFramework.csproj.AssemblyReference.cache

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Directfn.Custody.ApiFramework/Directfn.Custody.ApiFramework.csproj" />
+  <Project Path="Directfn.Custody.SampleApi/Directfn.Custody.SampleApi.csproj" />
+</Solution>

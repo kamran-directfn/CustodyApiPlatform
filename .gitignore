@@ -374,3 +374,6 @@ Directfn.Custody.SampleApi/obj/
 
 **/bin/
 **/obj/
+
+# Visual Studio local files
+.vs/

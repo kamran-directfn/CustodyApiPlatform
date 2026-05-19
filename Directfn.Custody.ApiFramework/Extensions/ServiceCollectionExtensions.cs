@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Directfn.Custody.ApiFramework.Passwords;
+using Directfn.Custody.ApiFramework.Database;
 
 namespace Directfn.Custody.ApiFramework.Extensions;
 
@@ -36,9 +37,14 @@ public static class ServiceCollectionExtensions
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
         });
 
+
         services.AddHttpContextAccessor();
-        services.Configure<AuthOptions>(
-        configuration.GetSection(AuthOptions.SectionName));
+        services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
+        services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
+        services.AddScoped<IOracleDbManager, OracleDbManager>();
+        services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
+
+
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
         services.AddSingleton<IPasswordHashService, AspNetPasswordHashService>();

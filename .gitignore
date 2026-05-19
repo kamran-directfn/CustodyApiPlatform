@@ -371,7 +371,7 @@ Directfn.Custody.ApiFramework/obj/
 Directfn.Custody.SampleApi/bin/
 Directfn.Custody.SampleApi/obj/
 
-
+# Build outputs
 **/bin/
 **/obj/
 

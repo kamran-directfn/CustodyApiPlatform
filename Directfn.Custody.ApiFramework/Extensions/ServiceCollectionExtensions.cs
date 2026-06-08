@@ -11,7 +11,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Database;
-
+using Directfn.Custody.ApiFramework.Repositories.User;
 namespace Directfn.Custody.ApiFramework.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -52,6 +52,8 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddCors(options =>
         {

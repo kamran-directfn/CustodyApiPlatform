@@ -1,10 +1,7 @@
-namespace Directfn.Custody.ApiFramework.Entitlements;
-
-public interface IEntitlementService
+namespace Directfn.Custody.ApiFramework.Entitlements
 {
-    Task<bool> HasAccessAsync(
-        string userId,
-        string controllerName,
-        string actionName,
-        CancellationToken cancellationToken);
+    public interface IEntitlementService
+    {
+        Task<bool> HasAccessAsync(string userId, string controllerName, string actionName, CancellationToken cancellationToken);
+    }
 }

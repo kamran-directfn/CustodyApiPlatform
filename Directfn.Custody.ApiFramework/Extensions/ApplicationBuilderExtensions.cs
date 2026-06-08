@@ -3,40 +3,39 @@ using Directfn.Custody.ApiFramework.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
 
-namespace Directfn.Custody.ApiFramework.Extensions;
-
-public static class ApplicationBuilderExtensions
+namespace Directfn.Custody.ApiFramework.Extensions
 {
-    public static WebApplication UseDirectfnCustodyApiFramework(
-        this WebApplication app)
+    public static class ApplicationBuilderExtensions
     {
-        app.UseMiddleware<CorrelationIdMiddleware>();
-        app.UseMiddleware<GlobalExceptionMiddleware>();
-
-        app.UseSerilogRequestLogging(options =>
+        public static WebApplication UseDirectfnCustodyApiFramework(this WebApplication app)
         {
-            options.MessageTemplate =
-                "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
-        });
+            app.UseMiddleware<CorrelationIdMiddleware>();
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
-        app.UseSwagger();
+            app.UseSerilogRequestLogging(options =>
+            {
+                options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+            });
 
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Directfn Custody API v1");
-            options.RoutePrefix = "swagger";
-        });
+            app.UseSwagger();
 
-        app.UseHttpsRedirection();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Directfn Custody API v1");
+                options.RoutePrefix = "swagger";
+            });
 
-        app.UseCors(ServiceCollectionExtensions.DefaultCorsPolicyName);
+            app.UseHttpsRedirection();
 
-        app.UseAuthentication();
-        app.UseMiddleware<FingerprintValidationMiddleware>();
-        app.UseAuthorization();
+            app.UseCors(ServiceCollectionExtensions.DefaultCorsPolicyName);
 
-        app.MapHealthChecks("/health");
+            app.UseAuthentication();
+            app.UseMiddleware<FingerprintValidationMiddleware>();
+            app.UseAuthorization();
 
-        return app;
+            app.MapHealthChecks("/health");
+
+            return app;
+        }
     }
 }

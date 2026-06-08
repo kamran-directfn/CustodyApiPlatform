@@ -1,39 +1,36 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public sealed class TokenFingerprintService : ITokenFingerprintService
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    public TokenFingerprintResult Generate()
+    public sealed class TokenFingerprintService : ITokenFingerprintService
     {
-        var fingerprint = GenerateSecureRandomValue();
-        var fingerprintHash = Hash(fingerprint);
-
-        return new TokenFingerprintResult
+        public TokenFingerprintResult Generate()
         {
-            Fingerprint = fingerprint,
-            FingerprintHash = fingerprintHash
-        };
-    }
+            string fingerprint = GenerateSecureRandomValue();
+            string fingerprintHash = Hash(fingerprint);
 
-    public string Hash(string fingerprint)
-    {
-        if (string.IsNullOrWhiteSpace(fingerprint))
-        {
-            throw new ArgumentException("Fingerprint cannot be empty.", nameof(fingerprint));
+            return new TokenFingerprintResult { Fingerprint = fingerprint, FingerprintHash = fingerprintHash };
         }
 
-        var bytes = Encoding.UTF8.GetBytes(fingerprint);
-        var hashBytes = SHA256.HashData(bytes);
+        public string Hash(string fingerprint)
+        {
+            if (string.IsNullOrWhiteSpace(fingerprint))
+            {
+                throw new ArgumentException("Fingerprint cannot be empty.", nameof(fingerprint));
+            }
 
-        return Convert.ToBase64String(hashBytes);
-    }
+            byte[] bytes = Encoding.UTF8.GetBytes(fingerprint);
+            byte[] hashBytes = SHA256.HashData(bytes);
 
-    private static string GenerateSecureRandomValue()
-    {
-        var bytes = RandomNumberGenerator.GetBytes(64);
+            return Convert.ToBase64String(hashBytes);
+        }
 
-        return Convert.ToBase64String(bytes);
+        private static string GenerateSecureRandomValue()
+        {
+            byte[] bytes = RandomNumberGenerator.GetBytes(64);
+
+            return Convert.ToBase64String(bytes);
+        }
     }
 }

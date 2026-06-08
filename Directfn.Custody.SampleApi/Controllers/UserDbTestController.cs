@@ -1,61 +1,54 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Controllers;
+using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.SampleApi.Requests.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Directfn.Custody.SampleApi.Controllers;
-
-[SkipEntitlement]
-[ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/user-db-test")]
-public sealed class UserDbTestController : CustodyControllerBase
+namespace Directfn.Custody.SampleApi.Controllers
 {
-    private readonly IUserRepository _userRepository;
-
-    public UserDbTestController(IUserRepository userRepository)
+    [SkipEntitlement]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/user-db-test")]
+    public sealed class UserDbTestController : CustodyControllerBase
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserRepository _userRepository;
 
-    [HttpPost("login-user")]
-    public async Task<IActionResult> GetLoginUser(
-        [FromBody] UserLoginDbTestRequest request,
-        CancellationToken cancellationToken)
-    {
-        var user = await _userRepository.GetUserForLoginAsync(
-            request.LoginId,
-            request.Rf48Code,
-            cancellationToken);
-
-        if (user is null)
+        public UserDbTestController(IUserRepository userRepository)
         {
-            return Success(new
-            {
-                Found = false,
-                Message = "User was not found."
-            });
+            _userRepository = userRepository;
         }
 
-        return Success(new
+        [HttpPost("login-user")]
+        public async Task<IActionResult> GetLoginUser([FromBody] UserLoginDbTestRequest request, CancellationToken cancellationToken)
         {
-            Found = true,
-            User = new
+            LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.Rf48Code, cancellationToken);
+
+            if (user is null)
             {
-                user.Um02Id,
-                user.Um02Name,
-                user.Um02LoginId,
-                HasPassword = !string.IsNullOrWhiteSpace(user.Um02Password),
-                user.Um02Email,
-                user.Um02Status,
-                user.Um02LockAccount,
-                user.Um02IsLdap,
-                user.Um02AttemptNo,
-                user.Um03Name,
-                user.Um09Um14Id,
-                user.Um14GroupName
+                return Success(new { Found = false, Message = "User was not found." });
             }
-        });
+
+            return Success(new
+            {
+                Found = true,
+                User = new
+                {
+                    user.Um02Id,
+                    user.Um02Name,
+                    user.Um02LoginId,
+                    HasPassword = !string.IsNullOrWhiteSpace(user.Um02Password),
+                    user.Um02Email,
+                    user.Um02Status,
+                    user.Um02LockAccount,
+                    user.Um02IsLdap,
+                    user.Um02AttemptNo,
+                    user.Um03Name,
+                    user.Um09Um14Id,
+                    user.Um14GroupName
+                }
+            });
+        }
     }
 }

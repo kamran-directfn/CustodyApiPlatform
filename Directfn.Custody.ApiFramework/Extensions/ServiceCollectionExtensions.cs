@@ -1,154 +1,133 @@
-using System.Text;
 using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Correlation;
+using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Entitlements;
+using Directfn.Custody.ApiFramework.Passwords;
+using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
-using Directfn.Custody.ApiFramework.Passwords;
-using Directfn.Custody.ApiFramework.Database;
-using Directfn.Custody.ApiFramework.Repositories.User;
-namespace Directfn.Custody.ApiFramework.Extensions;
+using Microsoft.OpenApi;
+using System.Text;
 
-public static class ServiceCollectionExtensions
+namespace Directfn.Custody.ApiFramework.Extensions
 {
-    public const string DefaultCorsPolicyName = "DirectfnCustodyCorsPolicy";
-
-    public static IServiceCollection AddDirectfnCustodyApiFramework(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static class ServiceCollectionExtensions
     {
-        services.AddScoped<EntitlementActionFilter>();
+        public const string DefaultCorsPolicyName = "DirectfnCustodyCorsPolicy";
 
-        services.AddControllers(options =>
+        public static IServiceCollection AddDirectfnCustodyApiFramework(this IServiceCollection services, IConfiguration configuration)
         {
-            options.Filters.Add<EntitlementActionFilter>();
-        });
+            services.AddScoped<EntitlementActionFilter>();
 
-        services.AddApiVersioning(options =>
-        {
-            options.DefaultApiVersion = new ApiVersion(1, 0);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ReportApiVersions = true;
-            options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        });
-
-
-        services.AddHttpContextAccessor();
-        services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
-        services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
-        services.AddScoped<IOracleDbManager, OracleDbManager>();
-        services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
-
-
-        services.AddScoped<IJwtTokenService, JwtTokenService>();
-        services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
-        services.AddSingleton<IPasswordHashService, AspNetPasswordHashService>();
-        services.AddSingleton<ILegacyPasswordService, TripleDesLegacyPasswordService>();
-
-        services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-        services.AddScoped<IUserRepository, UserRepository>();
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy(DefaultCorsPolicyName, policy =>
+            services.AddControllers(options =>
             {
-                var allowedOrigins = configuration
-                    .GetSection("Cors:AllowedOrigins")
-                    .Get<string[]>() ?? [];
-
-                if (allowedOrigins.Length > 0)
-                {
-                    policy
-                        .WithOrigins(allowedOrigins)
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                }
+                options.Filters.Add<EntitlementActionFilter>();
             });
-        });
 
-        services.AddEndpointsApiExplorer();
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            });
 
-        AddJwtAuthentication(services, configuration);
 
-        services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo
-    {
-        Title = configuration["Swagger:Title"] ?? "Directfn Custody API",
-        Version = configuration["Swagger:Version"] ?? "v1",
-        Description = configuration["Swagger:Description"] ?? "Directfn Custody API"
-    });
+            services.AddHttpContextAccessor();
+            services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
+            services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
+            services.AddScoped<IOracleDbManager, OracleDbManager>();
+            services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
 
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.OpenApiSecurityScheme
-    {
-        Description = "Enter full JWT header value. Example: Bearer eyJhbGciOiJIUzI1NiIs...",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
 
-    options.AddSecurityRequirement(document => new Microsoft.OpenApi.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.OpenApiSecuritySchemeReference("Bearer", document),
-            new List<string>()
-        }
-    });
-});
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
+            services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
+            services.AddSingleton<IPasswordHashService, AspNetPasswordHashService>();
+            services.AddSingleton<ILegacyPasswordService, TripleDesLegacyPasswordService>();
 
-        services.AddHealthChecks().AddCheck("self", () => HealthCheckResult.Healthy());
+            services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-        return services;
-    }
-    private static void AddJwtAuthentication(
-    IServiceCollection services,
-    IConfiguration configuration)
-    {
-        var authOptions = configuration
-            .GetSection(AuthOptions.SectionName)
-            .Get<AuthOptions>() ?? new AuthOptions();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-        if (!authOptions.Enabled)
-        {
-            services.AddAuthorization();
-            return;
-        }
+            services.AddCors(options =>
+            {
+                options.AddPolicy(DefaultCorsPolicyName, policy =>
+                {
+                    string[] allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
-        if (string.IsNullOrWhiteSpace(authOptions.Issuer))
-        {
-            throw new InvalidOperationException("Authentication:Issuer is missing.");
-        }
+                    if (allowedOrigins.Length > 0)
+                    {
+                        policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
+                    }
+                });
+            });
 
-        if (string.IsNullOrWhiteSpace(authOptions.Audience))
-        {
-            throw new InvalidOperationException("Authentication:Audience is missing.");
-        }
+            services.AddEndpointsApiExplorer();
 
-        if (string.IsNullOrWhiteSpace(authOptions.SigningKey))
-        {
-            throw new InvalidOperationException("Authentication:SigningKey is missing for development JWT validation.");
-        }
+            AddJwtAuthentication(services, configuration);
 
-        var keyBytes = Encoding.UTF8.GetBytes(authOptions.SigningKey);
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = configuration["Swagger:Title"] ?? "Directfn Custody API", Version = configuration["Swagger:Version"] ?? "v1", Description = configuration["Swagger:Description"] ?? "Directfn Custody API" });
 
-        if (keyBytes.Length < 32)
-        {
-            throw new InvalidOperationException("Authentication:SigningKey must be at least 32 bytes.");
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Enter full JWT header value. Example: Bearer eyJhbGciOiJIUzI1NiIs...",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(document => new OpenApiSecurityRequirement { { new OpenApiSecuritySchemeReference("Bearer", document), new List<string>() } });
+            });
+
+            services.AddHealthChecks().AddCheck("self", () => HealthCheckResult.Healthy());
+
+            return services;
         }
 
-        var signingKey = new SymmetricSecurityKey(keyBytes);
+        private static void AddJwtAuthentication(IServiceCollection services, IConfiguration configuration)
+        {
+            AuthOptions authOptions = configuration.GetSection(AuthOptions.SectionName).Get<AuthOptions>() ?? new AuthOptions();
 
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            if (!authOptions.Enabled)
+            {
+                services.AddAuthorization();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(authOptions.Issuer))
+            {
+                throw new InvalidOperationException("Authentication:Issuer is missing.");
+            }
+
+            if (string.IsNullOrWhiteSpace(authOptions.Audience))
+            {
+                throw new InvalidOperationException("Authentication:Audience is missing.");
+            }
+
+            if (string.IsNullOrWhiteSpace(authOptions.SigningKey))
+            {
+                throw new InvalidOperationException("Authentication:SigningKey is missing for development JWT validation.");
+            }
+
+            byte[] keyBytes = Encoding.UTF8.GetBytes(authOptions.SigningKey);
+
+            if (keyBytes.Length < 32)
+            {
+                throw new InvalidOperationException("Authentication:SigningKey must be at least 32 bytes.");
+            }
+
+            SymmetricSecurityKey signingKey = new(keyBytes);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
 
@@ -156,18 +135,16 @@ public static class ServiceCollectionExtensions
                 {
                     ValidateIssuer = true,
                     ValidIssuer = authOptions.Issuer,
-
                     ValidateAudience = true,
                     ValidAudience = authOptions.Audience,
-
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = signingKey,
-
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1)
                 };
             });
 
-        services.AddAuthorization();
+            services.AddAuthorization();
+        }
     }
 }

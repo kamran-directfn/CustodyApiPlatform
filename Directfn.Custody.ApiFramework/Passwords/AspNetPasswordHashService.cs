@@ -1,46 +1,38 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Directfn.Custody.ApiFramework.Passwords;
-
-public sealed class AspNetPasswordHashService : IPasswordHashService
+namespace Directfn.Custody.ApiFramework.Passwords
 {
-    private readonly PasswordHasher<object> _passwordHasher = new();
-
-    public string HashPassword(string password)
+    public sealed class AspNetPasswordHashService : IPasswordHashService
     {
-        if (string.IsNullOrWhiteSpace(password))
+        private readonly PasswordHasher<object> _passwordHasher = new();
+
+        public string HashPassword(string password)
         {
-            throw new ArgumentException("Password cannot be empty.", nameof(password));
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Password cannot be empty.", nameof(password));
+            }
+
+            return _passwordHasher.HashPassword(new object(), password);
         }
 
-        return _passwordHasher.HashPassword(new object(), password);
-    }
-
-    public PasswordVerificationStatus VerifyPassword(
-        string passwordHash,
-        string providedPassword)
-    {
-        if (string.IsNullOrWhiteSpace(passwordHash) ||
-            string.IsNullOrWhiteSpace(providedPassword))
+        public PasswordVerificationStatus VerifyPassword(string passwordHash, string providedPassword)
         {
-            return PasswordVerificationStatus.Failed;
+            if (string.IsNullOrWhiteSpace(passwordHash) || string.IsNullOrWhiteSpace(providedPassword))
+            {
+                return PasswordVerificationStatus.Failed;
+            }
+
+            PasswordVerificationResult result = _passwordHasher.VerifyHashedPassword(new object(), passwordHash, providedPassword);
+
+            return result switch
+            {
+                PasswordVerificationResult.Success => PasswordVerificationStatus.Success,
+
+                PasswordVerificationResult.SuccessRehashNeeded => PasswordVerificationStatus.SuccessRehashNeeded,
+
+                _ => PasswordVerificationStatus.Failed
+            };
         }
-
-        var result = _passwordHasher.VerifyHashedPassword(
-            new object(),
-            passwordHash,
-            providedPassword);
-
-        return result switch
-        {
-            PasswordVerificationResult.Success =>
-                PasswordVerificationStatus.Success,
-
-            PasswordVerificationResult.SuccessRehashNeeded =>
-                PasswordVerificationStatus.SuccessRehashNeeded,
-
-            _ =>
-                PasswordVerificationStatus.Failed
-        };
     }
 }

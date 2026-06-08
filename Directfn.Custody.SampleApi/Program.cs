@@ -1,8 +1,9 @@
-using Directfn.Custody.ApiFramework.Extensions;
-using Directfn.Custody.SampleApi.Security;
 using Directfn.Custody.ApiFramework.Entitlements;
+using Directfn.Custody.ApiFramework.Extensions;
 using Directfn.Custody.ApiFramework.Sessions;
-var builder = WebApplication.CreateBuilder(args);
+using Directfn.Custody.SampleApi.Security;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddDirectfnCustodyLogging();
 
@@ -10,7 +11,7 @@ builder.Services.AddDirectfnCustodyApiFramework(builder.Configuration);
 builder.Services.AddScoped<IEntitlementService, FakeEntitlementService>();
 builder.Services.AddScoped<IAuthSessionService, FakeAuthSessionService>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.UseDirectfnCustodyApiFramework();
 

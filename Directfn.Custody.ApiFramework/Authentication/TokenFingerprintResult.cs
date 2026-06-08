@@ -1,8 +1,9 @@
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public sealed class TokenFingerprintResult
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    public string Fingerprint { get; init; } = default!;
+    public sealed class TokenFingerprintResult
+    {
+        public string Fingerprint { get; init; } = default!;
 
-    public string FingerprintHash { get; init; } = default!;
+        public string FingerprintHash { get; init; } = default!;
+    }
 }

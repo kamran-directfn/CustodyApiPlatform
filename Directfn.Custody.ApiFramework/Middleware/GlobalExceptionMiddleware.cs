@@ -1,99 +1,75 @@
-using System.Text.Json;
 using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Exceptions;
 using Directfn.Custody.ApiFramework.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
-namespace Directfn.Custody.ApiFramework.Middleware;
-
-public sealed class GlobalExceptionMiddleware
+namespace Directfn.Custody.ApiFramework.Middleware
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
+    public sealed class GlobalExceptionMiddleware
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
+        private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    private readonly RequestDelegate _next;
-    private readonly ILogger<GlobalExceptionMiddleware> _logger;
+        private readonly ILogger<GlobalExceptionMiddleware> _logger;
 
-    public GlobalExceptionMiddleware(
-        RequestDelegate next,
-        ILogger<GlobalExceptionMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
+        private readonly RequestDelegate _next;
 
-    public async Task InvokeAsync(HttpContext context)
-    {
-        try
+        public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
         {
-            await _next(context);
+            _next = next;
+            _logger = logger;
         }
-        catch (AppException exception)
+
+        public async Task InvokeAsync(HttpContext context)
         {
-            await HandleAppExceptionAsync(context, exception);
+            try
+            {
+                await _next(context);
+            }
+            catch (AppException exception)
+            {
+                await HandleAppExceptionAsync(context, exception);
+            }
+            catch (Exception exception)
+            {
+                await HandleUnexpectedExceptionAsync(context, exception);
+            }
         }
-        catch (Exception exception)
+
+        private static async Task HandleAppExceptionAsync(HttpContext context, AppException exception)
         {
-            await HandleUnexpectedExceptionAsync(context, exception);
+            string? correlationId = GetCorrelationId(context);
+
+            context.Response.StatusCode = exception.StatusCode;
+            context.Response.ContentType = "application/json";
+
+            ApiResponse<object> response = ApiResponse<object>.Fail([
+                new ApiError { Code = exception.ErrorCode, Message = exception.Message }
+            ], correlationId);
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, JsonOptions));
         }
-    }
 
-    private static async Task HandleAppExceptionAsync(
-        HttpContext context,
-        AppException exception)
-    {
-        var correlationId = GetCorrelationId(context);
+        private async Task HandleUnexpectedExceptionAsync(HttpContext context, Exception exception)
+        {
+            string? correlationId = GetCorrelationId(context);
 
-        context.Response.StatusCode = exception.StatusCode;
-        context.Response.ContentType = "application/json";
+            _logger.LogError(exception, "Unhandled exception occurred. CorrelationId: {CorrelationId}", correlationId);
 
-        var response = ApiResponse<object>.Fail(
-            [
-                new ApiError
-                {
-                    Code = exception.ErrorCode,
-                    Message = exception.Message
-                }
-            ],
-            correlationId);
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
 
-        await context.Response.WriteAsync(
-            JsonSerializer.Serialize(response, JsonOptions));
-    }
+            ApiResponse<object> response = ApiResponse<object>.Fail([
+                new ApiError { Code = "INTERNAL_SERVER_ERROR", Message = "An unexpected error occurred." }
+            ], correlationId);
 
-    private async Task HandleUnexpectedExceptionAsync(
-        HttpContext context,
-        Exception exception)
-    {
-        var correlationId = GetCorrelationId(context);
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response, JsonOptions));
+        }
 
-        _logger.LogError(
-            exception,
-            "Unhandled exception occurred. CorrelationId: {CorrelationId}",
-            correlationId);
-
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/json";
-
-        var response = ApiResponse<object>.Fail(
-            [
-                new ApiError
-                {
-                    Code = "INTERNAL_SERVER_ERROR",
-                    Message = "An unexpected error occurred."
-                }
-            ],
-            correlationId);
-
-        await context.Response.WriteAsync(
-            JsonSerializer.Serialize(response, JsonOptions));
-    }
-
-    private static string? GetCorrelationId(HttpContext context)
-    {
-        return context.Items[CorrelationIdMiddleware.HeaderName]?.ToString();
+        private static string? GetCorrelationId(HttpContext context)
+        {
+            return context.Items[CorrelationIdMiddleware.HeaderName]?.ToString();
+        }
     }
 }

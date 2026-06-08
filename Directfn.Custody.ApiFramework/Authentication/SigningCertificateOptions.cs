@@ -1,10 +1,11 @@
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public sealed class SigningCertificateOptions
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    public string? StoreName { get; init; }
+    public sealed class SigningCertificateOptions
+    {
+        public string? StoreName { get; init; }
 
-    public string? StoreLocation { get; init; }
+        public string? StoreLocation { get; init; }
 
-    public string? Thumbprint { get; init; }
+        public string? Thumbprint { get; init; }
+    }
 }

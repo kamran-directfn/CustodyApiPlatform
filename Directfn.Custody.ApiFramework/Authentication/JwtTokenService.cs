@@ -1,103 +1,85 @@
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public sealed class JwtTokenService : IJwtTokenService
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    private readonly AuthOptions _options;
-
-    public JwtTokenService(IOptions<AuthOptions> options)
+    public sealed class JwtTokenService : IJwtTokenService
     {
-        _options = options.Value;
-    }
+        private readonly AuthOptions _options;
 
-    public TokenResult GenerateAccessToken(JwtTokenRequest request)
-    {
-        if (string.IsNullOrWhiteSpace(_options.Issuer))
+        public JwtTokenService(IOptions<AuthOptions> options)
         {
-            throw new InvalidOperationException("Authentication:Issuer is missing.");
+            _options = options.Value;
         }
 
-        if (string.IsNullOrWhiteSpace(_options.Audience))
+        public TokenResult GenerateAccessToken(JwtTokenRequest request)
         {
-            throw new InvalidOperationException("Authentication:Audience is missing.");
-        }
-
-        var signingCredentials = CreateSigningCredentials();
-
-        var now = DateTime.UtcNow;
-        var expiresAt = now.AddMinutes(_options.AccessTokenMinutes);
-        var jwtId = Guid.NewGuid().ToString("N");
-
-        var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Sub, request.UserId),
-            new(ClaimTypes.NameIdentifier, request.UserId),
-
-            new(JwtRegisteredClaimNames.UniqueName, request.UserName),
-            new(ClaimTypes.Name, request.UserName),
-
-            new(JwtRegisteredClaimNames.Jti, jwtId),
-
-            new("sid", request.SessionId),
-            new("session_id", request.SessionId),
-
-            new("fp_hash", request.FingerprintHash)
-        };
-
-        if (!string.IsNullOrWhiteSpace(request.Email))
-        {
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, request.Email));
-            claims.Add(new Claim(ClaimTypes.Email, request.Email));
-        }
-
-        foreach (var role in request.Roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
-
-        var token = new JwtSecurityToken(
-            issuer: _options.Issuer,
-            audience: _options.Audience,
-            claims: claims,
-            notBefore: now,
-            expires: expiresAt,
-            signingCredentials: signingCredentials);
-
-        var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return new TokenResult
-        {
-            AccessToken = accessToken,
-            ExpiresAtUtc = expiresAt,
-            ExpiresInSeconds = (int)(expiresAt - now).TotalSeconds
-        };
-    }
-
-    private SigningCredentials CreateSigningCredentials()
-    {
-        if (!string.IsNullOrWhiteSpace(_options.SigningKey))
-        {
-            var keyBytes = Encoding.UTF8.GetBytes(_options.SigningKey);
-
-            if (keyBytes.Length < 32)
+            if (string.IsNullOrWhiteSpace(_options.Issuer))
             {
-                throw new InvalidOperationException(
-                    "Authentication:SigningKey must be at least 32 bytes for development signing.");
+                throw new InvalidOperationException("Authentication:Issuer is missing.");
             }
 
-            var securityKey = new SymmetricSecurityKey(keyBytes);
+            if (string.IsNullOrWhiteSpace(_options.Audience))
+            {
+                throw new InvalidOperationException("Authentication:Audience is missing.");
+            }
 
-            return new SigningCredentials(
-                securityKey,
-                SecurityAlgorithms.HmacSha256);
+            SigningCredentials signingCredentials = CreateSigningCredentials();
+
+            DateTime now = DateTime.UtcNow;
+            DateTime expiresAt = now.AddMinutes(_options.AccessTokenMinutes);
+            string jwtId = Guid.NewGuid().ToString("N");
+
+            List<Claim> claims = new()
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, request.UserId),
+                new Claim(ClaimTypes.NameIdentifier, request.UserId),
+                new Claim(JwtRegisteredClaimNames.UniqueName, request.UserName),
+                new Claim(ClaimTypes.Name, request.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, jwtId),
+                new Claim("sid", request.SessionId),
+                new Claim("session_id", request.SessionId),
+                new Claim("fp_hash", request.FingerprintHash)
+            };
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Email, request.Email));
+                claims.Add(new Claim(ClaimTypes.Email, request.Email));
+            }
+
+            foreach (string role in request.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            JwtSecurityToken token = new(_options.Issuer, _options.Audience, claims, now, expiresAt, signingCredentials);
+
+            string? accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return new TokenResult { AccessToken = accessToken, ExpiresAtUtc = expiresAt, ExpiresInSeconds = (int)(expiresAt - now).TotalSeconds };
         }
 
-        throw new InvalidOperationException(
-            "No JWT signing method configured. Provide development SigningKey or production certificate.");
+        private SigningCredentials CreateSigningCredentials()
+        {
+            if (!string.IsNullOrWhiteSpace(_options.SigningKey))
+            {
+                byte[] keyBytes = Encoding.UTF8.GetBytes(_options.SigningKey);
+
+                if (keyBytes.Length < 32)
+                {
+                    throw new InvalidOperationException("Authentication:SigningKey must be at least 32 bytes for development signing.");
+                }
+
+                SymmetricSecurityKey securityKey = new(keyBytes);
+
+                return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            }
+
+            throw new InvalidOperationException("No JWT signing method configured. Provide development SigningKey or production certificate.");
+        }
     }
 }

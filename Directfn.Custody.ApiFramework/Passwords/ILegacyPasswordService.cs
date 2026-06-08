@@ -1,8 +1,7 @@
-namespace Directfn.Custody.ApiFramework.Passwords;
-
-public interface ILegacyPasswordService
+namespace Directfn.Custody.ApiFramework.Passwords
 {
-    bool VerifyLegacyPassword(
-        string providedPassword,
-        string legacyEncryptedPassword);
+    public interface ILegacyPasswordService
+    {
+        bool VerifyLegacyPassword(string providedPassword, string legacyEncryptedPassword);
+    }
 }

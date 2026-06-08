@@ -1,16 +1,17 @@
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public sealed class JwtTokenRequest
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    public string UserId { get; init; } = default!;
+    public sealed class JwtTokenRequest
+    {
+        public string UserId { get; init; } = default!;
 
-    public string UserName { get; init; } = default!;
+        public string UserName { get; init; } = default!;
 
-    public string SessionId { get; init; } = default!;
+        public string SessionId { get; init; } = default!;
 
-    public string FingerprintHash { get; init; } = default!;
+        public string FingerprintHash { get; init; } = default!;
 
-    public string? Email { get; init; }
+        public string? Email { get; init; }
 
-    public IReadOnlyList<string> Roles { get; init; } = [];
+        public IReadOnlyList<string> Roles { get; init; } = [];
+    }
 }

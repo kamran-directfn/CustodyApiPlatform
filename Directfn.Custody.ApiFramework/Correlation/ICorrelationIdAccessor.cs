@@ -1,6 +1,7 @@
-namespace Directfn.Custody.ApiFramework.Correlation;
-
-public interface ICorrelationIdAccessor
+namespace Directfn.Custody.ApiFramework.Correlation
 {
-    string? CorrelationId { get; }
+    public interface ICorrelationIdAccessor
+    {
+        string? CorrelationId { get; }
+    }
 }

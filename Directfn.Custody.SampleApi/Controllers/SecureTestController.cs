@@ -1,42 +1,39 @@
 using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Controllers;
+using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Directfn.Custody.ApiFramework.Entitlements;
-namespace Directfn.Custody.SampleApi.Controllers;
 
-
-[Authorize]
-[SkipEntitlement]
-[ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/secure-test")]
-public sealed class SecureTestController : CustodyControllerBase
+namespace Directfn.Custody.SampleApi.Controllers
 {
-    private readonly ICurrentUserService _currentUserService;
-
-    public SecureTestController(ICurrentUserService currentUserService)
+    [Authorize]
+    [SkipEntitlement]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/secure-test")]
+    public sealed class SecureTestController : CustodyControllerBase
     {
-        _currentUserService = currentUserService;
-    }
+        private readonly ICurrentUserService _currentUserService;
 
-    [HttpGet("me")]
-    public IActionResult Me()
-    {
-        var data = new
+        public SecureTestController(ICurrentUserService currentUserService)
         {
-            IsAuthenticated = _currentUserService.IsAuthenticated,
-            UserId = _currentUserService.UserId,
-            UserName = _currentUserService.UserName,
-            SessionId = _currentUserService.SessionId,
-            Email = _currentUserService.Email,
-            Claims = _currentUserService.Claims.Select(x => new
-            {
-                x.Type,
-                x.Value
-            })
-        };
+            _currentUserService = currentUserService;
+        }
 
-        return Success(data);
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var data = new
+            {
+                _currentUserService.IsAuthenticated,
+                _currentUserService.UserId,
+                _currentUserService.UserName,
+                _currentUserService.SessionId,
+                _currentUserService.Email,
+                Claims = _currentUserService.Claims.Select(x => new { x.Type, x.Value })
+            };
+
+            return Success(data);
+        }
     }
 }

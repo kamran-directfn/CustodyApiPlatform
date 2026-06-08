@@ -1,31 +1,20 @@
-namespace Directfn.Custody.ApiFramework.Responses;
-
-public sealed class ApiResponse<T>
+namespace Directfn.Custody.ApiFramework.Responses
 {
-    public bool Success { get; init; }
-    public T? Data { get; init; }
-    public IReadOnlyList<ApiError> Errors { get; init; } = [];
-    public string? CorrelationId { get; init; }
-
-    public static ApiResponse<T> Ok(T data, string? correlationId = null)
+    public sealed class ApiResponse<T>
     {
-        return new ApiResponse<T>
-        {
-            Success = true,
-            Data = data,
-            CorrelationId = correlationId
-        };
-    }
+        public bool Success { get; init; }
+        public T? Data { get; init; }
+        public IReadOnlyList<ApiError> Errors { get; init; } = [];
+        public string? CorrelationId { get; init; }
 
-    public static ApiResponse<T> Fail(
-        IReadOnlyList<ApiError> errors,
-        string? correlationId = null)
-    {
-        return new ApiResponse<T>
+        public static ApiResponse<T> Ok(T data, string? correlationId = null)
         {
-            Success = false,
-            Errors = errors,
-            CorrelationId = correlationId
-        };
+            return new ApiResponse<T> { Success = true, Data = data, CorrelationId = correlationId };
+        }
+
+        public static ApiResponse<T> Fail(IReadOnlyList<ApiError> errors, string? correlationId = null)
+        {
+            return new ApiResponse<T> { Success = false, Errors = errors, CorrelationId = correlationId };
+        }
     }
 }

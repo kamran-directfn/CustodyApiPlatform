@@ -1,6 +1,7 @@
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public interface IJwtTokenService
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    TokenResult GenerateAccessToken(JwtTokenRequest request);
+    public interface IJwtTokenService
+    {
+        TokenResult GenerateAccessToken(JwtTokenRequest request);
+    }
 }

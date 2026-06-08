@@ -1,9 +1,7 @@
-namespace Directfn.Custody.ApiFramework.Sessions;
-
-public interface IAuthSessionService
+namespace Directfn.Custody.ApiFramework.Sessions
 {
-    Task<bool> IsSessionValidAsync(
-        string userId,
-        string sessionId,
-        CancellationToken cancellationToken);
+    public interface IAuthSessionService
+    {
+        Task<bool> IsSessionValidAsync(string userId, string sessionId, CancellationToken cancellationToken);
+    }
 }

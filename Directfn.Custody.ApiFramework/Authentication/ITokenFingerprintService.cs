@@ -1,8 +1,9 @@
-namespace Directfn.Custody.ApiFramework.Authentication;
-
-public interface ITokenFingerprintService
+namespace Directfn.Custody.ApiFramework.Authentication
 {
-    TokenFingerprintResult Generate();
+    public interface ITokenFingerprintService
+    {
+        TokenFingerprintResult Generate();
 
-    string Hash(string fingerprint);
+        string Hash(string fingerprint);
+    }
 }

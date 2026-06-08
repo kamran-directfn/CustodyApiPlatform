@@ -1,29 +1,28 @@
-using System.Data;
 using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
+using System.Data;
 
-namespace Directfn.Custody.ApiFramework.Database;
-
-public sealed class OracleConnectionFactory : IDbConnectionFactory
+namespace Directfn.Custody.ApiFramework.Database
 {
-    private readonly IConfiguration _configuration;
-
-    public OracleConnectionFactory(IConfiguration configuration)
+    public sealed class OracleConnectionFactory : IDbConnectionFactory
     {
-        _configuration = configuration;
-    }
+        private readonly IConfiguration _configuration;
 
-    public IDbConnection CreateConnection()
-    {
-        var connectionString =
-            _configuration.GetConnectionString("CustodyDb");
-
-        if (string.IsNullOrWhiteSpace(connectionString))
+        public OracleConnectionFactory(IConfiguration configuration)
         {
-            throw new InvalidOperationException(
-                "Connection string 'CustodyDb' is missing.");
+            _configuration = configuration;
         }
 
-        return new OracleConnection(connectionString);
+        public IDbConnection CreateConnection()
+        {
+            string? connectionString = _configuration.GetConnectionString("CustodyDb");
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'CustodyDb' is missing.");
+            }
+
+            return new OracleConnection(connectionString);
+        }
     }
 }

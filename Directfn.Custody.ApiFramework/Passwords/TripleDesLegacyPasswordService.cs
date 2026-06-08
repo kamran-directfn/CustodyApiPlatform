@@ -1,46 +1,38 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Directfn.Custody.ApiFramework.Passwords;
-
-public sealed class TripleDesLegacyPasswordService : ILegacyPasswordService
+namespace Directfn.Custody.ApiFramework.Passwords
 {
-    private const string LegacyKey = "sblw-3hn8-sqoy19";
-
-    public bool VerifyLegacyPassword(
-        string providedPassword,
-        string legacyEncryptedPassword)
+    public sealed class TripleDesLegacyPasswordService : ILegacyPasswordService
     {
-        if (string.IsNullOrWhiteSpace(providedPassword) ||
-            string.IsNullOrWhiteSpace(legacyEncryptedPassword))
+        private const string LegacyKey = "sblw-3hn8-sqoy19";
+
+        public bool VerifyLegacyPassword(string providedPassword, string legacyEncryptedPassword)
         {
-            return false;
+            if (string.IsNullOrWhiteSpace(providedPassword) || string.IsNullOrWhiteSpace(legacyEncryptedPassword))
+            {
+                return false;
+            }
+
+            string encryptedProvidedPassword = EncryptLegacy(providedPassword);
+
+            return string.Equals(encryptedProvidedPassword, legacyEncryptedPassword, StringComparison.Ordinal);
         }
 
-        var encryptedProvidedPassword = EncryptLegacy(providedPassword);
+        private static string EncryptLegacy(string input)
+        {
+            byte[] inputArray = Encoding.UTF8.GetBytes(input);
 
-        return string.Equals(
-            encryptedProvidedPassword,
-            legacyEncryptedPassword,
-            StringComparison.Ordinal);
-    }
+            using TripleDES tripleDes = TripleDES.Create();
+            tripleDes.Key = Encoding.UTF8.GetBytes(LegacyKey);
+            tripleDes.Mode = CipherMode.ECB;
+            tripleDes.Padding = PaddingMode.PKCS7;
 
-    private static string EncryptLegacy(string input)
-    {
-        var inputArray = Encoding.UTF8.GetBytes(input);
+            using ICryptoTransform encryptor = tripleDes.CreateEncryptor();
 
-        using var tripleDes = TripleDES.Create();
-        tripleDes.Key = Encoding.UTF8.GetBytes(LegacyKey);
-        tripleDes.Mode = CipherMode.ECB;
-        tripleDes.Padding = PaddingMode.PKCS7;
+            byte[] resultArray = encryptor.TransformFinalBlock(inputArray, 0, inputArray.Length);
 
-        using var encryptor = tripleDes.CreateEncryptor();
-
-        var resultArray = encryptor.TransformFinalBlock(
-            inputArray,
-            0,
-            inputArray.Length);
-
-        return Convert.ToBase64String(resultArray);
+            return Convert.ToBase64String(resultArray);
+        }
     }
 }

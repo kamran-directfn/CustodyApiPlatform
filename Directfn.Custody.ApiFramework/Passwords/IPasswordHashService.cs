@@ -1,10 +1,9 @@
-namespace Directfn.Custody.ApiFramework.Passwords;
-
-public interface IPasswordHashService
+namespace Directfn.Custody.ApiFramework.Passwords
 {
-    string HashPassword(string password);
+    public interface IPasswordHashService
+    {
+        string HashPassword(string password);
 
-    PasswordVerificationStatus VerifyPassword(
-        string passwordHash,
-        string providedPassword);
+        PasswordVerificationStatus VerifyPassword(string passwordHash, string providedPassword);
+    }
 }

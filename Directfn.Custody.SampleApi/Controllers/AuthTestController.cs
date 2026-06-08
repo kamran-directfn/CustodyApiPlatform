@@ -5,53 +5,47 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Directfn.Custody.SampleApi.Controllers;
-
-[SkipEntitlement]
-[ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/auth-test")]
-public sealed class AuthTestController : CustodyControllerBase
+namespace Directfn.Custody.SampleApi.Controllers
 {
-    private readonly IJwtTokenService _jwtTokenService;
-    private readonly ITokenFingerprintService _tokenFingerprintService;
-    private readonly AuthOptions _authOptions;
-
-    public AuthTestController(
-        IJwtTokenService jwtTokenService,
-        ITokenFingerprintService tokenFingerprintService,
-        IOptions<AuthOptions> authOptions)
+    [SkipEntitlement]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/auth-test")]
+    public sealed class AuthTestController : CustodyControllerBase
     {
-        _jwtTokenService = jwtTokenService;
-        _tokenFingerprintService = tokenFingerprintService;
-        _authOptions = authOptions.Value;
-    }
+        private readonly AuthOptions _authOptions;
+        private readonly IJwtTokenService _jwtTokenService;
+        private readonly ITokenFingerprintService _tokenFingerprintService;
 
-    [HttpPost("token")]
-    public IActionResult GenerateToken()
-    {
-        var fingerprint = _tokenFingerprintService.Generate();
-
-        SetFingerprintCookie(fingerprint.Fingerprint);
-
-        var token = _jwtTokenService.GenerateAccessToken(new JwtTokenRequest
+        public AuthTestController(IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IOptions<AuthOptions> authOptions)
         {
-            UserId = "1001",
-            UserName = "test.user",
-            SessionId = Guid.NewGuid().ToString("N"),
-            FingerprintHash = fingerprint.FingerprintHash,
-            Email = "test.user@directfn.com",
-            Roles = ["CUSTODY_ADMIN"]
-        });
+            _jwtTokenService = jwtTokenService;
+            _tokenFingerprintService = tokenFingerprintService;
+            _authOptions = authOptions.Value;
+        }
 
-        return Success(token);
-    }
+        [HttpPost("token")]
+        public IActionResult GenerateToken()
+        {
+            TokenFingerprintResult fingerprint = _tokenFingerprintService.Generate();
 
-    private void SetFingerprintCookie(string fingerprint)
-    {
-        Response.Cookies.Append(
-            _authOptions.FingerprintCookieName,
-            fingerprint,
-            new CookieOptions
+            SetFingerprintCookie(fingerprint.Fingerprint);
+
+            TokenResult token = _jwtTokenService.GenerateAccessToken(new JwtTokenRequest
+            {
+                UserId = "1001",
+                UserName = "test.user",
+                SessionId = Guid.NewGuid().ToString("N"),
+                FingerprintHash = fingerprint.FingerprintHash,
+                Email = "test.user@directfn.com",
+                Roles = ["CUSTODY_ADMIN"]
+            });
+
+            return Success(token);
+        }
+
+        private void SetFingerprintCookie(string fingerprint)
+        {
+            Response.Cookies.Append(_authOptions.FingerprintCookieName, fingerprint, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = _authOptions.UseSecureCookies,
@@ -59,5 +53,6 @@ public sealed class AuthTestController : CustodyControllerBase
                 Path = "/",
                 Expires = DateTimeOffset.UtcNow.AddHours(_authOptions.RefreshTokenHours)
             });
+        }
     }
 }

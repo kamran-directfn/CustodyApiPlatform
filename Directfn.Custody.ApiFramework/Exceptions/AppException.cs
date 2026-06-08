@@ -1,14 +1,14 @@
-namespace Directfn.Custody.ApiFramework.Exceptions;
-
-public abstract class AppException : Exception
+namespace Directfn.Custody.ApiFramework.Exceptions
 {
-    public string ErrorCode { get; }
-    public int StatusCode { get; }
-
-    protected AppException(string errorCode, string message, int statusCode)
-        : base(message)
+    public abstract class AppException : Exception
     {
-        ErrorCode = errorCode;
-        StatusCode = statusCode;
+        protected AppException(string errorCode, string message, int statusCode) : base(message)
+        {
+            ErrorCode = errorCode;
+            StatusCode = statusCode;
+        }
+
+        public string ErrorCode { get; }
+        public int StatusCode { get; }
     }
 }

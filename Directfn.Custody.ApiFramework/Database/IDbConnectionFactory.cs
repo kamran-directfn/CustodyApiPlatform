@@ -1,8 +1,9 @@
 using System.Data;
 
-namespace Directfn.Custody.ApiFramework.Database;
-
-public interface IDbConnectionFactory
+namespace Directfn.Custody.ApiFramework.Database
 {
-    IDbConnection CreateConnection();
+    public interface IDbConnectionFactory
+    {
+        IDbConnection CreateConnection();
+    }
 }

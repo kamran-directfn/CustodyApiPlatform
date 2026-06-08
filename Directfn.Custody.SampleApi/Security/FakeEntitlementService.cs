@@ -1,15 +1,12 @@
 using Directfn.Custody.ApiFramework.Entitlements;
 
-namespace Directfn.Custody.SampleApi.Security;
-
-public sealed class FakeEntitlementService : IEntitlementService
+namespace Directfn.Custody.SampleApi.Security
 {
-    public Task<bool> HasAccessAsync(
-        string userId,
-        string controllerName,
-        string actionName,
-        CancellationToken cancellationToken)
+    public sealed class FakeEntitlementService : IEntitlementService
     {
-        return Task.FromResult(true);
+        public Task<bool> HasAccessAsync(string userId, string controllerName, string actionName, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
     }
 }

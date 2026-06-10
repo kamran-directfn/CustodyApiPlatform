@@ -5,12 +5,14 @@ using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Directfn.Custody.SampleApi.Controllers
+namespace Directfn.Custody.Api.Controllers
 {
     [Authorize]
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/secure-test")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+
     public sealed class SecureTestController : CustodyControllerBase
     {
         private readonly ICurrentUserService _currentUserService;

@@ -1,16 +1,18 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.User;
-using Directfn.Custody.SampleApi.Requests.User;
+using Directfn.Custody.Api.Requests.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Directfn.Custody.SampleApi.Controllers
+namespace Directfn.Custody.Api.Controllers
 {
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user-db-test")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+
     public sealed class UserDbTestController : CustodyControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -21,7 +23,7 @@ namespace Directfn.Custody.SampleApi.Controllers
         }
 
         [HttpPost("login-user")]
-        public async Task<IActionResult> GetLoginUser([FromBody] UserLoginDbTestRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetLoginUser([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.Rf48Code, cancellationToken);
 

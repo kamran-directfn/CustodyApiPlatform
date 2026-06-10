@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directfn.Custody.ApiFramework", "Directfn.Custody.ApiFramework\Directfn.Custody.ApiFramework.csproj", "{B0832082-6734-40DC-8D6F-3FF4AD4CD836}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directfn.Custody.SampleApi", "Directfn.Custody.SampleApi\Directfn.Custody.SampleApi.csproj", "{AF907F9E-8982-4E16-AABF-DA4E443C1D9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Directfn.Custody.Api", "Directfn.Custody.Api\Directfn.Custody.Api.csproj", "{AF907F9E-8982-4E16-AABF-DA4E443C1D9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

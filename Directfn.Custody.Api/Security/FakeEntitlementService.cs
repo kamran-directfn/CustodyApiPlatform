@@ -1,6 +1,6 @@
 using Directfn.Custody.ApiFramework.Entitlements;
 
-namespace Directfn.Custody.SampleApi.Security
+namespace Directfn.Custody.Api.Security
 {
     public sealed class FakeEntitlementService : IEntitlementService
     {

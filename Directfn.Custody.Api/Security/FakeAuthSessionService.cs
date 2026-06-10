@@ -1,6 +1,6 @@
 using Directfn.Custody.ApiFramework.Sessions;
 
-namespace Directfn.Custody.SampleApi.Security
+namespace Directfn.Custody.Api.Security
 {
     public sealed class FakeAuthSessionService : IAuthSessionService
     {

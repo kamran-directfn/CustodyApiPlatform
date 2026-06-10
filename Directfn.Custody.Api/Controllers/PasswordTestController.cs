@@ -4,11 +4,13 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Passwords;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Directfn.Custody.SampleApi.Controllers
+namespace Directfn.Custody.Api.Controllers
 {
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/password-test")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+
     public sealed class PasswordTestController : CustodyControllerBase
     {
         private readonly ILegacyPasswordService _legacyPasswordService;

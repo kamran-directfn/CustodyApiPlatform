@@ -4,17 +4,19 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Directfn.Custody.SampleApi.Controllers
+namespace Directfn.Custody.Api.Controllers
 {
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
+
     public sealed class HealthTestController : CustodyControllerBase
     {
         [HttpGet]
         public IActionResult Get()
         {
-            var data = new { Status = "Running", Application = "Directfn Custody Sample API", ApiVersion = "v1", Timestamp = DateTime.UtcNow };
+            var data = new { Status = "Running", Application = "Directfn Custody API", ApiVersion = "v1", Timestamp = DateTime.UtcNow };
 
             return Success(data);
         }

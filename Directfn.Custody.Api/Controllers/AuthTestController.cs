@@ -5,11 +5,12 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Directfn.Custody.SampleApi.Controllers
+namespace Directfn.Custody.Api.Controllers
 {
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/auth-test")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public sealed class AuthTestController : CustodyControllerBase
     {
         private readonly AuthOptions _authOptions;

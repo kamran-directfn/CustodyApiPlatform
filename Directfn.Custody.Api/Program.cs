@@ -1,7 +1,7 @@
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Extensions;
 using Directfn.Custody.ApiFramework.Sessions;
-using Directfn.Custody.SampleApi.Security;
+using Directfn.Custody.Api.Security;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

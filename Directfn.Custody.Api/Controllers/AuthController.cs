@@ -12,7 +12,7 @@ namespace Directfn.Custody.Api.Controllers
 {
     [SkipEntitlement]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/account")]
+    [Route("api/v{version:apiVersion}/auth")]
     public sealed class AuthController : CustodyControllerBase
     {
         private readonly IUserRepository _userRepository;

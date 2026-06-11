@@ -9,6 +9,7 @@ namespace Directfn.Custody.ApiFramework.Authentication
         public int ExpiresInSeconds { get; init; }
 
         public string TokenType { get; init; } = "Bearer";
-        public bool found { get; init; } = true;   
+        public bool Found { get; init; } = true;
+        public bool FirstLogin { get; set; } = false;
     }
 }

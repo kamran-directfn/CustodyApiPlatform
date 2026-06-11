@@ -51,6 +51,8 @@ namespace Directfn.Custody.Api.Controllers
                     Roles = ["CUSTODY_ADMIN"]
                 });
 
+                token.FirstLogin = user.Um02FirstLogin == 1 ? true : false; 
+
                 return Success(token);
             }
         }

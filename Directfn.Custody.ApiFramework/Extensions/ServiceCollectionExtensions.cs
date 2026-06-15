@@ -1,11 +1,15 @@
 using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Authentication;
+using Directfn.Custody.ApiFramework.Authentication.TokenStore;
+using Directfn.Custody.ApiFramework.Authentication.TokenStore.Oracle;
+using Directfn.Custody.ApiFramework.Authentication.TokenStore.SQLite;
 using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
+using Directfn.Custody.ApiFramework.Sessions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +45,23 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddHttpContextAccessor();
             services.AddDataProtection();
             services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
+            services.Configure<AuthTokenStoreOptions>(configuration.GetSection(AuthTokenStoreOptions.SectionName));
+            var authTokenStoreOptions = configuration.GetSection(AuthTokenStoreOptions.SectionName).Get<AuthTokenStoreOptions>() ?? new AuthTokenStoreOptions();
+
+            if (authTokenStoreOptions.Provider == AuthTokenStoreProvider.SQLite)
+            {
+                services.AddScoped<IAuthTokenStore, SQLiteAuthTokenStore>();
+                services.AddSingleton<SQLiteAuthTokenStoreInitializer>();
+            }
+            else if (authTokenStoreOptions.Provider == AuthTokenStoreProvider.Oracle)
+            {
+                services.AddScoped<IAuthTokenStore, OracleAuthTokenStore>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Unsupported auth token store provider: {authTokenStoreOptions.Provider}");
+            }
+
             services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
             services.AddScoped<IOracleDbManager, OracleDbManager>();
             services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
@@ -48,7 +69,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
-           
+            services.AddScoped<IAuthSessionService, AuthSessionService>();
             services.AddScoped<IRefreshTokenService, DataProtectionRefreshTokenService>();
             services.AddSingleton<IPasswordHashService, AspNetPasswordHashService>();
             services.AddSingleton<ILegacyPasswordService, TripleDesLegacyPasswordService>();

@@ -1,6 +1,8 @@
+using Directfn.Custody.ApiFramework.Authentication.TokenStore.SQLite;
 using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Middleware;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Directfn.Custody.ApiFramework.Extensions
@@ -9,6 +11,17 @@ namespace Directfn.Custody.ApiFramework.Extensions
     {
         public static WebApplication UseDirectfnCustodyApiFramework(this WebApplication app)
         {
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var initializer = scope.ServiceProvider.GetService<SQLiteAuthTokenStoreInitializer>();
+
+                if (initializer is not null)
+                {
+                    initializer.InitializeAsync().GetAwaiter().GetResult();
+                }
+            }
+
             app.UseMiddleware<CorrelationIdMiddleware>();
             app.UseMiddleware<GlobalExceptionMiddleware>();
 

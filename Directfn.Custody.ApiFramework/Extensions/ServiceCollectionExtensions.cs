@@ -39,14 +39,17 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
 
             services.AddHttpContextAccessor();
+            services.AddDataProtection();
             services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
             services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
             services.AddScoped<IOracleDbManager, OracleDbManager>();
             services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
 
-
+            
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
+           
+            services.AddScoped<IRefreshTokenService, DataProtectionRefreshTokenService>();
             services.AddSingleton<IPasswordHashService, AspNetPasswordHashService>();
             services.AddSingleton<ILegacyPasswordService, TripleDesLegacyPasswordService>();
 

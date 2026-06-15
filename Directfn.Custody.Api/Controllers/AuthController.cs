@@ -19,11 +19,13 @@ namespace Directfn.Custody.Api.Controllers
         private readonly AuthOptions _authOptions;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly ITokenFingerprintService _tokenFingerprintService;
-        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IOptions<AuthOptions> authOptions)
+        private readonly IRefreshTokenService _refreshTokenService;
+        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IOptions<AuthOptions> authOptions)
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
             _tokenFingerprintService = tokenFingerprintService;
+            _refreshTokenService = refreshTokenService;
             _authOptions = authOptions.Value;
         }
 
@@ -41,7 +43,7 @@ namespace Directfn.Custody.Api.Controllers
 
                 SetFingerprintCookie(fingerprint.Fingerprint);
 
-                TokenResult token = _jwtTokenService.GenerateAccessToken(new JwtTokenRequest
+                var tokenRequest = new JwtTokenRequest
                 {
                     UserId = user.Um02Id.ToString(),
                     UserName = user.Um02LoginId,
@@ -49,16 +51,72 @@ namespace Directfn.Custody.Api.Controllers
                     FingerprintHash = fingerprint.FingerprintHash,
                     Email = user.Um02Email,
                     Roles = ["CUSTODY_ADMIN"]
-                });
+                };
 
-                token.FirstLogin = user.Um02FirstLogin == 1 ? true : false; 
+                TokenResult token = _jwtTokenService.GenerateAccessToken(tokenRequest);
+
+                string refreshToken = _refreshTokenService.GenerateRefreshToken(tokenRequest);
+
+                SetRefreshTokenCookie(refreshToken);
+
+                token.FirstLogin = user.Um02FirstLogin == 1 ? true : false;
 
                 return Success(token);
             }
         }
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
+        {
+            if (!Request.Cookies.TryGetValue(_authOptions.RefreshTokenCookieName, out string? refreshToken))
+            {
+                return Unauthorized(new { Success = false, Message = "Refresh token is missing." });
+            }
+
+            RefreshTokenPayload? payload = _refreshTokenService.ValidateRefreshToken(refreshToken);
+
+            if (payload is null)
+            {
+                return Unauthorized(new { Success = false, Message = "Refresh token is invalid or expired." });
+            }
+
+            await Task.CompletedTask;
+
+            TokenFingerprintResult fingerprint = _tokenFingerprintService.Generate();
+
+            SetFingerprintCookie(fingerprint.Fingerprint);
+
+            var tokenRequest = new JwtTokenRequest
+            {
+                UserId = payload.UserId,
+                UserName = payload.UserName,
+                SessionId = payload.SessionId,
+                FingerprintHash = fingerprint.FingerprintHash,
+                Email = payload.Email,
+                Roles = payload.Roles
+            };
+
+            TokenResult token = _jwtTokenService.GenerateAccessToken(tokenRequest);
+
+            string newRefreshToken = _refreshTokenService.GenerateRefreshToken(tokenRequest);
+
+            SetRefreshTokenCookie(newRefreshToken);
+
+            return Success(token);
+        }
         private void SetFingerprintCookie(string fingerprint)
         {
             Response.Cookies.Append(_authOptions.FingerprintCookieName, fingerprint, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = _authOptions.UseSecureCookies,
+                SameSite = SameSiteMode.Strict,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddHours(_authOptions.RefreshTokenHours)
+            });
+        }
+        private void SetRefreshTokenCookie(string refreshToken)
+        {
+            Response.Cookies.Append(_authOptions.RefreshTokenCookieName, refreshToken, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = _authOptions.UseSecureCookies,

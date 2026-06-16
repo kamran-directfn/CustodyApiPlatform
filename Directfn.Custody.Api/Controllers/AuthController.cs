@@ -1,11 +1,15 @@
 ﻿using Asp.Versioning;
+using Directfn.Custody.Api.Requests.Auth;
 using Directfn.Custody.Api.Requests.User;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Entitlements;
+using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.User;
+using Directfn.Custody.ApiFramework.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -22,13 +26,17 @@ namespace Directfn.Custody.Api.Controllers
         private readonly ITokenFingerprintService _tokenFingerprintService;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly IAuthTokenStore _authTokenStore;
-        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, IOptions<AuthOptions> authOptions)
+        private readonly ICurrentUserService _currentUserService;
+        private readonly ILegacyPasswordService _legacyPasswordService;
+        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, ICurrentUserService currentUserService, ILegacyPasswordService legacyPasswordService, IOptions<AuthOptions> authOptions)
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
             _tokenFingerprintService = tokenFingerprintService;
             _refreshTokenService = refreshTokenService;
             _authTokenStore = authTokenStore;
+            _currentUserService = currentUserService;
+            _legacyPasswordService = legacyPasswordService;
             _authOptions = authOptions.Value;
         }
 
@@ -185,6 +193,33 @@ namespace Directfn.Custody.Api.Controllers
             return Success(new
             {
                 LoggedOut = true
+            });
+        }
+
+        [Authorize]
+        [HttpPost("change-first-login-password")]
+        public async Task<IActionResult> ChangeFirstLoginPassword([FromBody] ChangeFirstLoginPasswordRequest request, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+            {
+                return Unauthorized(new { Success = false, Message = "User is not authenticated." });
+            }
+
+            long userId = Convert.ToInt64(_currentUserService.UserId);
+
+            string encryptedPassword = _legacyPasswordService.EncryptLegacyPassword(request.NewPassword);
+
+            await _userRepository.ChangeFirstLoginPasswordAsync(userId, encryptedPassword, cancellationToken);
+
+            return Success(new
+            {
+                PasswordChanged = true,
+                Message = "Password changed successfully."
             });
         }
         private void SetFingerprintCookie(string fingerprint)

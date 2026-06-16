@@ -128,5 +128,22 @@ namespace Directfn.Custody.ApiFramework.Database
                 command.Parameters.Add(parameter);
             }
         }
+        public async Task<int> ExecuteStoredProcedureAsync(string procedureName, IEnumerable<OracleParameter>? parameters = null, CancellationToken cancellationToken = default)
+        {
+            await using var connection = (OracleConnection)_connectionFactory.CreateConnection();
+
+            await using var command = connection.CreateCommand();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = procedureName;
+            command.BindByName = true;
+
+            AddParameters(command, parameters);
+
+            await connection.OpenAsync(cancellationToken);
+
+            return await command.ExecuteNonQueryAsync(cancellationToken);
+        }
+
     }
 }

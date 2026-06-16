@@ -1,9 +1,10 @@
 using Directfn.Custody.ApiFramework.DTOs.User;
 
-namespace Directfn.Custody.ApiFramework.Repositories.User
+namespace Directfn.Custody.ApiFramework.Repositories.User;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<LoginUserRecord?> GetUserForLoginAsync(string loginId, long rf48Code, CancellationToken cancellationToken);
-    }
+    Task<LoginUserRecord?> GetUserForLoginAsync(string loginId, long rf48Code, CancellationToken cancellationToken);
+
+    Task ChangeFirstLoginPasswordAsync(long userId, string encryptedPassword, CancellationToken cancellationToken);
 }

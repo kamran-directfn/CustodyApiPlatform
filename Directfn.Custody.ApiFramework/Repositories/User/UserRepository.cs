@@ -22,5 +22,24 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
             return users.FirstOrDefault();
         }
+
+        public async Task ChangeFirstLoginPasswordAsync(long userId, string encryptedPassword, CancellationToken cancellationToken)
+        {
+            var parameters = new List<OracleParameter>
+            {
+                new("p_um02_id", OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = userId
+                },
+                new("p_password", OracleDbType.Varchar2)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = encryptedPassword
+                }
+             };
+
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.change_password_tokken", parameters, cancellationToken);
+        }
     }
 }

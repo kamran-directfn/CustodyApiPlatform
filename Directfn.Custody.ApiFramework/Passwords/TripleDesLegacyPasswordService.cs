@@ -34,5 +34,9 @@ namespace Directfn.Custody.ApiFramework.Passwords
 
             return Convert.ToBase64String(resultArray);
         }
+        public string EncryptLegacyPassword(string password)
+        {
+            return EncryptLegacy(password);
+        }
     }
 }

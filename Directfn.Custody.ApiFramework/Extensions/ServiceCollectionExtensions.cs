@@ -11,12 +11,14 @@ using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
 using Directfn.Custody.ApiFramework.Sessions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
+using System.Text.Json;
 
 namespace Directfn.Custody.ApiFramework.Extensions
 {
@@ -154,6 +156,95 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        return Task.CompletedTask;
+                    },
+
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("JWT token validated successfully.");
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"JWT authentication failed: {context.Exception.Message}");
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/json";
+
+                        string authorizationHeader = context.Request.Headers.Authorization.ToString();
+
+                        bool hasAuthorizationHeader = !string.IsNullOrWhiteSpace(authorizationHeader);
+
+                        bool startsWithBearer = authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase);
+
+                        string message = "Authentication failed.";
+
+                        if (!string.IsNullOrWhiteSpace(context.ErrorDescription))
+                        {
+                            message = context.ErrorDescription;
+                        }
+                        else if (!string.IsNullOrWhiteSpace(context.Error))
+                        {
+                            message = context.Error;
+                        }
+
+                        var response = new
+                        {
+                            Success = false,
+                            Errors = new[]
+                            {
+            new
+            {
+                Code = "AUTHENTICATION_FAILED",
+                Message = message
+            }
+        },
+                            Debug = new
+                            {
+                                HasAuthorizationHeader = hasAuthorizationHeader,
+                                StartsWithBearer = startsWithBearer,
+                                AuthorizationHeaderLength = authorizationHeader.Length
+                            }
+                        };
+
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    },
+
+                    OnForbidden = async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        context.Response.ContentType = "application/json";
+
+                        var response = new
+                        {
+                            Success = false,
+                            Errors = new[]
+                            {
+                new
+                {
+                    Code = "FORBIDDEN",
+                    Message = "You are authenticated, but you do not have permission to access this resource."
+                }
+            }
+                        };
+
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    }
+                };
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

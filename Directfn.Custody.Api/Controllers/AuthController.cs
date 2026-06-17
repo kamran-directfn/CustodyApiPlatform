@@ -59,7 +59,7 @@ namespace Directfn.Custody.Api.Controllers
                 {
                     UserId = user.Um02Id.ToString(),
                     UserName = user.Um02LoginId,
-                    SessionId = Guid.NewGuid().ToString("N"),
+                    SessionId = sessionId,
                     FingerprintHash = fingerprint.FingerprintHash,
                     Email = user.Um02Email,
                     Roles = ["CUSTODY_ADMIN"]

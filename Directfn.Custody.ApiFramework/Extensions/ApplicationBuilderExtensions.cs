@@ -3,6 +3,7 @@ using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Directfn.Custody.ApiFramework.Auditing.SQLite;
 using Serilog;
 
 namespace Directfn.Custody.ApiFramework.Extensions
@@ -14,11 +15,18 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
             using (var scope = app.Services.CreateScope())
             {
-                var initializer = scope.ServiceProvider.GetService<SQLiteAuthTokenStoreInitializer>();
+                var tokenInitializer = scope.ServiceProvider.GetService<SQLiteAuthTokenStoreInitializer>();
 
-                if (initializer is not null)
+                if (tokenInitializer is not null)
                 {
-                    initializer.InitializeAsync().GetAwaiter().GetResult();
+                    tokenInitializer.InitializeAsync().GetAwaiter().GetResult();
+                }
+
+                var auditInitializer = scope.ServiceProvider.GetService<SQLiteAuditStoreInitializer>();
+
+                if (auditInitializer is not null)
+                {
+                    auditInitializer.InitializeAsync().GetAwaiter().GetResult();
                 }
             }
 

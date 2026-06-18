@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore.Oracle;
@@ -19,6 +20,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
 using System.Text.Json;
+using Directfn.Custody.ApiFramework.Auditing.SQLite;
+using Directfn.Custody.ApiFramework.Auditing.Oracle;
 
 namespace Directfn.Custody.ApiFramework.Extensions
 {
@@ -32,6 +35,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
             services.AddControllers(options =>
             {
+                options.Filters.Add<AuditActionFilter>();
                 options.Filters.Add<EntitlementActionFilter>();
             });
 
@@ -68,7 +72,28 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IOracleDbManager, OracleDbManager>();
             services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
 
-            
+            services.Configure<AuditOptions>(configuration.GetSection(AuditOptions.SectionName));
+
+            var auditOptions = configuration.GetSection(AuditOptions.SectionName).Get<AuditOptions>() ?? new AuditOptions();
+
+            if (!auditOptions.Enabled || auditOptions.Provider == AuditStoreProvider.None)
+            {
+                services.AddScoped<IAuditWriter, NullAuditWriter>();
+            }
+            else if (auditOptions.Provider == AuditStoreProvider.SQLite)
+            {
+                services.AddScoped<IAuditWriter, SQLiteAuditWriter>();
+                services.AddSingleton<SQLiteAuditStoreInitializer>();
+            }
+            else if (auditOptions.Provider == AuditStoreProvider.Oracle)
+            {
+                services.AddScoped<IAuditWriter, OracleAuditWriter>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Unsupported audit store provider: {auditOptions.Provider}");
+            }
+
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
             services.AddScoped<IAuthSessionService, AuthSessionService>();

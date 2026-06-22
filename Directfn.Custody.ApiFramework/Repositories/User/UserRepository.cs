@@ -2,7 +2,7 @@ using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.DTOs.User;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
-
+using Directfn.Custody.ApiFramework.DTOs.Entitlements;
 namespace Directfn.Custody.ApiFramework.Repositories.User
 {
     public sealed class UserRepository : IUserRepository
@@ -40,6 +40,30 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
              };
 
             await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.change_password_tokken", parameters, cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<UserEntitlementRecord>> GetUserEntitlementsAsync(long userId, CancellationToken cancellationToken)
+        {
+            var parameters = new List<OracleParameter>
+                    {
+                        new("Pview", OracleDbType.RefCursor)
+                        {
+                            Direction = ParameterDirection.Output
+                        },
+                        new("p_user_Id", OracleDbType.Decimal)
+                        {
+                            Direction = ParameterDirection.Input,
+                            Value = userId
+                        }
+                    };
+
+            var entitlements = await _dbManager.GetStoredProcedureRefCursorAsync<UserEntitlementRecord>(
+                "Get_User_Entitlments",
+                parameters,
+                "Pview",
+                cancellationToken);
+
+            return entitlements;
         }
     }
 }

@@ -3,6 +3,7 @@ using Directfn.Custody.Api.Requests.Auth;
 using Directfn.Custody.Api.Requests.User;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
+using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Entitlements;
@@ -12,6 +13,7 @@ using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Data;
 
 namespace Directfn.Custody.Api.Controllers
 {

@@ -1,3 +1,4 @@
+using Directfn.Custody.ApiFramework.Database.Results;
 using Oracle.ManagedDataAccess.Client;
 using System.Data;
 
@@ -17,5 +18,6 @@ namespace Directfn.Custody.ApiFramework.Database
 
         Task<List<T>> GetStoredProcedureRefCursorAsync<T>(string procedureName, IEnumerable<OracleParameter> parameters, string refCursorParameterName, CancellationToken cancellationToken = default) where T : class, new();
         Task<int> ExecuteStoredProcedureAsync(string procedureName, IEnumerable<OracleParameter>? parameters = null, CancellationToken cancellationToken = default);
+        Task<StoredProcedureResult> ExecuteStoredProcedureWithOutputAsync(string procedureName, IEnumerable<OracleParameter>? parameters = null, CancellationToken cancellationToken = default);
     }
 }

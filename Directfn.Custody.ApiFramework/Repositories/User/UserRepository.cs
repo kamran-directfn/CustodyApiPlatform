@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 
+using Directfn.Custody.ApiFramework.DTOs.Entitlements;
 namespace Directfn.Custody.ApiFramework.Repositories.User
 {
     public sealed class UserRepository : IUserRepository
@@ -453,6 +454,30 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
         public Task Delete(int user_id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IReadOnlyList<UserEntitlementRecord>> GetUserEntitlementsAsync(long userId, CancellationToken cancellationToken)
+        {
+            var parameters = new List<OracleParameter>
+                    {
+                        new("Pview", OracleDbType.RefCursor)
+                        {
+                            Direction = ParameterDirection.Output
+                        },
+                        new("p_user_Id", OracleDbType.Decimal)
+                        {
+                            Direction = ParameterDirection.Input,
+                            Value = userId
+                        }
+                    };
+
+            var entitlements = await _dbManager.GetStoredProcedureRefCursorAsync<UserEntitlementRecord>(
+                "Get_User_Entitlments",
+                parameters,
+                "Pview",
+                cancellationToken);
+
+            return entitlements;
         }
     }
 }

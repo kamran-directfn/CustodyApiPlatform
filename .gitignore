@@ -377,3 +377,5 @@ Directfn.Custody.SampleApi/obj/
 
 # Visual Studio local files
 .vs/
+
+**/App_Data/

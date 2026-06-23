@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.Api.Requests.Auth;
 using Directfn.Custody.Api.Requests.User;
+using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
@@ -30,7 +31,8 @@ namespace Directfn.Custody.Api.Controllers
         private readonly IAuthTokenStore _authTokenStore;
         private readonly ICurrentUserService _currentUserService;
         private readonly ILegacyPasswordService _legacyPasswordService;
-        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, ICurrentUserService currentUserService, ILegacyPasswordService legacyPasswordService, IOptions<AuthOptions> authOptions)
+        private readonly IAuditWriter _auditWriter;
+        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, ICurrentUserService currentUserService, ILegacyPasswordService legacyPasswordService,IAuditWriter auditWriter, IOptions<AuthOptions> authOptions)
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
@@ -39,15 +41,18 @@ namespace Directfn.Custody.Api.Controllers
             _authTokenStore = authTokenStore;
             _currentUserService = currentUserService;
             _legacyPasswordService = legacyPasswordService;
+            _auditWriter = auditWriter; 
             _authOptions = authOptions.Value;
         }
 
+        [SkipAudit]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.Rf48Code, cancellationToken);
             if (user is null)
             {
+                await WriteLoginAuditAsync("LOGIN_FAILED", null, request.LoginId, null, false, "User was not found.", cancellationToken);
                 return Success(new { Found = false, Message = "User was not found." });
             }
             else 
@@ -61,7 +66,7 @@ namespace Directfn.Custody.Api.Controllers
                 {
                     UserId = user.Um02Id.ToString(),
                     UserName = user.Um02LoginId,
-                    SessionId = Guid.NewGuid().ToString("N"),
+                    SessionId = sessionId,
                     FingerprintHash = fingerprint.FingerprintHash,
                     Email = user.Um02Email,
                     Roles = ["CUSTODY_ADMIN"]
@@ -103,6 +108,7 @@ namespace Directfn.Custody.Api.Controllers
                 await _authTokenStore.CreateSessionAsync(session, cancellationToken);
 
                 await _authTokenStore.StoreRefreshTokenAsync(refreshTokenRecord, cancellationToken);
+                await WriteLoginAuditAsync("LOGIN_SUCCESS", user, request.LoginId, sessionId, true, null, cancellationToken);
 
                 SetRefreshTokenCookie(refreshToken);
 
@@ -111,6 +117,8 @@ namespace Directfn.Custody.Api.Controllers
                 return Success(token);
             }
         }
+
+        [AuditAction("REFRESH_TOKEN")]
         [HttpPost("refresh-token")]
         public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
         {
@@ -177,6 +185,8 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(token);
         }
+
+        [AuditAction("LOGOUT")]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout(CancellationToken cancellationToken)
         {
@@ -199,6 +209,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [Authorize]
+        [AuditAction("CHANGE_FIRST_LOGIN_PASSWORD")]
         [HttpPost("change-first-login-password")]
         public async Task<IActionResult> ChangeFirstLoginPassword([FromBody] ChangeFirstLoginPasswordRequest request, CancellationToken cancellationToken)
         {
@@ -258,6 +269,30 @@ namespace Directfn.Custody.Api.Controllers
 
             Response.Cookies.Delete(_authOptions.RefreshTokenCookieName, cookieOptions);
             Response.Cookies.Delete(_authOptions.FingerprintCookieName, cookieOptions);
+        }
+
+        private async Task WriteLoginAuditAsync(string auditAction, LoginUserRecord? user, string? loginId, string? sessionId, bool succeeded, string? errorMessage, CancellationToken cancellationToken)
+        {
+            var auditEvent = new AuditEvent
+            {
+                UserId = user?.Um02Id.ToString(),
+                UserName = user?.Um02LoginId ?? loginId,
+                SessionId = sessionId,
+                CorrelationId = HttpContext.TraceIdentifier,
+                HttpMethod = Request.Method,
+                Path = Request.Path.Value,
+                ControllerName = "Auth",
+                ActionName = "Login",
+                AuditAction = auditAction,
+                StatusCode = succeeded ? 200 : 401,
+                Succeeded = succeeded,
+                DurationMs = 0,
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                UserAgent = Request.Headers.UserAgent.ToString(),
+                ErrorMessage = errorMessage
+            };
+
+            await _auditWriter.WriteAsync(auditEvent, cancellationToken);
         }
     }
 }

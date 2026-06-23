@@ -1,5 +1,8 @@
 using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
+using Directfn.Custody.ApiFramework.DTOs.Entitlements;
+
+
 namespace Directfn.Custody.ApiFramework.Repositories.User;
 
 public interface IUserRepository
@@ -13,4 +16,6 @@ public interface IUserRepository
     Task UpdatePostStatus(int user_id, CancellationToken cancellationToken);
     Task Delete(int user_id, CancellationToken cancellationToken);
 
+    Task ChangeFirstLoginPasswordAsync(long userId, string encryptedPassword, CancellationToken cancellationToken);
+    Task<IReadOnlyList<UserEntitlementRecord>> GetUserEntitlementsAsync(long userId, CancellationToken cancellationToken);
 }

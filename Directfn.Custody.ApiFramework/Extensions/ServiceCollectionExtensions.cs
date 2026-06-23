@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore.Oracle;
@@ -11,12 +12,17 @@ using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
 using Directfn.Custody.ApiFramework.Sessions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
+using System.Text.Json;
+using Directfn.Custody.ApiFramework.Auditing.SQLite;
+using Directfn.Custody.ApiFramework.Auditing.Oracle;
+using Directfn.Custody.ApiFramework.Menus;
 
 namespace Directfn.Custody.ApiFramework.Extensions
 {
@@ -30,6 +36,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
             services.AddControllers(options =>
             {
+                options.Filters.Add<AuditActionFilter>();
                 options.Filters.Add<EntitlementActionFilter>();
             });
 
@@ -66,7 +73,28 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IOracleDbManager, OracleDbManager>();
             services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
 
-            
+            services.Configure<AuditOptions>(configuration.GetSection(AuditOptions.SectionName));
+
+            var auditOptions = configuration.GetSection(AuditOptions.SectionName).Get<AuditOptions>() ?? new AuditOptions();
+
+            if (!auditOptions.Enabled || auditOptions.Provider == AuditStoreProvider.None)
+            {
+                services.AddScoped<IAuditWriter, NullAuditWriter>();
+            }
+            else if (auditOptions.Provider == AuditStoreProvider.SQLite)
+            {
+                services.AddScoped<IAuditWriter, SQLiteAuditWriter>();
+                services.AddSingleton<SQLiteAuditStoreInitializer>();
+            }
+            else if (auditOptions.Provider == AuditStoreProvider.Oracle)
+            {
+                services.AddScoped<IAuditWriter, OracleAuditWriter>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Unsupported audit store provider: {auditOptions.Provider}");
+            }
+
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddSingleton<ITokenFingerprintService, TokenFingerprintService>();
             services.AddScoped<IAuthSessionService, AuthSessionService>();
@@ -76,7 +104,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-
+            services.AddScoped<ILeftMenuBuilder, LeftMenuBuilder>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddCors(options =>
@@ -154,6 +182,95 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        return Task.CompletedTask;
+                    },
+
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("JWT token validated successfully.");
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"JWT authentication failed: {context.Exception.Message}");
+
+                        return Task.CompletedTask;
+                    },
+
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.Response.ContentType = "application/json";
+
+                        string authorizationHeader = context.Request.Headers.Authorization.ToString();
+
+                        bool hasAuthorizationHeader = !string.IsNullOrWhiteSpace(authorizationHeader);
+
+                        bool startsWithBearer = authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase);
+
+                        string message = "Authentication failed.";
+
+                        if (!string.IsNullOrWhiteSpace(context.ErrorDescription))
+                        {
+                            message = context.ErrorDescription;
+                        }
+                        else if (!string.IsNullOrWhiteSpace(context.Error))
+                        {
+                            message = context.Error;
+                        }
+
+                        var response = new
+                        {
+                            Success = false,
+                            Errors = new[]
+                            {
+            new
+            {
+                Code = "AUTHENTICATION_FAILED",
+                Message = message
+            }
+        },
+                            Debug = new
+                            {
+                                HasAuthorizationHeader = hasAuthorizationHeader,
+                                StartsWithBearer = startsWithBearer,
+                                AuthorizationHeaderLength = authorizationHeader.Length
+                            }
+                        };
+
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    },
+
+                    OnForbidden = async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                        context.Response.ContentType = "application/json";
+
+                        var response = new
+                        {
+                            Success = false,
+                            Errors = new[]
+                            {
+                new
+                {
+                    Code = "FORBIDDEN",
+                    Message = "You are authenticated, but you do not have permission to access this resource."
+                }
+            }
+                        };
+
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    }
+                };
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

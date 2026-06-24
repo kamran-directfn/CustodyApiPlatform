@@ -8,6 +8,7 @@ using Directfn.Custody.ApiFramework.Passwords;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.VisualBasic;
 using Oracle.ManagedDataAccess.Client;
+using Directfn.Custody.ApiFramework.DTOs.Entitlements;
 using Serilog;
 using System.Data;
 using System.Drawing;
@@ -24,7 +25,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             _dbManager = dbManager;
         }
 
-        public async Task<LoginUserRecord?> GetUserForLoginAsync(string loginId, long rf48Code, CancellationToken cancellationToken)
+        public async Task<LoginUserRecord?> GetUserForLoginAsync(string loginId, string rf48Code, CancellationToken cancellationToken)
         {
             List<OracleParameter> parameters = new() { new OracleParameter("pview", OracleDbType.RefCursor) { Direction = ParameterDirection.Output }, new OracleParameter("P_login", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = loginId }, new OracleParameter("p_rf48_code", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = rf48Code } };
 
@@ -1108,6 +1109,41 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 cancellationToken);
 
             return entitlements;
+        }
+        public async Task<MemberCodeRecord?> GetMemberCodeAsync(string memberCode, CancellationToken cancellationToken)
+        {
+                var parameters = new List<OracleParameter>
+                {
+                    new("p_rf48_code", OracleDbType.Varchar2)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = memberCode
+                    }
+                };
+
+            var table = await _dbManager.GetQueryResultAsync(
+                """
+        SELECT
+            m.rf48_id AS RF48_ID,
+            m.rf48_code AS RF48_CODE
+        FROM rf48_member_code m
+        WHERE m.rf48_code = :p_rf48_code
+        """,
+                parameters,
+                cancellationToken);
+
+            if (table.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            DataRow row = table.Rows[0];
+
+            return new MemberCodeRecord
+            {
+                Rf48Id = Convert.ToInt64(row["RF48_ID"]),
+                Rf48Code = Convert.ToString(row["RF48_CODE"])
+            };
         }
     }
 }

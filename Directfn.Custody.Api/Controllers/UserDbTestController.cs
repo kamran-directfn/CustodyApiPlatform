@@ -25,7 +25,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("login-user")]
         public async Task<IActionResult> GetLoginUser([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
-            LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.Rf48Code, cancellationToken);
+            LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.MemberCode, cancellationToken);
 
             if (user is null)
             {

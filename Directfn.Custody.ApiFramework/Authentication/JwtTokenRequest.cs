@@ -12,6 +12,9 @@ namespace Directfn.Custody.ApiFramework.Authentication
 
         public string? Email { get; init; }
 
+        public string? MemberCode { get; init; }
+
+        public string? MemberCodeId { get; init; }
         public IReadOnlyList<string> Roles { get; init; } = [];
     }
 }

@@ -49,7 +49,21 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
-            LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.Rf48Code, cancellationToken);
+
+            var memberCode = await _userRepository.GetMemberCodeAsync(request.MemberCode, cancellationToken);
+
+            if (memberCode is null)
+            {
+                await WriteLoginAuditAsync("LOGIN_FAILED", null, request.LoginId, null, false, "Invalid member code.", cancellationToken);
+
+                return Success(new
+                {
+                    Found = false,
+                    Message = "Invalid member code."
+                });
+            }
+
+            LoginUserRecord? user = await _userRepository.GetUserForLoginAsync(request.LoginId, request.MemberCode, cancellationToken);
             if (user is null)
             {
                 await WriteLoginAuditAsync("LOGIN_FAILED", null, request.LoginId, null, false, "User was not found.", cancellationToken);
@@ -69,6 +83,8 @@ namespace Directfn.Custody.Api.Controllers
                     SessionId = sessionId,
                     FingerprintHash = fingerprint.FingerprintHash,
                     Email = user.Um02Email,
+                    MemberCode = request.MemberCode,
+                    MemberCodeId = memberCode.Rf48Id.ToString(),
                     Roles = ["CUSTODY_ADMIN"]
                 };
 
@@ -154,6 +170,8 @@ namespace Directfn.Custody.Api.Controllers
                 SessionId = payload.SessionId,
                 FingerprintHash = fingerprint.FingerprintHash,
                 Email = payload.Email,
+                MemberCode = payload.MemberCode,
+                MemberCodeId = payload.MemberCodeId,
                 Roles = payload.Roles
             };
 
@@ -241,7 +259,7 @@ namespace Directfn.Custody.Api.Controllers
             {
                 HttpOnly = true,
                 Secure = _authOptions.UseSecureCookies,
-                SameSite = SameSiteMode.Strict,
+                SameSite = _authOptions.UseSecureCookies ? SameSiteMode.None : SameSiteMode.Lax,
                 Path = "/",
                 Expires = DateTimeOffset.UtcNow.AddHours(_authOptions.RefreshTokenHours)
             });
@@ -252,7 +270,7 @@ namespace Directfn.Custody.Api.Controllers
             {
                 HttpOnly = true,
                 Secure = _authOptions.UseSecureCookies,
-                SameSite = SameSiteMode.Strict,
+                SameSite = _authOptions.UseSecureCookies ? SameSiteMode.None : SameSiteMode.Lax,
                 Path = "/",
                 Expires = DateTimeOffset.UtcNow.AddHours(_authOptions.RefreshTokenHours)
             });
@@ -263,7 +281,7 @@ namespace Directfn.Custody.Api.Controllers
             {
                 HttpOnly = true,
                 Secure = _authOptions.UseSecureCookies,
-                SameSite = SameSiteMode.Strict,
+                SameSite = _authOptions.UseSecureCookies ? SameSiteMode.None : SameSiteMode.Lax,
                 Path = "/"
             };
 

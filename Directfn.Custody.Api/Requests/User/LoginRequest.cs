@@ -1,10 +1,15 @@
-namespace Directfn.Custody.Api.Requests.User
-{
-    public sealed class LoginRequest
-    {
-        public string LoginId { get; init; } = default!;
-        public string Password { get; init; } = default!; 
+using System.ComponentModel.DataAnnotations;
 
-        public long Rf48Code { get; init; }
-    }
+namespace Directfn.Custody.Api.Requests.User;
+
+public sealed class LoginRequest
+{
+    [Required]
+    public string LoginId { get; init; } = default!;
+
+    [Required]
+    public string Password { get; init; } = default!;
+
+    [Required]
+    public string MemberCode { get; init; } = default!;
 }

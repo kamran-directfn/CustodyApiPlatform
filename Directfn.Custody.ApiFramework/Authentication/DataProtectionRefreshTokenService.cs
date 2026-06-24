@@ -23,6 +23,8 @@ public sealed class DataProtectionRefreshTokenService : IRefreshTokenService
             UserName = request.UserName,
             SessionId = request.SessionId,
             Email = request.Email,
+            MemberCode = request.MemberCode,
+            MemberCodeId = request.MemberCodeId,
             FingerprintHash = request.FingerprintHash,
             Roles = request.Roles,
             ExpiresAtUtc = DateTimeOffset.UtcNow.AddHours(_authOptions.RefreshTokenHours)

@@ -1,5 +1,8 @@
 using Asp.Versioning;
+using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
+using Directfn.Custody.ApiFramework.Auditing.Oracle;
+using Directfn.Custody.ApiFramework.Auditing.SQLite;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore.Oracle;
@@ -7,7 +10,9 @@ using Directfn.Custody.ApiFramework.Authentication.TokenStore.SQLite;
 using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Entitlements;
+using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Passwords;
+using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
 using Directfn.Custody.ApiFramework.Sessions;
@@ -20,9 +25,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
 using System.Text.Json;
-using Directfn.Custody.ApiFramework.Auditing.SQLite;
-using Directfn.Custody.ApiFramework.Auditing.Oracle;
-using Directfn.Custody.ApiFramework.Menus;
 
 namespace Directfn.Custody.ApiFramework.Extensions
 {
@@ -38,6 +40,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             {
                 options.Filters.Add<AuditActionFilter>();
                 options.Filters.Add<EntitlementActionFilter>();
+                options.Filters.Add<OperationApprovalActionFilter>();
             });
 
             services.AddApiVersioning(options =>
@@ -106,6 +109,8 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ILeftMenuBuilder, LeftMenuBuilder>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IOperationApprovalRepository, OperationApprovalRepository>();
+            services.AddScoped<OperationApprovalActionFilter>();
 
             services.AddCors(options =>
             {

@@ -23,6 +23,7 @@ using System.Text.Json;
 using Directfn.Custody.ApiFramework.Auditing.SQLite;
 using Directfn.Custody.ApiFramework.Auditing.Oracle;
 using Directfn.Custody.ApiFramework.Menus;
+using Directfn.Custody.ApiFramework.Repositories.Common;
 
 namespace Directfn.Custody.ApiFramework.Extensions
 {
@@ -106,6 +107,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ILeftMenuBuilder, LeftMenuBuilder>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICommonRepository, CommonRepository>();
 
             services.AddCors(options =>
             {

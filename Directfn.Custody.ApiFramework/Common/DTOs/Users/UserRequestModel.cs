@@ -1,10 +1,13 @@
-﻿using Directfn.Custody.ApiFramework.Common.DTOs;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Directfn.Custody.Api.Requests.User
+namespace Directfn.Custody.ApiFramework.Common.DTOs.Users
 {
-    public class UserRequest
+    public class UserRequestModel
     {
         public int UM02_ID { get; set; }
+        public string UM02_LOGIN_ID { get; set; }
         public string UM02_NAME { get; set; }
         public string UM02_LAST_NAME { get; set; }
         public string UM02_FAX { get; set; }
@@ -19,5 +22,8 @@ namespace Directfn.Custody.Api.Requests.User
         public bool UM02_IS_LDAP { get; set; }
         public bool isGeneratePassword { get; set; }
         public string UM02_IMAGE { get; set; }
-    }
+
+        public List<UserPortfolioGroups> userPortfolioGroups { get; set; }
+
+    } 
 }

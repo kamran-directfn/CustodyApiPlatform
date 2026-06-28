@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers
 {
-    [Authorize]
+#if !DEBUG
+[Authorize]
+#endif
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/common")]
@@ -27,7 +29,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_ROLES")]
-        [HttpPost("get_roles")]
+        [HttpGet("get_roles")]
         public async Task<IActionResult> GetRoles(CancellationToken cancellationToken)
         {
             List<DropDowns> data = await _commonRepository.GetRoles(cancellationToken);
@@ -36,7 +38,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_MEMBER_CODES")]
-        [HttpPost("get-member-codes")]
+        [HttpGet("get-member-codes")]
         public async Task<IActionResult> GetMemberCode(CancellationToken cancellationToken)
         {
             List<DropDowns> data = await _commonRepository.GetMemberCode(cancellationToken);
@@ -45,7 +47,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_SUPERVISORS")]
-        [HttpPost("get-supervisors")]
+        [HttpGet("get-supervisors")]
         public async Task<IActionResult> getSupervisorDropdown(CancellationToken cancellationToken)
         {
             List<UserViewModel> user = await _userRepository.GetAllUserAsync(cancellationToken);

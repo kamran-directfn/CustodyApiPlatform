@@ -796,36 +796,32 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
         public async Task<List<UserViewModel>> UpdatePostStatus(int um02_id, int isPosted, int user_id, CancellationToken cancellationToken)
         {
             List<UserViewModel> lst = new List<UserViewModel>();
-            try
-            {
-                List<OracleParameter> parameters = new List<OracleParameter>();
 
-                OracleParameter PUM02_ID = new OracleParameter();
-                PUM02_ID.ParameterName = "PUM02_ID";
-                PUM02_ID.Value = um02_id;
-                PUM02_ID.Direction = System.Data.ParameterDirection.Input;
-                parameters.Add(PUM02_ID);
+            List<OracleParameter> parameters = new List<OracleParameter>();
 
-                OracleParameter PUM02_IS_POSTED = new OracleParameter();
-                PUM02_IS_POSTED.ParameterName = "PUM02_IS_POSTED";
-                PUM02_IS_POSTED.Value = isPosted;
-                PUM02_IS_POSTED.Direction = System.Data.ParameterDirection.Input;
-                parameters.Add(PUM02_IS_POSTED);
+            OracleParameter PUM02_ID = new OracleParameter();
+            PUM02_ID.ParameterName = "PUM02_ID";
+            PUM02_ID.Value = um02_id;
+            PUM02_ID.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM02_ID);
 
-                OracleParameter p_Modified_By = new OracleParameter();
-                p_Modified_By.ParameterName = "p_Modified_By";
-                p_Modified_By.Value = user_id;
-                p_Modified_By.Direction = System.Data.ParameterDirection.Input;
-                parameters.Add(p_Modified_By);
+            OracleParameter PUM02_IS_POSTED = new OracleParameter();
+            PUM02_IS_POSTED.ParameterName = "PUM02_IS_POSTED";
+            PUM02_IS_POSTED.Value = isPosted;
+            PUM02_IS_POSTED.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM02_IS_POSTED);
 
-                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.Update_User_Post_Status", parameters);
+            OracleParameter p_Modified_By = new OracleParameter();
+            p_Modified_By.ParameterName = "p_Modified_By";
+            p_Modified_By.Value = user_id;
+            p_Modified_By.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(p_Modified_By);
 
-                lst = await GetAllUserAsync(cancellationToken);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.Update_User_Post_Status", parameters);
 
-            }
-            catch (Exception ex)
-            {
-            }
+            lst = await GetAllUserAsync(cancellationToken);
+
+
             return lst;
         }
 
@@ -874,7 +870,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
         public async Task SaveMemberCode(MemberCode code)
         {
-          
+
             try
             {
                 List<OracleParameter> parameters = new List<OracleParameter>();
@@ -917,12 +913,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
                 await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM09_USER_MEMBER.Add_Data", parameters);
 
-                
+
             }
             catch (Exception ex)
             {
             }
-            
+
         }
 
         public async Task DeleteMemberByUser(int um02_id)
@@ -945,7 +941,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
         public async Task SaveSadminPortfoliosEntries(int um02_Id)
         {
-            
+
             try
             {
                 List<OracleParameter> parameters = new List<OracleParameter>();
@@ -957,7 +953,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 parameters.Add(p_um02_id);
 
                 await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.mapp_sadmin_entries", parameters);
-               
+
             }
             catch (Exception ex)
             {
@@ -972,7 +968,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 if (user != null && uM04_UM02_ID > 0)
                 {
                     List<OracleParameter> parameters = new List<OracleParameter>();
-                    
+
                     OracleParameter PKey = new OracleParameter();
                     PKey.ParameterName = "PKey";
                     PKey.Size = 32767;
@@ -1015,7 +1011,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                     parameters.Add(PUM04_Edited_by);
 
                     await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM04_USERS_ROLES.Add_Data", parameters);
-                    
+
                     return true;
                 }
                 return false;
@@ -1112,7 +1108,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
         }
         public async Task<MemberCodeRecord?> GetMemberCodeAsync(string memberCode, CancellationToken cancellationToken)
         {
-                var parameters = new List<OracleParameter>
+            var parameters = new List<OracleParameter>
                 {
                     new("p_rf48_code", OracleDbType.Varchar2)
                     {

@@ -9,14 +9,14 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers
 {
-#if !DEBUG
-[Authorize]
-#endif
+ 
+    [Authorize]
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/roles")]

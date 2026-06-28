@@ -46,7 +46,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
                 options.RoutePrefix = "swagger";
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseCors(ServiceCollectionExtensions.DefaultCorsPolicyName);
 

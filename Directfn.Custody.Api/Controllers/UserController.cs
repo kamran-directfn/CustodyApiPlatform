@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Directfn.Custody.Api.Requests;
 using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
@@ -79,21 +80,21 @@ namespace Directfn.Custody.Api.Controllers
         [AuditAction("APPROVE_USER")]
         [HttpPost("approve")]
         [RequireOperationApprovalCheck("user", "Um02_Id")]
-        public async Task<IActionResult> Post([FromBody] int um02_id, int isPosted, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = Int32.Parse(_currentUserService.UserId);
-            var data = await _userRepository.UpdatePostStatus(um02_id, isPosted, user_id, cancellationToken);
-         
+            var data = await _userRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
+
             return Success(data);
         }
 
         [AuditAction("PENDING_USER")]
         [HttpPost("pending")]
-        public async Task<IActionResult> UnPost([FromBody] int um02_id, int isPosted, CancellationToken cancellationToken)
+        public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = Int32.Parse(_currentUserService.UserId);
-            var data = await _userRepository.UpdatePostStatus(um02_id, isPosted, user_id, cancellationToken);
-             
+            var data = await _userRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
+
             return Success(data);
         }
 

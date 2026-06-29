@@ -169,23 +169,17 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
 
             List<OracleParameter> parameters = new List<OracleParameter>();
 
-            OracleParameter PUM02_ID = new OracleParameter();
-            PUM02_ID.ParameterName = "PUM02_ID";
-            PUM02_ID.Value = um03_id;
-            PUM02_ID.Direction = System.Data.ParameterDirection.Input;
-            parameters.Add(PUM02_ID);
+            OracleParameter PUM03_ID = new OracleParameter();
+            PUM03_ID.ParameterName = "PUM03_ID";
+            PUM03_ID.Value = um03_id;
+            PUM03_ID.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM03_ID);
 
-            OracleParameter PUM02_IS_POSTED = new OracleParameter();
-            PUM02_IS_POSTED.ParameterName = "PUM02_IS_POSTED";
-            PUM02_IS_POSTED.Value = isPosted;
-            PUM02_IS_POSTED.Direction = System.Data.ParameterDirection.Input;
-            parameters.Add(PUM02_IS_POSTED);
-
-            OracleParameter p_Modified_By = new OracleParameter();
-            p_Modified_By.ParameterName = "p_Modified_By";
-            p_Modified_By.Value = user_id;
-            p_Modified_By.Direction = System.Data.ParameterDirection.Input;
-            parameters.Add(p_Modified_By);
+            OracleParameter PUM03_IS_POSTED = new OracleParameter();
+            PUM03_IS_POSTED.ParameterName = "PUM03_IS_POSTED";
+            PUM03_IS_POSTED.Value = isPosted;
+            PUM03_IS_POSTED.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM03_IS_POSTED);
 
             await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM03_ROLES.Update_Role_Post_Status", parameters);
 

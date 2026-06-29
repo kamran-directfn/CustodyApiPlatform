@@ -15,8 +15,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers
 {
- 
-    [Authorize]
+
+#if !DEBUG
+[Authorize]
+#endif
     [SkipEntitlement]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/roles")]
@@ -73,7 +75,7 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("APPROVE_ROLE")]
         [HttpPost("approve")]
-        [RequireOperationApprovalCheck("roles", "Um03_Id")]
+        //[RequireOperationApprovalCheck("roles", "Um03_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = Int32.Parse(_currentUserService.UserId);

@@ -56,5 +56,14 @@ namespace Directfn.Custody.Api.Controllers
             
             return Success(data);
         }
+
+        [AuditAction("GET_PORTFOLIOS_BY_MEMBERS")]
+        [HttpGet("get-portfolios-by-members")]
+        public async Task<IActionResult> GetGroupsByMember(CancellationToken cancellationToken)
+        {
+            List<PortfoliosByMembers> data = await _commonRepository.GetGroupsByMember(cancellationToken);
+          
+            return Success(data);
+        }
     }
 }

@@ -47,5 +47,20 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
 
             return data;
         }
+
+        public async Task<List<PortfoliosByMembers>> GetGroupsByMember(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            OracleParameter Pview = new OracleParameter();
+            Pview.ParameterName = "Pview";
+            Pview.OracleDbType = OracleDbType.RefCursor;
+            Pview.Direction = System.Data.ParameterDirection.Output;
+            lstParams.Add(Pview);
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<PortfoliosByMembers>("pkg_portfolio_groups.get_groups_by_member", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
     }
 }

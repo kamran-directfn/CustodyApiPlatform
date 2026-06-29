@@ -1,5 +1,6 @@
 ﻿using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Database;
+using Directfn.Custody.ApiFramework.Database.Results;
 using Directfn.Custody.ApiFramework.DTOs;
 using Directfn.Custody.ApiFramework.DTOs.Entitlements;
 using Oracle.ManagedDataAccess.Client;
@@ -21,31 +22,30 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
 
         public async Task<List<RoleViewModel>> GetAllRoles(CancellationToken cancellationToken)
         {
-           
-                List<RoleViewModel> lstRoles = new List<RoleViewModel>();
-                OracleParameter Pview = new OracleParameter();
-                Pview.ParameterName = "Pview";
-                Pview.OracleDbType = OracleDbType.RefCursor;// System.Data.DbType.Int64;
-                Pview.Direction = System.Data.ParameterDirection.Output;
-                List<OracleParameter> lstParams = new List<OracleParameter>();
-                lstParams.Add(Pview);
-            lstRoles =  await _dbManager.GetStoredProcedureRefCursorAsync<RoleViewModel>("Pkg_UM03_ROLES.Get_Data", lstParams, "pview", cancellationToken);
 
-            
-                lstRoles = lstRoles.Select(x =>
-                {
-                    x.isPosted = false;
-                    return x;
-                }).ToList();
-               
-            
+            List<RoleViewModel> lstRoles = new List<RoleViewModel>();
+            OracleParameter Pview = new OracleParameter();
+            Pview.ParameterName = "Pview";
+            Pview.OracleDbType = OracleDbType.RefCursor;// System.Data.DbType.Int64;
+            Pview.Direction = System.Data.ParameterDirection.Output;
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+            lstParams.Add(Pview);
+            lstRoles = await _dbManager.GetStoredProcedureRefCursorAsync<RoleViewModel>("Pkg_UM03_ROLES.Get_Data", lstParams, "pview", cancellationToken);
+
+
+            lstRoles = lstRoles.Select(x =>
+            {
+                x.isPosted = false;
+                return x;
+            }).ToList();
+
+
             return lstRoles;
         }
 
         public async Task<List<Group>> GetEntitlmentsOfRole(int roleId, CancellationToken cancellationToken)
         {
             List<int> Entitlment_Ids = new List<int>();
-            //GenericResponse response = new GenericResponse();
             List<UserRoleEntitlements> lstEntitlments = new List<UserRoleEntitlements>();
             List<OracleParameter> lstParams = new List<OracleParameter>();
 
@@ -81,20 +81,29 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                 }
             }
 
-            List<RolesEntitlements> entitlments = new List<RolesEntitlements>();
+            //List<RolesEntitlements> entitlments = new List<RolesEntitlements>();
 
-            //lstEntitlments = (List<UserRoleEntitlements>)ent_data;
-            entitlments = GenerateEntitlments(lstEntitlments);
+            //entitlments = GenerateEntitlments(lstEntitlments);
 
-            entitlments = entitlments.Select(c =>
-            {
-                if (c.items != null && c.items.Count > 0)
-                {
-                    c.items = c.items.Select(x => { x.expanded = true; return x; }).ToList();
-                }
-                c.expanded = true;
-                return c;
-            }).ToList();
+            //entitlments = entitlments.Select(c =>
+            //{
+            //    if (c.items != null && c.items.Count > 0)
+            //    {
+            //        c.items = c.items.Select(x => { x.expanded = true; return x; }).ToList();
+            //    }
+            //    c.expanded = true;
+            //    return c;
+            //}).ToList();
+
+            List<Group> en = new List<Group>();
+
+            en = MapEntitlements(lstEntitlments);
+
+            return en;
+        }
+
+        public List<Group> MapEntitlements(List<UserRoleEntitlements> lstEntitlments)
+        {
             List<Group> en = new List<Group>();
             en = lstEntitlments.GroupBy(c => c.group_name).Select(m => new Group()
             {
@@ -119,14 +128,16 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
         public async Task<List<UserRoleEntitlements>> GetEntitlements(CancellationToken cancellationToken)
         {
             List<UserRoleEntitlements> lstEntitlements = new List<UserRoleEntitlements>();
+
             OracleParameter Pview = new OracleParameter();
             Pview.ParameterName = "Pview";
             Pview.OracleDbType = OracleDbType.RefCursor;// System.Data.DbType.Int64;
             Pview.Direction = System.Data.ParameterDirection.Output;
             List<OracleParameter> lstParams = new List<OracleParameter>();
             lstParams.Add(Pview);
+
             lstEntitlements = await _dbManager.GetStoredProcedureRefCursorAsync<UserRoleEntitlements>("get_entitlements", lstParams, "pview", cancellationToken);
-            //new DBManager().GetStoredProcedureResult<UserEntitlements>("get_entitlements", lstParams).ToList();
+
             return lstEntitlements;
 
         }
@@ -134,13 +145,13 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
         {
             List<RoleViewModel> roleData = new List<RoleViewModel>();
             List<OracleParameter> lstParams = new List<OracleParameter>();
-            
+
             OracleParameter Pview = new OracleParameter();
             Pview.ParameterName = "Pview";
             Pview.OracleDbType = OracleDbType.RefCursor;// System.Data.DbType.Int64;
             Pview.Direction = System.Data.ParameterDirection.Output;
             lstParams.Add(Pview);
-            
+
             OracleParameter P_UM03_ID = new OracleParameter();
             P_UM03_ID.ParameterName = "P_UM03_ID";
             P_UM03_ID.Direction = System.Data.ParameterDirection.Input;
@@ -148,18 +159,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             lstParams.Add(P_UM03_ID);
 
             roleData = await _dbManager.GetStoredProcedureRefCursorAsync<RoleViewModel>("Pkg_UM03_ROLES.Get_ID_Data", lstParams, "pview", cancellationToken);
-
-
-            //List<UserRoleEntitlements> ent_data = await GetEntitlmentsOfRole(roleId, cancellationToken);
-
-            //List<UserRoleEntitlements> lstEntitlments = new List<UserRoleEntitlements>();
-            //List<RolesEntitlements> entitlments = new List<RolesEntitlements>();
-
-            //lstEntitlments = (List<UserRoleEntitlements>)ent_data;
-            //entitlments = GenerateEntitlments(lstEntitlments);
-
-            
-
 
             return roleData.FirstOrDefault();
         }
@@ -269,6 +268,295 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             }
             return lstEntitlements;
 
+        }
+
+        public async Task<string> DeleteRoles(int um03_id, int user_id, CancellationToken cancellationToken)
+        {
+            string message = string.Empty;
+            string outParam = "";
+            List<OracleParameter> parameters = new List<OracleParameter>();
+
+            OracleParameter PKey = new OracleParameter();
+            PKey.ParameterName = "PKey";
+            PKey.Size = 32767;
+            PKey.Direction = System.Data.ParameterDirection.Output;
+            parameters.Add(PKey);
+
+            OracleParameter PUM03_ID = new OracleParameter();
+            PUM03_ID.ParameterName = "PUM03_ID";
+            PUM03_ID.Value = um03_id;
+            PUM03_ID.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM03_ID);
+
+            OracleParameter PUM03_Edited_by = new OracleParameter();
+            PUM03_Edited_by.ParameterName = "PUM03_Edited_by";
+            PUM03_Edited_by.Value = user_id;
+            PUM03_Edited_by.Direction = System.Data.ParameterDirection.Input;
+            parameters.Add(PUM03_Edited_by);
+
+            OracleParameter PError = new OracleParameter();
+            PError.ParameterName = "PError";
+            PError.Direction = System.Data.ParameterDirection.Output;
+            parameters.Add(PError);
+
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Delete_Data", parameters);
+
+            message = result.GetString("PError");
+
+            return message;
+        }
+
+        public async Task<RoleViewModel> AddRoles(RoleViewModel role, List<string> entilments, CancellationToken cancellationToken)
+        {
+            role.Entitlments = new List<UserRoleEntitlements>();
+            List<string> lstEntitlements = entilments;
+
+            foreach (var item in lstEntitlements)
+            {
+                role.Entitlments.Add(new UserRoleEntitlements() { Entitlement_Id = Convert.ToInt32(item) });
+            }
+            role.UM03_STATUS = 0;
+            // role.UM03_CREATED_BY = User.Id;
+
+
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            OracleParameter PKey = new OracleParameter();
+            PKey.ParameterName = "PKey";
+            PKey.Size = 32767;
+            PKey.Direction = System.Data.ParameterDirection.Output;
+            lstParams.Add(PKey);
+
+            OracleParameter PUM03_PARENT_ID = new OracleParameter();
+            PUM03_PARENT_ID.ParameterName = "PUM03_PARENT_ID";
+            PUM03_PARENT_ID.Direction = System.Data.ParameterDirection.Input;
+            PUM03_PARENT_ID.Value = role.UM03_PARENT_ID;
+            lstParams.Add(PUM03_PARENT_ID);
+
+            OracleParameter PUM03_NAME = new OracleParameter();
+            PUM03_NAME.ParameterName = "PUM03_NAME";
+            PUM03_NAME.Direction = System.Data.ParameterDirection.Input;
+            PUM03_NAME.Value = role.UM03_NAME;
+            lstParams.Add(PUM03_NAME);
+
+            OracleParameter PUM03_NAME_SEC = new OracleParameter();
+            PUM03_NAME_SEC.ParameterName = "PUM03_NAME_SEC";
+            PUM03_NAME_SEC.Direction = System.Data.ParameterDirection.Input;
+            PUM03_NAME_SEC.Value = role.UM03_NAME_SEC;
+            lstParams.Add(PUM03_NAME_SEC);
+
+            OracleParameter PUM03_STATUS = new OracleParameter();
+            PUM03_STATUS.ParameterName = "PUM03_STATUS";
+            PUM03_STATUS.Direction = System.Data.ParameterDirection.Input;
+            PUM03_STATUS.Value = role.UM03_STATUS;
+            lstParams.Add(PUM03_STATUS);
+
+            OracleParameter PUM03_IP = new OracleParameter();
+            PUM03_IP.ParameterName = "PUM03_IP";
+            PUM03_IP.Direction = System.Data.ParameterDirection.Input;
+            PUM03_IP.Value = role.UM03_IP;
+            lstParams.Add(PUM03_IP);
+
+            OracleParameter PUM03_Created_by = new OracleParameter();
+            PUM03_Created_by.ParameterName = "PUM03_Created_by";
+            PUM03_Created_by.Direction = System.Data.ParameterDirection.Input;
+            PUM03_Created_by.Value = role.UM03_CREATED_BY;
+            lstParams.Add(PUM03_Created_by);
+
+            OracleParameter PUM03_Edited_by = new OracleParameter();
+            PUM03_Edited_by.ParameterName = "PUM03_Edited_by";
+            PUM03_Edited_by.Direction = System.Data.ParameterDirection.Input;
+            PUM03_Edited_by.Value = null;
+            lstParams.Add(PUM03_Edited_by);
+
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Add_Data", lstParams);
+
+            role.UM03_ID = Convert.ToInt32(result.GetString("PKey"));
+
+            if (role.Entitlments != null && role.Entitlments.Count > 0 && role.UM03_ID > 0)
+            {
+                foreach (var item in role.Entitlments)
+                {
+                    List<OracleParameter> entitlmentsParams = new List<OracleParameter>();
+
+
+                    //OracleParameter PKey = new OracleParameter();
+                    //PKey.ParameterName = "PKey";
+                    //PKey.Size = 32767;
+                    //PKey.Direction = System.Data.ParameterDirection.Output;
+                    entitlmentsParams.Add(PKey);
+
+
+                    OracleParameter PUM08_UM03_ID = new OracleParameter();
+                    PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
+                    PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_UM03_ID.Value = role.UM03_ID;
+                    entitlmentsParams.Add(PUM08_UM03_ID);
+
+                    OracleParameter PUM08_UM07_ID = new OracleParameter();
+                    PUM08_UM07_ID.ParameterName = "PUM08_UM07_ID";
+                    PUM08_UM07_ID.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_UM07_ID.Value = item.Entitlement_Id;
+                    entitlmentsParams.Add(PUM08_UM07_ID);
+
+                    OracleParameter PUM08_STATUS = new OracleParameter();
+                    PUM08_STATUS.ParameterName = "PUM08_STATUS";
+                    PUM08_STATUS.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_STATUS.Value = 1;
+                    entitlmentsParams.Add(PUM08_STATUS);
+
+                    OracleParameter PUM08_IP = new OracleParameter();
+                    PUM08_IP.ParameterName = "PUM08_IP";
+                    PUM08_IP.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_IP.Value = role.UM03_IP;
+                    entitlmentsParams.Add(PUM08_IP);
+
+                    OracleParameter PUM08_Edited_by = new OracleParameter();
+                    PUM08_Edited_by.ParameterName = "PUM08_Edited_by";
+                    PUM08_Edited_by.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
+                    entitlmentsParams.Add(PUM08_Edited_by);
+
+                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams);
+                }
+            }
+
+
+            return role;
+        }
+
+        public async Task<RoleViewModel> UpdateRole(RoleViewModel role, List<string> entilments, CancellationToken cancellationToken)
+        {
+            role.Entitlments = new List<UserRoleEntitlements>();
+            List<string> lstEntitlements = entilments;
+
+            foreach (var item in lstEntitlements)
+            {
+                role.Entitlments.Add(new UserRoleEntitlements() { Entitlement_Id = Convert.ToInt32(item) });
+            }
+            role.UM03_STATUS = 0;
+            // role.UM03_CREATED_BY = User.Id;
+
+
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            OracleParameter PUM03_ID = new OracleParameter();
+            PUM03_ID.ParameterName = "PUM03_ID";
+            PUM03_ID.Direction = System.Data.ParameterDirection.Input;
+            PUM03_ID.Value = role.UM03_PARENT_ID;
+            lstParams.Add(PUM03_ID);
+
+            OracleParameter PUM03_PARENT_ID = new OracleParameter();
+            PUM03_PARENT_ID.ParameterName = "PUM03_PARENT_ID";
+            PUM03_PARENT_ID.Direction = System.Data.ParameterDirection.Input;
+            PUM03_PARENT_ID.Value = role.UM03_PARENT_ID;
+            lstParams.Add(PUM03_PARENT_ID);
+
+            OracleParameter PUM03_NAME = new OracleParameter();
+            PUM03_NAME.ParameterName = "PUM03_NAME";
+            PUM03_NAME.Direction = System.Data.ParameterDirection.Input;
+            PUM03_NAME.Value = role.UM03_NAME;
+            lstParams.Add(PUM03_NAME);
+
+            OracleParameter PUM03_NAME_SEC = new OracleParameter();
+            PUM03_NAME_SEC.ParameterName = "PUM03_NAME_SEC";
+            PUM03_NAME_SEC.Direction = System.Data.ParameterDirection.Input;
+            PUM03_NAME_SEC.Value = role.UM03_NAME_SEC;
+            lstParams.Add(PUM03_NAME_SEC);
+
+            OracleParameter PUM03_STATUS = new OracleParameter();
+            PUM03_STATUS.ParameterName = "PUM03_STATUS";
+            PUM03_STATUS.Direction = System.Data.ParameterDirection.Input;
+            PUM03_STATUS.Value = role.UM03_STATUS;
+            lstParams.Add(PUM03_STATUS);
+
+            OracleParameter PUM03_IP = new OracleParameter();
+            PUM03_IP.ParameterName = "PUM03_IP";
+            PUM03_IP.Direction = System.Data.ParameterDirection.Input;
+            PUM03_IP.Value = role.UM03_IP;
+            lstParams.Add(PUM03_IP);
+
+            OracleParameter PUM03_Edited_by = new OracleParameter();
+            PUM03_Edited_by.ParameterName = "PUM03_Edited_by";
+            PUM03_Edited_by.Direction = System.Data.ParameterDirection.Input;
+            PUM03_Edited_by.Value = role.UM03_MODIFIED_BY; 
+            lstParams.Add(PUM03_Edited_by);
+
+            OracleParameter PError = new OracleParameter();
+            PError.ParameterName = "PError";
+            PError.Direction = System.Data.ParameterDirection.Output;
+            lstParams.Add(PError);
+
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Add_Data", lstParams);
+
+
+            if (role.Entitlments != null && role.Entitlments.Count > 0 && role.UM03_ID > 0)
+            {
+
+                List<OracleParameter> deleteEntitlmentsParams = new List<OracleParameter>();
+
+                OracleParameter PUM08_UM03_ID = new OracleParameter();
+                PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
+                PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
+                PUM08_UM03_ID.Value = role.UM03_ID;
+                deleteEntitlmentsParams.Add(PUM08_UM03_ID);
+
+                OracleParameter PUM08_Edited_by = new OracleParameter();
+                PUM08_Edited_by.ParameterName = "PUM08_Edited_by";
+                PUM08_Edited_by.Direction = System.Data.ParameterDirection.Input;
+                PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
+                deleteEntitlmentsParams.Add(PUM08_Edited_by);
+
+                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM08_ROLES_ENTITLMENTS.Delete_Data", deleteEntitlmentsParams);
+
+                foreach (var item in role.Entitlments)
+                {
+                    List<OracleParameter> entitlmentsParams = new List<OracleParameter>();
+
+
+                    OracleParameter PKey = new OracleParameter();
+                    PKey.ParameterName = "PKey";
+                    PKey.Size = 32767;
+                    PKey.Direction = System.Data.ParameterDirection.Output;
+                    entitlmentsParams.Add(PKey);
+
+
+                    //OracleParameter PUM08_UM03_ID = new OracleParameter();
+                    //PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
+                    //PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
+                    //PUM08_UM03_ID.Value = role.UM03_ID;
+                    entitlmentsParams.Add(PUM08_UM03_ID);
+
+                    OracleParameter PUM08_UM07_ID = new OracleParameter();
+                    PUM08_UM07_ID.ParameterName = "PUM08_UM07_ID";
+                    PUM08_UM07_ID.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_UM07_ID.Value = item.Entitlement_Id;
+                    entitlmentsParams.Add(PUM08_UM07_ID);
+
+                    OracleParameter PUM08_STATUS = new OracleParameter();
+                    PUM08_STATUS.ParameterName = "PUM08_STATUS";
+                    PUM08_STATUS.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_STATUS.Value = 1;
+                    entitlmentsParams.Add(PUM08_STATUS);
+
+                    OracleParameter PUM08_IP = new OracleParameter();
+                    PUM08_IP.ParameterName = "PUM08_IP";
+                    PUM08_IP.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_IP.Value = role.UM03_IP;
+                    entitlmentsParams.Add(PUM08_IP);
+
+                    //OracleParameter PUM08_Edited_by = new OracleParameter();
+                    //PUM08_Edited_by.ParameterName = "PUM08_Edited_by";
+                    //PUM08_Edited_by.Direction = System.Data.ParameterDirection.Input;
+                    //PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
+                    entitlmentsParams.Add(PUM08_Edited_by);
+
+                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", lstParams);
+                }
+            }
+
+
+            return role;
         }
     }
 }

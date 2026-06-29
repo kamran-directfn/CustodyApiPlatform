@@ -9,5 +9,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
     {
         Task<List<DropDowns>> GetRoles(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetMemberCode(CancellationToken cancellationToken);
+        Task<List<PortfoliosByMembers>> GetGroupsByMember(CancellationToken cancellationToken);
     }
 }

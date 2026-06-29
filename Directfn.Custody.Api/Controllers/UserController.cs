@@ -1,22 +1,13 @@
 ﻿using Asp.Versioning;
-using Directfn.Custody.Api.Requests.Auth;
-using Directfn.Custody.Api.Requests.User;
 using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
-using Directfn.Custody.ApiFramework.Authentication;
-using Directfn.Custody.ApiFramework.Authentication.TokenStore;
-using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Controllers;
-using Directfn.Custody.ApiFramework.DTOs.User;
 using Directfn.Custody.ApiFramework.Entitlements;
-using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Directfn.Custody.Api.Controllers
 {
@@ -30,13 +21,12 @@ namespace Directfn.Custody.Api.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly ICurrentUserService _currentUserService;
-            public UserController(IUserRepository userRepository, ICurrentUserService currentUserService)
+        public UserController(IUserRepository userRepository, ICurrentUserService currentUserService)
         {
             _userRepository = userRepository;
             _currentUserService = currentUserService;
         }
 
-        
         [AuditAction("GET_USER")]
         [HttpGet("get-user")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
@@ -55,9 +45,8 @@ namespace Directfn.Custody.Api.Controllers
             return Success(data);
         }
 
-      
         [AuditAction("VERIFY_USER_NAME")]
-        [HttpPost("verify-user-name")]
+        [HttpPost("verify-username")]
         public async Task<IActionResult> VerifyUserName([FromBody] string userName, CancellationToken cancellationToken)
         {
             var data = await _userRepository.VerifyUserNameAsync(userName, cancellationToken);
@@ -66,55 +55,54 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_USER")]
-        [HttpPost("save-user")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add([FromBody] UserRequestModel user)
         {
             int userId = Int32.Parse(_currentUserService.UserId);
             string userName = _currentUserService.UserName.ToString();
                         
             user.UM02_ID = await _userRepository.SaveUserAsync(user);
-            //new_user_id > 0
             
             return Success(user);
         }
 
         [AuditAction("UPDATE_USER")]
-        [HttpPost("update-user")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] UserRequestModel user)
         {
+            int userId = Int32.Parse(_currentUserService.UserId);
             await _userRepository.UpdateUser(user);
 
             return Success(user);
         }
 
-        [AuditAction("POST_USER")]
-        [HttpPost("post-user")]
+        [AuditAction("APPROVE_USER")]
+        [HttpPost("approve")]
         [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post([FromBody] int um02_id, int isPosted, CancellationToken cancellationToken)
         {
-            int user_id = 1;
+            int user_id = Int32.Parse(_currentUserService.UserId);
             var data = await _userRepository.UpdatePostStatus(um02_id, isPosted, user_id, cancellationToken);
          
             return Success(data);
         }
 
-        [AuditAction("UNPOST_USER")]
-        [HttpPost("unpost-user")]
+        [AuditAction("PENDING_USER")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost([FromBody] int um02_id, int isPosted, CancellationToken cancellationToken)
         {
-            int user_id = 1;
+            int user_id = Int32.Parse(_currentUserService.UserId);
             var data = await _userRepository.UpdatePostStatus(um02_id, isPosted, user_id, cancellationToken);
              
             return Success(data);
         }
 
         [AuditAction("DELETE_USER")]
-        [HttpPost("delete-user")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete([FromBody] int um02_id, CancellationToken cancellationToken)
         {
-             int user_id = 1;
+            int user_id = Int32.Parse(_currentUserService.UserId);
             var data = await _userRepository.Delete(um02_id, user_id, cancellationToken);
-
            
             return Success(data);
         }

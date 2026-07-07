@@ -83,6 +83,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Users
         public List<UserPortfolioGroups> userPortfolioGroups { get; set; }
         public List<MemberCode> memberCodes { get; set; }
         public int UM02_ATTEMPTNO { get; set; }
+        public int UM02_GENDER { get; set; }
     }
 
     public class UserPortfolioGroups

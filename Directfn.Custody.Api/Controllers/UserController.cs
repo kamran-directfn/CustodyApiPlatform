@@ -39,7 +39,7 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("GET_USER_BY_ID")]
         [HttpGet("get-user-by-id")]
-        public async Task<IActionResult> GetById([FromBody] int UserId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById(int UserId, CancellationToken cancellationToken)
         {
             UserViewModel data = await _userRepository.GetUserByIDAsync(UserId, cancellationToken);
 
@@ -47,8 +47,8 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("VERIFY_USER_NAME")]
-        [HttpPost("verify-username")]
-        public async Task<IActionResult> VerifyUserName([FromBody] string userName, CancellationToken cancellationToken)
+        [HttpGet("verify-username")]
+        public async Task<IActionResult> VerifyUserName(string userName, CancellationToken cancellationToken)
         {
             var data = await _userRepository.VerifyUserNameAsync(userName, cancellationToken);
             
@@ -61,7 +61,7 @@ namespace Directfn.Custody.Api.Controllers
         {
             int userId = Int32.Parse(_currentUserService.UserId);
             string userName = _currentUserService.UserName.ToString();
-                        
+
             user.UM02_ID = await _userRepository.SaveUserAsync(user);
             
             return Success(user);
@@ -79,7 +79,7 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("APPROVE_USER")]
         [HttpPost("approve")]
-        [RequireOperationApprovalCheck("user", "Um02_Id")]
+       // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = Int32.Parse(_currentUserService.UserId);
@@ -100,10 +100,10 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("DELETE_USER")]
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] int um02_id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = Int32.Parse(_currentUserService.UserId);
-            var data = await _userRepository.Delete(um02_id, user_id, cancellationToken);
+            var data = await _userRepository.Delete(request.id, user_id, cancellationToken);
            
             return Success(data);
         }

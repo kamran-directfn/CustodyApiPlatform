@@ -374,11 +374,11 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                     List<OracleParameter> entitlmentsParams = new List<OracleParameter>();
 
 
-                    //OracleParameter PKey = new OracleParameter();
-                    //PKey.ParameterName = "PKey";
-                    //PKey.Size = 32767;
-                    //PKey.Direction = System.Data.ParameterDirection.Output;
-                    entitlmentsParams.Add(PKey);
+                    OracleParameter PKey2 = new OracleParameter();
+                    PKey2.ParameterName = "PKey";
+                    PKey2.Size = 32767;
+                    PKey2.Direction = System.Data.ParameterDirection.Output;
+                    entitlmentsParams.Add(PKey2);
 
 
                     OracleParameter PUM08_UM03_ID = new OracleParameter();
@@ -481,7 +481,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             PError.Direction = System.Data.ParameterDirection.Output;
             lstParams.Add(PError);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Add_Data", lstParams);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Edit_Data", lstParams);
 
 
             if (role.Entitlments != null && role.Entitlments.Count > 0 && role.UM03_ID > 0)
@@ -489,11 +489,11 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
 
                 List<OracleParameter> deleteEntitlmentsParams = new List<OracleParameter>();
 
-                OracleParameter PUM08_UM03_ID = new OracleParameter();
-                PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
-                PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
-                PUM08_UM03_ID.Value = role.UM03_ID;
-                deleteEntitlmentsParams.Add(PUM08_UM03_ID);
+                OracleParameter P_UM08_UM03_ID = new OracleParameter();
+                P_UM08_UM03_ID.ParameterName = "P_UM08_UM03_ID";
+                P_UM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
+                P_UM08_UM03_ID.Value = role.UM03_ID;
+                deleteEntitlmentsParams.Add(P_UM08_UM03_ID);
 
                 OracleParameter PUM08_Edited_by = new OracleParameter();
                 PUM08_Edited_by.ParameterName = "PUM08_Edited_by";
@@ -514,11 +514,10 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                     PKey.Direction = System.Data.ParameterDirection.Output;
                     entitlmentsParams.Add(PKey);
 
-
-                    //OracleParameter PUM08_UM03_ID = new OracleParameter();
-                    //PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
-                    //PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
-                    //PUM08_UM03_ID.Value = role.UM03_ID;
+                    OracleParameter PUM08_UM03_ID = new OracleParameter();
+                    PUM08_UM03_ID.ParameterName = "PUM08_UM03_ID";
+                    PUM08_UM03_ID.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_UM03_ID.Value = role.UM03_ID;
                     entitlmentsParams.Add(PUM08_UM03_ID);
 
                     OracleParameter PUM08_UM07_ID = new OracleParameter();
@@ -539,13 +538,13 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                     PUM08_IP.Value = role.UM03_IP;
                     entitlmentsParams.Add(PUM08_IP);
 
-                    //OracleParameter PUM08_Edited_by = new OracleParameter();
-                    //PUM08_Edited_by.ParameterName = "PUM08_Edited_by";
-                    //PUM08_Edited_by.Direction = System.Data.ParameterDirection.Input;
-                    //PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
-                    entitlmentsParams.Add(PUM08_Edited_by);
+                    OracleParameter PUM08_Edited_by2 = new OracleParameter();
+                    PUM08_Edited_by2.ParameterName = "PUM08_Edited_by";
+                    PUM08_Edited_by2.Direction = System.Data.ParameterDirection.Input;
+                    PUM08_Edited_by2.Value = role.UM03_MODIFIED_BY;
+                    entitlmentsParams.Add(PUM08_Edited_by2);
 
-                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", lstParams);
+                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams);
                 }
             }
 

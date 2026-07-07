@@ -5,4 +5,9 @@
         public int id { get; set; }
         public int Is_posted { get; set; }
     }
+
+    public  class DeleteRequest
+    {
+        public int id { get; set; }
+    }
 }

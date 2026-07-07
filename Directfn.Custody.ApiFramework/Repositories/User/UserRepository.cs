@@ -166,6 +166,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             string userName = "";//_currentUserService.UserName.ToString();
             UserViewModel data = new UserViewModel();
 
+            data.UM02_SUPERVISOR = user.UM02_SUPERVISOR;
             if (data.UM02_SUPERVISOR == 0)
             {
                 data.UM02_SUPERVISOR = -1;
@@ -185,7 +186,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             data.Modified_By_UserName = userName;
             data.Token_Expiry = DateTime.Now.AddHours(1);
             data.UM02_CREATED_BY = userId;
-
+            data.UM02_EMAIL = user.UM02_EMAIL;
             data.UM02_LOGIN_ID = user.UM02_LOGIN_ID;
             data.UM02_NAME = user.UM02_NAME;
             data.UM02_LAST_NAME = user.UM02_LAST_NAME;
@@ -195,11 +196,13 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             data.UM02_REG_DATE = user.UM02_REG_DATE;
             data.UM02_EXPIRY_DATE = user.UM02_EXPIRY_DATE;
             data.UM02_JOB_TITLE = user.UM02_JOB_TITLE;
-            data.lstMemberCode = user.lstMemberCode;
+            //data.lstMemberCode = user.lstMemberCode;
             data.isLockAccount = user.isLockAccount;
             data.UM02_IS_LDAP = user.UM02_IS_LDAP;
             data.isGeneratePassword = user.isGeneratePassword;
-            data.UM02_IMAGE = user.UM02_IMAGE;
+            //data.UM02_IMAGE = user.UM02_IMAGE
+            data.UM02_GENDER = user.UM02_GENDER;
+            
             data.Token = Guid.NewGuid().ToString();
 
             List<OracleParameter> parameters = new List<OracleParameter>();
@@ -468,6 +471,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             int userId = 1;//Int32.Parse(_currentUserService.UserId);
             string userName = "";//_currentUserService.UserName.ToString();
 
+            data.UM02_SUPERVISOR = user.UM02_SUPERVISOR;
+            if (data.UM02_SUPERVISOR == 0)
+            {
+                data.UM02_SUPERVISOR = -1;
+            }
+
             if (user.isLockAccount)
             {
                 data.UM02_LOCK_ACCOUNT = 1;
@@ -480,19 +489,22 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             data.Token_Expiry = DateTime.Now.AddHours(1);
             data.UM02_MODIFIED_BY = userId;
             data.UM02_ID = user.UM02_ID;
+            data.UM02_LOGIN_ID = user.UM02_LOGIN_ID;
             data.UM02_NAME = user.UM02_NAME;
             data.UM02_LAST_NAME = user.UM02_LAST_NAME;
+            data.UM02_EMAIL = user.UM02_EMAIL;
             data.UM02_FAX = user.UM02_FAX;
             data.UM02_MOBILE = user.UM02_MOBILE;
             data.UM04_UM03_ID = user.UM04_UM03_ID;
             data.UM02_REG_DATE = user.UM02_REG_DATE;
             data.UM02_EXPIRY_DATE = user.UM02_EXPIRY_DATE;
             data.UM02_JOB_TITLE = user.UM02_JOB_TITLE;
-            data.lstMemberCode = user.lstMemberCode;
+           // data.lstMemberCode = user.lstMemberCode;
             data.isLockAccount = user.isLockAccount;
             data.UM02_IS_LDAP = user.UM02_IS_LDAP;
             data.isGeneratePassword = user.isGeneratePassword;
-            data.UM02_IMAGE = user.UM02_IMAGE;
+            data.UM02_GENDER = user.UM02_GENDER;
+            // data.UM02_IMAGE = user.UM02_IMAGE;
             data.Token = Guid.NewGuid().ToString();
 
             List<OracleParameter> parameters = new List<OracleParameter>();
@@ -673,7 +685,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
             OracleParameter PUM02_STATUS = new OracleParameter();
             PUM02_STATUS.ParameterName = "PUM02_STATUS";
-            PUM02_STATUS.Value = data.UM02_STATUS;
+            PUM02_STATUS.Value = 1;// data.UM02_STATUS;
             PUM02_STATUS.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM02_STATUS);
 
@@ -691,7 +703,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
             OracleParameter PUM02_Edited_by = new OracleParameter();
             PUM02_Edited_by.ParameterName = "PUM02_Edited_by";
-            PUM02_Edited_by.Value = data.UM02_CREATED_BY;
+            PUM02_Edited_by.Value = data.UM02_MODIFIED_BY;
             PUM02_Edited_by.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM02_Edited_by);
 
@@ -831,11 +843,17 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
         {
             List<OracleParameter> parameters = new List<OracleParameter>();
 
-            OracleParameter UM09_ID = new OracleParameter();
-            UM09_ID.ParameterName = "UM09_ID";
-            UM09_ID.Value = code.UM09_ID;
-            UM09_ID.Direction = System.Data.ParameterDirection.Input;
-            parameters.Add(UM09_ID);
+            //OracleParameter UM09_ID = new OracleParameter();
+            //UM09_ID.ParameterName = "UM09_ID";
+            //UM09_ID.Value = code.UM09_ID;
+            //UM09_ID.Direction = System.Data.ParameterDirection.Input;
+            //parameters.Add(UM09_ID);
+
+            OracleParameter PKey = new OracleParameter();
+            PKey.ParameterName = "PKey";
+            PKey.Size = 32767;
+            PKey.Direction = System.Data.ParameterDirection.Output;
+            parameters.Add(PKey);
 
             OracleParameter PUM09_UM02_ID = new OracleParameter();
             PUM09_UM02_ID.ParameterName = "PUM09_UM02_ID";

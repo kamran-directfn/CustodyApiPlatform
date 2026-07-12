@@ -53,6 +53,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
 
             services.AddHttpContextAccessor();
+            services.AddScoped<ICustodyUserContext, CustodyUserContext>();
             services.AddDataProtection();
             services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
             services.Configure<AuthTokenStoreOptions>(configuration.GetSection(AuthTokenStoreOptions.SectionName));

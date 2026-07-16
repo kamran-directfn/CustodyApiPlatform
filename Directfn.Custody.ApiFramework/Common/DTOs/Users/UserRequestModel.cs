@@ -28,6 +28,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Users
         public bool isLockAccount { get; set; }
         public bool UM02_IS_LDAP { get; set; }
         public bool isGeneratePassword { get; set; }
+        public int UM02_FIRST_LOGIN { get; set; }
         //public string UM02_IMAGE { get; set; }
 
         public List<UserPortfolioGroups> userPortfolioGroups { get; set; }

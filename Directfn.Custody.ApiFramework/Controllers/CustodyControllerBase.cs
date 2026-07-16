@@ -20,5 +20,19 @@ namespace Directfn.Custody.ApiFramework.Controllers
 
             return CreatedAtAction(actionName, routeValues, ApiResponse<T>.Ok(data, correlationId));
         }
+
+        //protected IActionResult ApiError<T>(T data, int statusCode)
+        //{
+        //    string? correlationId = HttpContext.Items[CorrelationIdMiddleware.HeaderName]?.ToString();
+
+        //    var response = new ApiResponse<T>
+        //    {
+        //        Success = false,
+        //        Data = data,
+        //        CorrelationId = correlationId
+        //    };
+
+        //    return StatusCode(statusCode, response);
+        //}
     }
 }

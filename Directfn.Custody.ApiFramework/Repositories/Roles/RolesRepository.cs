@@ -437,7 +437,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             OracleParameter PUM03_ID = new OracleParameter();
             PUM03_ID.ParameterName = "PUM03_ID";
             PUM03_ID.Direction = System.Data.ParameterDirection.Input;
-            PUM03_ID.Value = role.UM03_PARENT_ID;
+            PUM03_ID.Value = role.UM03_ID;
             lstParams.Add(PUM03_ID);
 
             OracleParameter PUM03_PARENT_ID = new OracleParameter();

@@ -1,6 +1,7 @@
 using Directfn.Custody.ApiFramework.Database.Mapping;
 using Directfn.Custody.ApiFramework.Database.Results;
 using Oracle.ManagedDataAccess.Client;
+using Serilog;
 using System.Data;
 
 namespace Directfn.Custody.ApiFramework.Database
@@ -183,6 +184,48 @@ namespace Directfn.Custody.ApiFramework.Database
                 RowsAffected = rowsAffected,
                 OutputParameters = outputParameters
             };
+        }
+
+        public async Task<DataSet> GetStoredProcedureDataSetResultAsync( string procedureName, List<OracleParameter> parameters = null, CancellationToken cancellationToken = default)
+        {
+            return await Task.Run(() =>
+            {
+                var dsResult = new DataSet();
+
+                using var conn = (OracleConnection)_connectionFactory.CreateConnection();
+                using var cmd = new OracleCommand(procedureName, conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                if (parameters != null)
+                {
+                    cmd.Parameters.AddRange(parameters.ToArray());
+                }
+
+                conn.Open();
+
+                using var adapter = new OracleDataAdapter(cmd);
+                adapter.Fill(dsResult);
+
+                return dsResult;
+            }, cancellationToken);
+        }
+
+        public async Task<int> BulkInsertAsync(string query, List<OracleParameter> parameters, int rowCount, CancellationToken cancellationToken = default)
+        {
+            await using var conn = (OracleConnection)_connectionFactory.CreateConnection();
+            await conn.OpenAsync(cancellationToken);
+
+            await using var cmd = new OracleCommand(query, conn)
+            {
+                BindByName = true,
+                ArrayBindCount = rowCount
+            };
+
+            cmd.Parameters.AddRange(parameters.ToArray());
+
+            return await cmd.ExecuteNonQueryAsync(cancellationToken);
         }
 
     }

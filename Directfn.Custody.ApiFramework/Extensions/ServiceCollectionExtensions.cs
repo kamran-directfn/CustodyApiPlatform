@@ -17,6 +17,7 @@ using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
+using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Security;
@@ -118,6 +119,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IOperationApprovalRepository, OperationApprovalRepository>();
             services.AddScoped<OperationApprovalActionFilter>();
             services.AddScoped<ICommonRepository, CommonRepository>();
+            services.AddScoped<IPortfolioGroupRepository, PortfolioGroupRepository>();
 
             services.AddCors(options =>
             {

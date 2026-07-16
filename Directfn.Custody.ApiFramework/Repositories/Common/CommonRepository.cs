@@ -1,11 +1,15 @@
 ﻿using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Database;
+using Directfn.Custody.ApiFramework.Database.Results;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Directfn.Custody.ApiFramework.Repositories.Common
 {
@@ -16,6 +20,8 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         public CommonRepository(IOracleDbManagerAsync dbManager)
         {
             _dbManager = dbManager;
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         public async Task<List<DropDowns>> GetRoles(CancellationToken cancellationToken)
@@ -61,6 +67,74 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             var data = await _dbManager.GetStoredProcedureRefCursorAsync<PortfoliosByMembers>("pkg_portfolio_groups.get_groups_by_member", lstParams, "Pview", cancellationToken);
 
             return data;
+        }
+
+        public DataSet UploadFileDataSet(IFormFile file)
+        {
+            using var stream = file.OpenReadStream();
+
+            IExcelDataReader reader = Path.GetExtension(file.FileName).ToLower() switch
+            {
+                ".xls" => ExcelReaderFactory.CreateBinaryReader(stream),
+                ".xlsx" => ExcelReaderFactory.CreateOpenXmlReader(stream),
+                ".csv" => ExcelReaderFactory.CreateCsvReader(stream),
+                _ => throw new NotSupportedException("Unsupported file format.")
+            };
+
+            return reader.AsDataSet(new ExcelDataSetConfiguration
+            {
+                ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                {
+                    UseHeaderRow = true
+                }
+            });
+        }
+
+        public async Task<int> GetBatchID(string ScreenName, CancellationToken cancellationToken)
+        {
+            int batchid = 0;
+            BatchExecute _batch = new BatchExecute();
+            _batch.RF42_TYPE = ScreenName;
+            _batch.RF42_CREATED_BY = 1;
+            _batch.RF42_CREATED_DATE = DateTime.Now;
+            _batch.RF42_DESCRIPTION = ScreenName;
+            _batch.RF42_DESCRIPTION_SEC = ScreenName;
+            _batch.RF42_KIND = ScreenName;
+            _batch.RF42_STATUS = 1;
+            _batch.RF42_TYPE = ScreenName;
+            _batch.RF42_MEMBER_CODE_ID = 1;// User.MemberCodeID; need to change by shahzaib
+
+
+            var parameters = new List<OracleParameter>();
+
+            if (_batch.RF42_ID > 0)
+                parameters.Add(new OracleParameter { ParameterName = "PRF42_ID", Value = _batch.RF42_ID, Direction = ParameterDirection.Input });
+            else
+                parameters.Add(new OracleParameter { ParameterName = "PKey", Size = 32767, Direction = ParameterDirection.Output });
+
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_DESCRIPTION", Value = _batch.RF42_DESCRIPTION, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_DESCRIPTION_SEC", Value = _batch.RF42_DESCRIPTION_SEC, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_TYPE", Value = _batch.RF42_TYPE, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_STATUS", Value = 1, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_KIND", Value = _batch.RF42_KIND, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_IP", Value = _batch.RF42_IP, Direction = ParameterDirection.Input });
+            parameters.Add(new OracleParameter { ParameterName = "PRF42_Edited_by", Value = _batch.RF42_MODIFIED_BY, Direction = ParameterDirection.Input });
+            //parameters.Add(new OracleParameter { ParameterName = "PRF42_TIME", Value = _batch.RF42_TIME, Direction = ParameterDirection.Input });
+
+            if (_batch.RF42_ID > 0)
+            {
+                await _dbManager.ExecuteStoredProcedureAsync("Pkg_RF42_BATCH.Edit_Data", parameters, cancellationToken);
+            }
+            else
+            {
+                parameters.Add(new OracleParameter { ParameterName = "PRF42_Member_Code_Id", Value = _batch.RF42_MEMBER_CODE_ID, Direction = ParameterDirection.Input });
+                
+                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF42_BATCH.Add_Data", parameters, cancellationToken);
+                batchid = int.Parse(result.GetString("PKey"));
+            }
+
+            return batchid;
+
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Directfn.Custody.Api.Controllers
             return Success(data);
         }
 
-        [AuditAction("GET_ROLES-BY-ID")]
+        [AuditAction("GET_ROLES_BY_ID")]
         [HttpGet("get-roles-by-id")]
         public async Task<IActionResult> GetById(int roleId, CancellationToken cancellationToken)
         {

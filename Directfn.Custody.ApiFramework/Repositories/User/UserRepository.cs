@@ -27,7 +27,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
 
         public async Task<LoginUserRecord?> GetUserForLoginAsync(string loginId, string rf48Code, CancellationToken cancellationToken)
         {
-            List<OracleParameter> parameters = new() { new OracleParameter("pview", OracleDbType.RefCursor) { Direction = ParameterDirection.Output }, new OracleParameter("P_login", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = loginId }, new OracleParameter("p_rf48_code", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = rf48Code } };
+            List<OracleParameter> parameters = new() 
+            { 
+                new OracleParameter("pview", OracleDbType.RefCursor) { Direction = ParameterDirection.Output }, 
+                new OracleParameter("P_login", OracleDbType.Varchar2) { Direction = ParameterDirection.Input, Value = loginId }, 
+                new OracleParameter("p_rf48_code", OracleDbType.Decimal) { Direction = ParameterDirection.Input, Value = rf48Code } 
+            };
 
             List<LoginUserRecord> users = await _dbManager.GetStoredProcedureRefCursorAsync<LoginUserRecord>("Pkg_UM02_USERS.User_Login", parameters, "pview", cancellationToken);
 
@@ -172,7 +177,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 data.UM02_SUPERVISOR = -1;
             }
 
-            data.UM02_PASSWORD = "default123";// _legacyPasswordService.EncryptLegacyPassword("default123");                //Convert.ToString(ConfigurationManager.AppSettings["Default_Password"]);
+            data.UM02_PASSWORD = "MTNILgAAQDjlkny6pOrG5g==";// _legacyPasswordService.EncryptLegacyPassword("default123");                //Convert.ToString(ConfigurationManager.AppSettings["Default_Password"]);
             data.UM02_FIRST_LOGIN = 1;
 
             if (user.isLockAccount)

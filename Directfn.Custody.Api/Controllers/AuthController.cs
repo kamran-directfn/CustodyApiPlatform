@@ -243,7 +243,7 @@ namespace Directfn.Custody.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (_custodyUserContext.IsAuthenticated)
+            if (!_custodyUserContext.IsAuthenticated)
             {
                 return Unauthorized(new { Success = false, Message = "User is not authenticated." });
             }

@@ -31,7 +31,7 @@ public sealed class MenuController : CustodyControllerBase
     [HttpGet("left")]
     public async Task<IActionResult> GetLeftMenu(CancellationToken cancellationToken)
     {
-        if (_custodyUserContext.IsAuthenticated)
+        if (!_custodyUserContext.IsAuthenticated)
         {
             return Unauthorized(new { Success = false, Message = "User is not authenticated." });
         }

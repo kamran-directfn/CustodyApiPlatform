@@ -31,7 +31,7 @@ public sealed class OperationApprovalActionFilter : IAsyncActionFilter
             return;
         }
 
-        if (_custodyUserContext.IsAuthenticated)
+        if (!_custodyUserContext.IsAuthenticated)
         {
             context.Result = BuildForbiddenResult("User is not authenticated.");
             return;

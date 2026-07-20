@@ -6,17 +6,18 @@ public interface ICustodyUserContext
 {
     bool IsAuthenticated { get; }
 
-    long? UserId { get; }
+    long UserId { get; }
 
-    string? UserName { get; }
+    string UserName { get; }
 
-    string? Email { get; }
+    string Email { get; }
 
     string? SessionId { get; }
 
-    string? MemberCode { get; }
+    string MemberCode { get; }
 
-    long? MemberCodeId { get; }
+    long MemberCodeId { get; }
+    long PortfolioGroupId { get; } 
 
     string? IpAddress { get; }
 

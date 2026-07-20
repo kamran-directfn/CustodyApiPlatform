@@ -4,7 +4,7 @@ namespace Directfn.Custody.Api.Security
 {
     public sealed class FakeEntitlementService : IEntitlementService
     {
-        public Task<bool> HasAccessAsync(string userId, string controllerName, string actionName, CancellationToken cancellationToken)
+        public Task<bool> HasAccessAsync(long userId, string controllerName, string actionName, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }

@@ -16,5 +16,7 @@ namespace Directfn.Custody.ApiFramework.Responses
         {
             return new ApiResponse<T> { Success = false, Errors = errors, CorrelationId = correlationId };
         }
+        public IReadOnlyDictionary<string, object>? Metadata { get; init; }
     }
 }
+    

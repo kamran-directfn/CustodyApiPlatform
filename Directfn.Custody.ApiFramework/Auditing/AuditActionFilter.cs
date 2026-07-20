@@ -10,14 +10,14 @@ namespace Directfn.Custody.ApiFramework.Auditing;
 public sealed class AuditActionFilter : IAsyncActionFilter
 {
     private readonly IAuditWriter _auditWriter;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICustodyUserContext _custodyUserContext;
     private readonly ICorrelationIdAccessor _correlationIdAccessor;
     private readonly AuditOptions _auditOptions;
 
-    public AuditActionFilter(IAuditWriter auditWriter, ICurrentUserService currentUserService, ICorrelationIdAccessor correlationIdAccessor, IOptions<AuditOptions> auditOptions)
+    public AuditActionFilter(IAuditWriter auditWriter, ICustodyUserContext custodyUserContext, ICorrelationIdAccessor correlationIdAccessor, IOptions<AuditOptions> auditOptions)
     {
         _auditWriter = auditWriter;
-        _currentUserService = currentUserService;
+        _custodyUserContext = custodyUserContext;
         _correlationIdAccessor = correlationIdAccessor;
         _auditOptions = auditOptions.Value;
     }
@@ -63,9 +63,9 @@ public sealed class AuditActionFilter : IAsyncActionFilter
 
         return new AuditEvent
         {
-            UserId = _currentUserService.UserId,
-            UserName = _currentUserService.UserName,
-            SessionId = _currentUserService.SessionId,
+            UserId = _custodyUserContext.UserId.ToString(),
+            UserName = _custodyUserContext.UserName,
+            SessionId = _custodyUserContext.SessionId,
             CorrelationId = _correlationIdAccessor.CorrelationId,
             HttpMethod = context.HttpContext.Request.Method,
             Path = context.HttpContext.Request.Path.Value,

@@ -61,6 +61,11 @@ namespace Directfn.Custody.ApiFramework.Authentication
                 claims.Add(new Claim("member_code_id", request.MemberCodeId));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.PortfolioGroupId))
+            {
+                claims.Add(new Claim("portfolio_group_id", request.PortfolioGroupId));
+            }
+
             foreach (string role in request.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

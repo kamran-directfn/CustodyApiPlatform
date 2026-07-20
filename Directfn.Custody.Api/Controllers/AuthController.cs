@@ -27,17 +27,17 @@ namespace Directfn.Custody.Api.Controllers
         private readonly ITokenFingerprintService _tokenFingerprintService;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly IAuthTokenStore _authTokenStore;
-        private readonly ICurrentUserService _currentUserService;
+        private readonly ICustodyUserContext _custodyUserContext;
         private readonly ILegacyPasswordService _legacyPasswordService;
         private readonly IAuditWriter _auditWriter;
-        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, ICurrentUserService currentUserService, ILegacyPasswordService legacyPasswordService,IAuditWriter auditWriter, IOptions<AuthOptions> authOptions)
+        public AuthController(IUserRepository userRepository, IJwtTokenService jwtTokenService, ITokenFingerprintService tokenFingerprintService, IRefreshTokenService refreshTokenService, IAuthTokenStore authTokenStore, ICustodyUserContext custodyUserContext, ILegacyPasswordService legacyPasswordService,IAuditWriter auditWriter, IOptions<AuthOptions> authOptions)
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
             _tokenFingerprintService = tokenFingerprintService;
             _refreshTokenService = refreshTokenService;
             _authTokenStore = authTokenStore;
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
             _legacyPasswordService = legacyPasswordService;
             _auditWriter = auditWriter; 
             _authOptions = authOptions.Value;
@@ -83,6 +83,7 @@ namespace Directfn.Custody.Api.Controllers
                     Email = user.Um02Email,
                     MemberCode = request.MemberCode,
                     MemberCodeId = memberCode.Rf48Id.ToString(),
+                    PortfolioGroupId = user.Um09Um14Id?.ToString() ?? string.Empty, 
                     Roles = ["CUSTODY_ADMIN"]
                 };
 
@@ -234,16 +235,13 @@ namespace Directfn.Custody.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+            if (_custodyUserContext.IsAuthenticated)
             {
                 return Unauthorized(new { Success = false, Message = "User is not authenticated." });
             }
-
-            long userId = Convert.ToInt64(_currentUserService.UserId);
-
             string encryptedPassword = _legacyPasswordService.EncryptLegacyPassword(request.NewPassword);
 
-            await _userRepository.ChangeFirstLoginPasswordAsync(userId, encryptedPassword, cancellationToken);
+            await _userRepository.ChangeFirstLoginPasswordAsync(_custodyUserContext.UserId, encryptedPassword, cancellationToken);
 
             return Success(new
             {

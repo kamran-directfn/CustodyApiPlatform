@@ -18,17 +18,18 @@ internal sealed class CustodyUserContext : ICustodyUserContext
 
     public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;
 
-    public long? UserId => TryGetLong(ClaimTypes.NameIdentifier);
+    public long UserId => TryGetLong(ClaimTypes.NameIdentifier);
 
-    public string? UserName => GetClaim(ClaimTypes.Name);
+    public string UserName => GetClaim(ClaimTypes.Name);
 
-    public string? Email => GetClaim(ClaimTypes.Email);
+    public string Email => GetClaim(ClaimTypes.Email);
 
-    public string? SessionId => GetClaim("sid");
+    public string SessionId => GetClaim("sid");
 
-    public string? MemberCode => GetClaim("member_code");
+    public string MemberCode => GetClaim("member_code");
 
-    public long? MemberCodeId => TryGetLong("member_code_id");
+    public long MemberCodeId => TryGetLong("member_code_id");
+    public long  PortfolioGroupId => TryGetLong("portfolio_group_id");    
 
     public string? IpAddress => HttpContext?.Connection.RemoteIpAddress?.ToString();
 
@@ -48,12 +49,11 @@ internal sealed class CustodyUserContext : ICustodyUserContext
         return User?.FindFirst(claimType)?.Value;
     }
 
-    private long? TryGetLong(string claimType)
+    private long TryGetLong(string claimType)
     {
         string? value = GetClaim(claimType);
-
         return long.TryParse(value, out long result)
             ? result
-            : null;
+            : 0;
     }
 }

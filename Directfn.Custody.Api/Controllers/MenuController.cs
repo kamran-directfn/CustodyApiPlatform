@@ -17,13 +17,13 @@ namespace Directfn.Custody.Api.Controllers;
 public sealed class MenuController : CustodyControllerBase
 {
     private readonly IUserRepository _userRepository;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICustodyUserContext _custodyUserContext;
     private readonly ILeftMenuBuilder _leftMenuBuilder;
 
-    public MenuController(IUserRepository userRepository, ICurrentUserService currentUserService, ILeftMenuBuilder leftMenuBuilder)
+    public MenuController(IUserRepository userRepository, ICustodyUserContext custodyUserContext, ILeftMenuBuilder leftMenuBuilder)
     {
         _userRepository = userRepository;
-        _currentUserService = currentUserService;
+        _custodyUserContext = custodyUserContext;   
         _leftMenuBuilder = leftMenuBuilder;
     }
 
@@ -31,14 +31,11 @@ public sealed class MenuController : CustodyControllerBase
     [HttpGet("left")]
     public async Task<IActionResult> GetLeftMenu(CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+        if (_custodyUserContext.IsAuthenticated)
         {
             return Unauthorized(new { Success = false, Message = "User is not authenticated." });
         }
-
-        long userId = Convert.ToInt64(_currentUserService.UserId);
-
-        var entitlements = await _userRepository.GetUserEntitlementsAsync(userId, cancellationToken);
+        var entitlements = await _userRepository.GetUserEntitlementsAsync(_custodyUserContext.UserId, cancellationToken);
 
         var menu = _leftMenuBuilder.Build(entitlements);
 

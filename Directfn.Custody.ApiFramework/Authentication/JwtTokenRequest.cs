@@ -15,6 +15,7 @@ namespace Directfn.Custody.ApiFramework.Authentication
         public string? MemberCode { get; init; }
 
         public string? MemberCodeId { get; init; }
+        public string PortfolioGroupId { get; init; } = default!;   
         public IReadOnlyList<string> Roles { get; init; } = [];
     }
 }

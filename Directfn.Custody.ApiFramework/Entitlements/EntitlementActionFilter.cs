@@ -11,12 +11,13 @@ namespace Directfn.Custody.ApiFramework.Entitlements
 {
     public sealed class EntitlementActionFilter : IAsyncActionFilter
     {
-        private readonly ICurrentUserService _currentUserService;
+        
+        private readonly ICustodyUserContext _custodyUserContext;
         private readonly IEntitlementService _entitlementService;
 
-        public EntitlementActionFilter(ICurrentUserService currentUserService, IEntitlementService entitlementService)
+        public EntitlementActionFilter(ICustodyUserContext custodyUserContext, IEntitlementService entitlementService)
         {
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
             _entitlementService = entitlementService;
         }
 
@@ -28,7 +29,7 @@ namespace Directfn.Custody.ApiFramework.Entitlements
                 return;
             }
 
-            if (!_currentUserService.IsAuthenticated || string.IsNullOrWhiteSpace(_currentUserService.UserId))
+            if (!_custodyUserContext.IsAuthenticated)
             {
                 context.Result = new ObjectResult(ApiResponse<object>.Fail([
                     new ApiError { Code = "UNAUTHORIZED", Message = "Authentication is required." }
@@ -47,7 +48,7 @@ namespace Directfn.Custody.ApiFramework.Entitlements
                 return;
             }
 
-            bool hasAccess = await _entitlementService.HasAccessAsync(_currentUserService.UserId, controllerName, actionName, context.HttpContext.RequestAborted);
+            bool hasAccess = await _entitlementService.HasAccessAsync(_custodyUserContext.UserId, controllerName, actionName, context.HttpContext.RequestAborted);
 
             if (!hasAccess)
             {

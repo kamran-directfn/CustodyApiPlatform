@@ -2,6 +2,8 @@ using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Auditing.Oracle;
+using Directfn.Custody.ApiFramework.Auditing.Oracle;
+using Directfn.Custody.ApiFramework.Auditing.SQLite;
 using Directfn.Custody.ApiFramework.Auditing.SQLite;
 using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
@@ -11,8 +13,11 @@ using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Menus;
+using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Passwords;
+using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
+using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Responses;
 using Directfn.Custody.ApiFramework.Security;
@@ -134,8 +139,10 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
             services.AddScoped<ILeftMenuBuilder, LeftMenuBuilder>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRolesRepository, RolesRepository>();
             services.AddScoped<IOperationApprovalRepository, OperationApprovalRepository>();
             services.AddScoped<OperationApprovalActionFilter>();
+            services.AddScoped<ICommonRepository, CommonRepository>();
 
             services.AddCors(options =>
             {

@@ -42,7 +42,7 @@ namespace Directfn.Custody.ApiFramework.Database
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = procedureName;
 
-            AddParameters(command, parameters);
+                AddParameters(command, parameters);
 
             await connection.OpenAsync(cancellationToken);
 
@@ -106,7 +106,7 @@ namespace Directfn.Custody.ApiFramework.Database
 
             DataTable dataTable = new();
             dataTable.Load(reader);
-
+            command.Parameters.Clear();
             return dataTable;
         }
 

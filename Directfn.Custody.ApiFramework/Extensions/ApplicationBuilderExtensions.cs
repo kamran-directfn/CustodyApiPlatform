@@ -51,7 +51,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             app.UseCors(ServiceCollectionExtensions.DefaultCorsPolicyName);
 
             app.UseAuthentication();
-            app.UseMiddleware<FingerprintValidationMiddleware>();
+            //app.UseMiddleware<FingerprintValidationMiddleware>();
             app.UseAuthorization();
 
             app.MapHealthChecks("/health");

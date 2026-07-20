@@ -13,6 +13,12 @@ namespace Directfn.Custody.ApiFramework.Controllers
 
             return Ok(ApiResponse<T>.Ok(data, correlationId));
         }
+        protected IActionResult Success<T>(T data,IReadOnlyDictionary<string, object> metadata)
+        {
+            string? correlationId = HttpContext.Items[CorrelationIdMiddleware.HeaderName]?.ToString();
+
+            return Ok(ApiResponse<T>.Ok(data, correlationId, metadata));
+        }
 
         protected IActionResult CreatedSuccess<T>(string actionName, object routeValues, T data)
         {

@@ -7,9 +7,9 @@ namespace Directfn.Custody.ApiFramework.Responses
         public IReadOnlyList<ApiError> Errors { get; init; } = [];
         public string? CorrelationId { get; init; }
 
-        public static ApiResponse<T> Ok(T data, string? correlationId = null)
+        public static ApiResponse<T> Ok(T data, string? correlationId = null, IReadOnlyDictionary<string, object>? metadata = null)
         {
-            return new ApiResponse<T> { Success = true, Data = data, CorrelationId = correlationId };
+            return new ApiResponse<T> { Success = true, Data = data, CorrelationId = correlationId, Metadata = metadata };
         }
 
         public static ApiResponse<T> Fail(IReadOnlyList<ApiError> errors, string? correlationId = null)

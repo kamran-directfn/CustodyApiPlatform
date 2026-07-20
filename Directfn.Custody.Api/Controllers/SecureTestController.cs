@@ -15,11 +15,13 @@ namespace Directfn.Custody.Api.Controllers
 
     public sealed class SecureTestController : CustodyControllerBase
     {
-        private readonly ICurrentUserService _currentUserService;
+        
+        private readonly ICustodyUserContext _custodyUserContext;
 
-        public SecureTestController(ICurrentUserService currentUserService)
+        public SecureTestController(ICustodyUserContext userContext)
         {
-            _currentUserService = currentUserService;
+             
+            _custodyUserContext = userContext;
         }
 
         [HttpGet("me")]
@@ -27,15 +29,33 @@ namespace Directfn.Custody.Api.Controllers
         {
             var data = new
             {
-                _currentUserService.IsAuthenticated,
-                _currentUserService.UserId,
-                _currentUserService.UserName,
-                _currentUserService.SessionId,
-                _currentUserService.Email,
-                Claims = _currentUserService.Claims.Select(x => new { x.Type, x.Value })
+                _custodyUserContext.IsAuthenticated,
+                _custodyUserContext.UserId,
+                _custodyUserContext.UserName,
+                _custodyUserContext.SessionId,
+                _custodyUserContext.Email,
+                Claims = _custodyUserContext.Claims.Select(x => new { x.Type, x.Value })
             };
 
             return Success(data);
+        }
+
+        [HttpGet("context")]
+        public IActionResult Context()
+        {
+            return Success(new
+            {
+                _custodyUserContext.IsAuthenticated,
+                _custodyUserContext.UserId,
+                _custodyUserContext.UserName,
+                _custodyUserContext.Email,
+                _custodyUserContext.SessionId,
+                _custodyUserContext.MemberCode,
+                _custodyUserContext.MemberCodeId,
+                _custodyUserContext.IpAddress,
+                _custodyUserContext.UserAgent,
+                _custodyUserContext.CorrelationId
+            });
         }
     }
 }

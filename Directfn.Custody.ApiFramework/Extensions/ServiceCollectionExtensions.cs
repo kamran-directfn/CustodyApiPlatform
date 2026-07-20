@@ -20,10 +20,12 @@ using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Repositories.User;
+using Directfn.Custody.ApiFramework.Responses;
 using Directfn.Custody.ApiFramework.Security;
 using Directfn.Custody.ApiFramework.Sessions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -47,6 +49,29 @@ namespace Directfn.Custody.ApiFramework.Extensions
                 options.Filters.Add<AuditActionFilter>();
                 options.Filters.Add<EntitlementActionFilter>();
                 options.Filters.Add<OperationApprovalActionFilter>();
+
+                
+            });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    List<ApiError> errors = context.ModelState
+                        .Where(x => x.Value?.Errors.Count > 0)
+                        .SelectMany(x => x.Value!.Errors.Select(e => new ApiError
+                        {
+                            Code = "VALIDATION_ERROR",
+                            Field = x.Key,
+                            Message = e.ErrorMessage
+                        })).ToList();
+
+                    ApiResponse<object> response = ApiResponse<object>.Fail(
+                        errors,
+                        context.HttpContext.TraceIdentifier);
+
+                    return new BadRequestObjectResult(response);
+                };
             });
 
             services.AddApiVersioning(options =>
@@ -59,6 +84,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
 
 
             services.AddHttpContextAccessor();
+            services.AddScoped<ICustodyUserContext, CustodyUserContext>();
             services.AddDataProtection();
             services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.SectionName));
             services.Configure<AuthTokenStoreOptions>(configuration.GetSection(AuthTokenStoreOptions.SectionName));
@@ -112,7 +138,6 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddSingleton<ILegacyPasswordService, TripleDesLegacyPasswordService>();
 
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ILeftMenuBuilder, LeftMenuBuilder>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRolesRepository, RolesRepository>();
@@ -247,12 +272,12 @@ namespace Directfn.Custody.ApiFramework.Extensions
                             Success = false,
                             Errors = new[]
                             {
-            new
-            {
-                Code = "AUTHENTICATION_FAILED",
-                Message = message
-            }
-        },
+                                new
+                                {
+                                    Code = "AUTHENTICATION_FAILED",
+                                    Message = message
+                                }
+                            },
                             Debug = new
                             {
                                 HasAuthorizationHeader = hasAuthorizationHeader,

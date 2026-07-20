@@ -3,6 +3,7 @@ using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Responses;
 using Directfn.Custody.ApiFramework.Sessions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Json;
@@ -14,29 +15,37 @@ namespace Directfn.Custody.ApiFramework.Middleware
         private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         private readonly AuthOptions _authOptions;
+        private readonly ILogger<FingerprintValidationMiddleware> _logger;  
 
         private readonly RequestDelegate _next;
         private readonly ITokenFingerprintService _tokenFingerprintService;
 
-        public FingerprintValidationMiddleware(RequestDelegate next, IOptions<AuthOptions> authOptions, ITokenFingerprintService tokenFingerprintService)
+        public FingerprintValidationMiddleware(RequestDelegate next, IOptions<AuthOptions> authOptions, ITokenFingerprintService tokenFingerprintService, ILogger<FingerprintValidationMiddleware> logger)
         {
             _next = next;
             _authOptions = authOptions.Value;
             _tokenFingerprintService = tokenFingerprintService;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context, IAuthSessionService authSessionService)
         {
             if (!ShouldValidateFingerprint(context))
             {
+                _logger.LogDebug("Fingerprint validation skipped for path {Path}", context.Request.Path);
                 await _next(context);
                 return;
             }
+
+            _logger.LogInformation("Fingerprint validation started for path {Path}", context.Request.Path);
+
+            _logger.LogInformation("Incoming cookies: {Cookies}", string.Join(", ", context.Request.Cookies.Keys));
 
             string? fingerprintHashClaim = context.User.FindFirstValue("fp_hash");
 
             if (string.IsNullOrWhiteSpace(fingerprintHashClaim))
             {
+                _logger.LogWarning("Fingerprint validation failed. Missing fp_hash claim. Path={Path}", context.Request.Path);
                 await WriteUnauthorizedAsync(context, "FINGERPRINT_CLAIM_MISSING", "Token fingerprint is missing.");
 
                 return;
@@ -44,10 +53,12 @@ namespace Directfn.Custody.ApiFramework.Middleware
 
             if (!context.Request.Cookies.TryGetValue(_authOptions.FingerprintCookieName, out string? fingerprintCookieValue) || string.IsNullOrWhiteSpace(fingerprintCookieValue))
             {
-                await WriteUnauthorizedAsync(context, "FINGERPRINT_COOKIE_MISSING", "Token fingerprint cookie is missing.");
-
+                _logger.LogWarning("Fingerprint validation failed. Fingerprint hash mismatch. Path={Path}", context.Request.Path);
+                await WriteUnauthorizedAsync(context, "FINGERPRINT_MISMATCH", "Fingerprint validation failed.");
                 return;
             }
+
+            _logger.Log(LogLevel.Debug, fingerprintCookieValue);
 
             string computedFingerprintHash = _tokenFingerprintService.Hash(fingerprintCookieValue);
 
@@ -65,8 +76,8 @@ namespace Directfn.Custody.ApiFramework.Middleware
 
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(sessionId))
             {
-                await WriteUnauthorizedAsync(context, "SESSION_CLAIM_MISSING", "Token session information is missing.");
-
+                _logger.LogWarning("Fingerprint validation failed. Missing session claims. UserId={UserId}, SessionId={SessionId}, Path={Path}", userId, sessionId, context.Request.Path);
+                await WriteUnauthorizedAsync(context, "SESSION_CLAIM_MISSING", "Session claim is missing.");
                 return;
             }
 
@@ -74,10 +85,12 @@ namespace Directfn.Custody.ApiFramework.Middleware
 
             if (!isSessionValid)
             {
-                await WriteUnauthorizedAsync(context, "SESSION_INVALID", "Session is no longer valid.");
-
+                _logger.LogWarning("Fingerprint validation failed. Session invalid. UserId={UserId}, SessionId={SessionId}, Path={Path}", userId, sessionId, context.Request.Path);
+                await WriteUnauthorizedAsync(context, "SESSION_INVALID", "Session is invalid.");
                 return;
             }
+
+            _logger.LogInformation("Fingerprint validation succeeded. UserId={UserId}, SessionId={SessionId}, Path={Path}", userId, sessionId, context.Request.Path);
 
             await _next(context);
         }

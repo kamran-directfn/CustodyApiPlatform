@@ -12,12 +12,13 @@ namespace Directfn.Custody.ApiFramework.Approvals;
 public sealed class OperationApprovalActionFilter : IAsyncActionFilter
 {
     private readonly IOperationApprovalRepository _operationApprovalRepository;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICustodyUserContext _custodyUserContext;
+    
 
-    public OperationApprovalActionFilter(IOperationApprovalRepository operationApprovalRepository, ICurrentUserService currentUserService)
+    public OperationApprovalActionFilter(IOperationApprovalRepository operationApprovalRepository, ICustodyUserContext custodyUserContext)
     {
         _operationApprovalRepository = operationApprovalRepository;
-        _currentUserService = currentUserService;
+        _custodyUserContext = custodyUserContext;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -30,19 +31,13 @@ public sealed class OperationApprovalActionFilter : IAsyncActionFilter
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(_currentUserService.UserId))
+        if (_custodyUserContext.IsAuthenticated)
         {
             context.Result = BuildForbiddenResult("User is not authenticated.");
             return;
         }
 
-        string? memberCodeIdValue = context.HttpContext.User.FindFirst("member_code_id")?.Value;
-
-        if (string.IsNullOrWhiteSpace(memberCodeIdValue))
-        {
-            context.Result = BuildForbiddenResult("Member code ID was not found in token.");
-            return;
-        }
+        
 
         string? recordId = GetRecordIdFromActionArguments(context, attribute.RecordIdPropertyName);
 
@@ -52,10 +47,10 @@ public sealed class OperationApprovalActionFilter : IAsyncActionFilter
             return;
         }
 
-        long userId = Convert.ToInt64(_currentUserService.UserId);
-        long memberCodeId = Convert.ToInt64(memberCodeIdValue);
+         
+         
 
-        var approvalResult = await _operationApprovalRepository.CheckUserCanPerformOperationAsync(userId, memberCodeId, attribute.ScreenName, recordId, context.HttpContext.RequestAborted);
+        var approvalResult = await _operationApprovalRepository.CheckUserCanPerformOperationAsync(_custodyUserContext.UserId, _custodyUserContext.MemberCodeId, attribute.ScreenName, recordId, context.HttpContext.RequestAborted);
 
         if (approvalResult is null)
         {

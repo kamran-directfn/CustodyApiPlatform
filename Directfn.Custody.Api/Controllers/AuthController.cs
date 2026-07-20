@@ -85,7 +85,12 @@ namespace Directfn.Custody.Api.Controllers
                     Email = user.Um02Email,
                     MemberCode = request.MemberCode,
                     MemberCodeId = memberCode.Rf48Id.ToString(),
-                    Roles = ["CUSTODY_ADMIN"]
+                    Roles = ["CUSTODY_ADMIN"],
+                    ImageURL = user.Um02Image,
+                    FirstName = user.Um02Name,
+                    RoleName = "Admin-S"
+
+
                 };
 
                 TokenResult token = _jwtTokenService.GenerateAccessToken(tokenRequest);
@@ -172,7 +177,10 @@ namespace Directfn.Custody.Api.Controllers
                 Email = payload.Email,
                 MemberCode = payload.MemberCode,
                 MemberCodeId = payload.MemberCodeId,
-                Roles = payload.Roles
+                Roles = payload.Roles,
+                ImageURL = payload.ImageURL,
+                FirstName = payload.FirstName,
+                RoleName = "Admin-S"
             };
 
             TokenResult token = _jwtTokenService.GenerateAccessToken(tokenRequest);

@@ -61,6 +61,21 @@ namespace Directfn.Custody.ApiFramework.Authentication
                 claims.Add(new Claim("member_code_id", request.MemberCodeId));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.FirstName))
+            {
+                claims.Add(new Claim("first_name", request.FirstName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.ImageURL))
+            {
+                claims.Add(new Claim("image_url", request.ImageURL));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.RoleName))
+            {
+                claims.Add(new Claim("role_name", request.RoleName));
+            }
+
             foreach (string role in request.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));

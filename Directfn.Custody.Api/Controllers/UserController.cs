@@ -21,11 +21,11 @@ namespace Directfn.Custody.Api.Controllers
     public sealed class UserController : CustodyControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly ICurrentUserService _currentUserService;
-        public UserController(IUserRepository userRepository, ICurrentUserService currentUserService)
+        private readonly ICustodyUserContext _custodyUserContext;
+        public UserController(IUserRepository userRepository, ICustodyUserContext custodyUserContext)
         {
             _userRepository = userRepository;
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
         }
 
         [AuditAction("GET_USER")]
@@ -59,8 +59,8 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("save")]
         public async Task<IActionResult> Add([FromBody] UserRequestModel user)
         {
-            int userId = Int32.Parse(_currentUserService.UserId);
-            string userName = _currentUserService.UserName.ToString();
+            int userId = (int)_custodyUserContext.UserId;
+            string userName = _custodyUserContext.UserName.ToString();
 
             user.UM02_ID = await _userRepository.SaveUserAsync(user);
             
@@ -71,7 +71,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] UserRequestModel user)
         {
-            int userId = Int32.Parse(_currentUserService.UserId);
+            int userId = (int)_custodyUserContext.UserId;
             await _userRepository.UpdateUser(user);
 
             return Success(user);
@@ -82,7 +82,7 @@ namespace Directfn.Custody.Api.Controllers
        // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _userRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
 
             return Success(data);
@@ -92,7 +92,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _userRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
 
             return Success(data);
@@ -102,7 +102,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _userRepository.Delete(request.id, user_id, cancellationToken);
            
             return Success(data);

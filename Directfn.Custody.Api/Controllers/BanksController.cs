@@ -48,7 +48,7 @@ namespace Directfn.Custody.Api.Controllers
             return Success(data);
         }
 
-        [AuditAction("APPROVE_Bank")]
+        [AuditAction("APPROVE_BANK")]
         [HttpPost("approve-bank")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)

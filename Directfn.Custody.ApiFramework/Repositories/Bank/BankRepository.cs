@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Directfn.Custody.ApiFramework.Repositories.Bank
 {
-    internal class BankRepository : IBankRepository
+    public sealed class BankRepository : IBankRepository
     {
         private readonly IOracleDbManagerAsync _dbManager;
 
@@ -18,8 +18,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Bank
         {
             _dbManager = dbManager;
         }
-
-       
 
         public async Task<List<BanksViewModel>> GetAllBanksAsync(CancellationToken cancellationToken)
         {

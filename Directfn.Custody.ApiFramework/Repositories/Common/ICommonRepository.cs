@@ -14,5 +14,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         Task<List<PortfoliosByMembers>> GetGroupsByMember(CancellationToken cancellationToken);
         DataSet UploadFileDataSet(IFormFile file);
         Task<int> GetBatchID(string ScreenName, CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetBanks(CancellationToken cancellationToken);
     }
 }

@@ -65,5 +65,14 @@ namespace Directfn.Custody.Api.Controllers
           
             return Success(data);
         }
+
+        [AuditAction("GET_BANK_DRP")]
+        [HttpGet("get-banks")]
+        public async Task<IActionResult> GetBanks(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetBanks(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

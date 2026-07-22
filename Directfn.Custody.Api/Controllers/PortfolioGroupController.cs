@@ -23,19 +23,19 @@ namespace Directfn.Custody.Api.Controllers
     {
         private readonly IPortfolioGroupRepository _portfolioGroupRepository;
         private readonly ICommonRepository _commonRepository;
-        private readonly ICurrentUserService _currentUserService;
-        public PortfolioGroupController(IPortfolioGroupRepository portfolioGroupRepository, ICommonRepository commonRepository, ICurrentUserService currentUserService)
+        private readonly ICustodyUserContext _custodyUserContext;
+        public PortfolioGroupController(IPortfolioGroupRepository portfolioGroupRepository, ICommonRepository commonRepository, ICustodyUserContext custodyUserContext)
         {
             _portfolioGroupRepository = portfolioGroupRepository;
             _commonRepository = commonRepository;
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
         }
 
         [AuditAction("GET_PORTFOLIO")]
         [HttpGet("get-portfolio")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            int rd48_id = 1;// _currentUserService.m;
+            int rd48_id = 1;// (int)_custodyUserContext.MemberCodeId;
 
             List<PortfolioGroupViewModel> data = await _portfolioGroupRepository.GetPortfolio(rd48_id, cancellationToken);
 

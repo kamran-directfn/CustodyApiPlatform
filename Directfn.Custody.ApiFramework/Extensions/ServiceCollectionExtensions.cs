@@ -19,6 +19,7 @@ using Directfn.Custody.ApiFramework.Repositories.Bank;
 using Directfn.Custody.ApiFramework.Repositories.BankBranch;
 using Directfn.Custody.ApiFramework.Repositories.Broker;
 using Directfn.Custody.ApiFramework.Repositories.Common;
+using Directfn.Custody.ApiFramework.Repositories.Currency;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
@@ -151,6 +152,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IBankRepository, BankRepository>();
             services.AddScoped<IBankBranchRepository, BankBranchRepository>();
             services.AddScoped<IBrokerRepository, BrokerRepository>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 
             services.AddCors(options =>
             {

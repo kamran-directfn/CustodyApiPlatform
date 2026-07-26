@@ -83,5 +83,14 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(data);
         }
+
+        [AuditAction("GET_CURRENCY_DRP")]
+        [HttpGet("get-currencies")]
+        public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetCurrencies(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

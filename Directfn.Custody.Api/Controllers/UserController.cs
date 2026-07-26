@@ -57,22 +57,22 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("SAVE_USER")]
         [HttpPost("save")]
-        public async Task<IActionResult> Add([FromBody] UserRequestModel user)
+        public async Task<IActionResult> Add([FromBody] UserRequestModel user, CancellationToken cancellationToken)
         {
             int userId = (int)_custodyUserContext.UserId;
             string userName = _custodyUserContext.UserName.ToString();
 
-            user.UM02_ID = await _userRepository.SaveUserAsync(user);
+            user.UM02_ID = await _userRepository.SaveUserAsync(user, cancellationToken);
             
             return Success(user);
         }
 
         [AuditAction("UPDATE_USER")]
         [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody] UserRequestModel user)
+        public async Task<IActionResult> Update([FromBody] UserRequestModel user, CancellationToken cancellationToken)
         {
             int userId = (int)_custodyUserContext.UserId;
-            await _userRepository.UpdateUser(user);
+            await _userRepository.UpdateUser(user, cancellationToken);
 
             return Success(user);
         }

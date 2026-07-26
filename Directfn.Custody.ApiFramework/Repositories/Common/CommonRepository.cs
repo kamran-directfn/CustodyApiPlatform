@@ -160,5 +160,17 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return data;
 
         }
+
+        public async Task<List<DropDowns>> GetCurrencies(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Currency_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+
+        }
     }
 }

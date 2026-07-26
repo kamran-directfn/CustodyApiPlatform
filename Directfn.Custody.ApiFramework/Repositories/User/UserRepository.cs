@@ -157,14 +157,14 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             P_login.Value = userName;
             P_login.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(P_login);
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.User_Validtion", parameters);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.User_Validtion", parameters, cancellationToken);
 
             message = result.GetString("P_result");
 
             return message;
         }
 
-        public async Task<int> SaveUserAsync(UserRequestModel user)
+        public async Task<int> SaveUserAsync(UserRequestModel user, CancellationToken cancellationToken)
         {
             int new_user_id = 0;
             int userId = 1;//Int32.Parse(_currentUserService.UserId);
@@ -440,10 +440,10 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             PUM02_LAST_NAME.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM02_LAST_NAME);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Add_Data", parameters);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Add_Data", parameters, cancellationToken);
 
             new_user_id = int.Parse(result.GetString("PKey"));
-            AddUserRole(data, new_user_id);
+            AddUserRole(data, new_user_id, cancellationToken);
 
             if (user.userPortfolioGroups != null && user.userPortfolioGroups.Count() > 0)
             {
@@ -456,20 +456,20 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                         code.UM09_UM02_ID = new_user_id;
                         code.UM09_MODIFIED_BY = userId;
                         code.um09_um14_id = item.GroupId;
-                        await SaveMemberCode(code);
+                        await SaveMemberCode(code, cancellationToken);
                     }
                 }
             }
             else
             {
-                await SaveSadminPortfoliosEntries(new_user_id);
+                await SaveSadminPortfoliosEntries(new_user_id, cancellationToken);
             }
 
 
             return new_user_id;
         }
 
-        public async Task<string> UpdateUser(UserRequestModel user)
+        public async Task<string> UpdateUser(UserRequestModel user, CancellationToken cancellationToken)
         {
             string message = string.Empty;
             UserViewModel data = new UserViewModel();
@@ -747,11 +747,11 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             PUM02_LAST_NAME.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM02_LAST_NAME);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Edit_Data", parameters);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Edit_Data", parameters, cancellationToken);
 
-            EditUserRole(data);
+            EditUserRole(data,cancellationToken);
 
-            await DeleteMemberByUser(data.UM02_ID);
+            await DeleteMemberByUser(data.UM02_ID, cancellationToken);
             if (user.userPortfolioGroups != null && user.userPortfolioGroups.Count() > 0)
             {
                 foreach (var item in user.userPortfolioGroups)
@@ -763,13 +763,13 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                         code.UM09_UM02_ID = data.UM02_ID;
                         code.UM09_MODIFIED_BY = userId;
                         code.um09_um14_id = item.GroupId;
-                        await SaveMemberCode(code);
+                        await SaveMemberCode(code,cancellationToken);
                     }
                 }
             }
             else
             {
-                await SaveSadminPortfoliosEntries(data.UM02_ID);
+                await SaveSadminPortfoliosEntries(data.UM02_ID,cancellationToken);
             }
 
             message = result.GetString("PError");
@@ -801,7 +801,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             p_Modified_By.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(p_Modified_By);
 
-            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.Update_User_Post_Status", parameters);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM02_USERS.Update_User_Post_Status", parameters, cancellationToken);
 
             lst = await GetAllUserAsync(cancellationToken);
 
@@ -837,14 +837,14 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             PError.Direction = System.Data.ParameterDirection.Output;
             parameters.Add(PError);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Delete_Data", parameters);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM02_USERS.Delete_Data", parameters, cancellationToken);
 
             message = result.GetString("PError");
 
             return message;
         }
 
-        public async Task SaveMemberCode(MemberCode code)
+        public async Task SaveMemberCode(MemberCode code, CancellationToken cancellationToken)
         {
             List<OracleParameter> parameters = new List<OracleParameter>();
 
@@ -890,10 +890,10 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             PUM09_UM14_ID.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM09_UM14_ID);
 
-            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM09_USER_MEMBER.Add_Data", parameters);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM09_USER_MEMBER.Add_Data", parameters, cancellationToken);
         }
 
-        public async Task DeleteMemberByUser(int um02_id)
+        public async Task DeleteMemberByUser(int um02_id, CancellationToken cancellationToken)
         {
             List<OracleParameter> parameters = new List<OracleParameter>();
             OracleParameter pum02_id = new OracleParameter();
@@ -902,10 +902,10 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             pum02_id.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(pum02_id);
 
-            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM09_USER_MEMBER.DeleteMemberByUser", parameters);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM09_USER_MEMBER.DeleteMemberByUser", parameters, cancellationToken);
         }
 
-        public async Task SaveSadminPortfoliosEntries(int um02_Id)
+        public async Task SaveSadminPortfoliosEntries(int um02_Id, CancellationToken cancellationToken)
         {
             List<OracleParameter> parameters = new List<OracleParameter>();
             OracleParameter p_um02_id = new OracleParameter();
@@ -915,10 +915,10 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             p_um02_id.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(p_um02_id);
 
-            await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.mapp_sadmin_entries", parameters);
+            await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.mapp_sadmin_entries", parameters, cancellationToken);
         }
 
-        private async Task<bool> AddUserRole(UserViewModel user, int uM04_UM02_ID)
+        private async Task<bool> AddUserRole(UserViewModel user, int uM04_UM02_ID, CancellationToken cancellationToken)
         {
             if (user != null && uM04_UM02_ID > 0)
             {
@@ -965,7 +965,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 PUM04_Edited_by.Direction = System.Data.ParameterDirection.Input;
                 parameters.Add(PUM04_Edited_by);
 
-                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM04_USERS_ROLES.Add_Data", parameters);
+                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM04_USERS_ROLES.Add_Data", parameters, cancellationToken);
 
                 return true;
             }
@@ -973,7 +973,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
             return false;
         }
 
-        public async Task<bool> EditUserRole(UserViewModel user)
+        public async Task<bool> EditUserRole(UserViewModel user, CancellationToken cancellationToken)
         {
             if (user != null)
             {
@@ -1020,7 +1020,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.User
                 PUM04_Edited_by.Direction = System.Data.ParameterDirection.Input;
                 parameters.Add(PUM04_Edited_by);
 
-                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM04_USERS_ROLES.Edit_Data", parameters);
+                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM04_USERS_ROLES.Edit_Data", parameters, cancellationToken);
 
                 return true;
             }

@@ -181,7 +181,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             PUM03_IS_POSTED.Direction = System.Data.ParameterDirection.Input;
             parameters.Add(PUM03_IS_POSTED);
 
-            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM03_ROLES.Update_Role_Post_Status", parameters);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM03_ROLES.Update_Role_Post_Status", parameters, cancellationToken);
 
             lst = await GetAllRoles(cancellationToken);
 
@@ -293,7 +293,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             PError.Direction = System.Data.ParameterDirection.Output;
             parameters.Add(PError);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Delete_Data", parameters);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Delete_Data", parameters, cancellationToken);
 
             message = result.GetString("PError");
 
@@ -363,7 +363,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             PUM03_Edited_by.Value = null;
             lstParams.Add(PUM03_Edited_by);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Add_Data", lstParams);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Add_Data", lstParams, cancellationToken);
 
             role.UM03_ID = Convert.ToInt32(result.GetString("PKey"));
 
@@ -411,7 +411,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                     PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
                     entitlmentsParams.Add(PUM08_Edited_by);
 
-                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams);
+                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams, cancellationToken);
                 }
             }
 
@@ -481,7 +481,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
             PError.Direction = System.Data.ParameterDirection.Output;
             lstParams.Add(PError);
 
-            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Edit_Data", lstParams);
+            StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM03_ROLES.Edit_Data", lstParams, cancellationToken);
 
 
             if (role.Entitlments != null && role.Entitlments.Count > 0 && role.UM03_ID > 0)
@@ -501,7 +501,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                 PUM08_Edited_by.Value = role.UM03_MODIFIED_BY;
                 deleteEntitlmentsParams.Add(PUM08_Edited_by);
 
-                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM08_ROLES_ENTITLMENTS.Delete_Data", deleteEntitlmentsParams);
+                await _dbManager.ExecuteStoredProcedureAsync("Pkg_UM08_ROLES_ENTITLMENTS.Delete_Data", deleteEntitlmentsParams, cancellationToken);
 
                 foreach (var item in role.Entitlments)
                 {
@@ -544,10 +544,9 @@ namespace Directfn.Custody.ApiFramework.Repositories.Roles
                     PUM08_Edited_by2.Value = role.UM03_MODIFIED_BY;
                     entitlmentsParams.Add(PUM08_Edited_by2);
 
-                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams);
+                    StoredProcedureResult result2 = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_UM08_ROLES_ENTITLMENTS.Add_Data", entitlmentsParams, cancellationToken);
                 }
             }
-
 
             return role;
         }

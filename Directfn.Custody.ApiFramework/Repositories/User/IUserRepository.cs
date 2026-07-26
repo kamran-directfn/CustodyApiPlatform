@@ -14,13 +14,13 @@ public interface IUserRepository
     Task<List<UserViewModel>>GetAllUserAsync(CancellationToken cancellationToken);
     Task<UserViewModel>GetUserByIDAsync(int userId, CancellationToken cancellationToken);
     Task<string> VerifyUserNameAsync(string userName, CancellationToken cancellationToken);
-    Task<int> SaveUserAsync(UserRequestModel user);
-    Task<string> UpdateUser(UserRequestModel user);
+    Task<int> SaveUserAsync(UserRequestModel user, CancellationToken cancellationToken);
+    Task<string> UpdateUser(UserRequestModel user, CancellationToken cancellationToken);
     Task<List<UserViewModel>> UpdatePostStatus(int um02_id, int isPosted, int user_id, CancellationToken cancellationToken);
     Task<string> Delete(int um02_id, int user_id, CancellationToken cancellationToken);
-    Task SaveMemberCode(MemberCode code);
-    Task DeleteMemberByUser(int um02_id);
-    Task SaveSadminPortfoliosEntries(int um02_Id);
+    Task SaveMemberCode(MemberCode code, CancellationToken cancellationToken);
+    Task DeleteMemberByUser(int um02_id, CancellationToken cancellationToken);
+    Task SaveSadminPortfoliosEntries(int um02_Id, CancellationToken cancellationToken);
     Task<IReadOnlyList<UserEntitlementRecord>> GetUserEntitlementsAsync(long userId, CancellationToken cancellationToken);
     Task<MemberCodeRecord?> GetMemberCodeAsync(string memberCode, CancellationToken cancellationToken);
 }

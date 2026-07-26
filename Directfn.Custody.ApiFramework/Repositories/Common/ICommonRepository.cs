@@ -16,5 +16,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         Task<int> GetBatchID(string ScreenName, CancellationToken cancellationToken);
         Task<List<DropDowns>> GetBanks(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetMarkets(CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetCurrencies(CancellationToken cancellationToken);
     }
 }

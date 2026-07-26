@@ -74,5 +74,14 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(data);
         }
+
+        [AuditAction("GET_MARKET_DRP")]
+        [HttpGet("get-markets")]
+        public async Task<IActionResult> GetMarkets(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetMarkets(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

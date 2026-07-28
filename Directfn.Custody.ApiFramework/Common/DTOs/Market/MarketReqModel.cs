@@ -10,7 +10,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Market
         public string RF01_CODE { get; set; }
         public string RF01_DESCRIPTION { get; set; }
         public string RF01_DESCRIPTION_SEC { get; set; }
-        public int RF01_CURRENCY {  get; set; }
+        public string RF01_CURRENCY {  get; set; }
         public string RF01_START_TIME { get; set; }
         public string RF01_END_TIME { get; set; }
         public string[] Rf01_Weekend_Arr { get; set; }

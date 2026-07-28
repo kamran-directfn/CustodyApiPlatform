@@ -25,7 +25,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Market
 
             List<MarketViewModel> markets = await _dbManager.GetStoredProcedureRefCursorAsync<MarketViewModel>("Pkg_RF01_MARKETS.GET_DATA", lstParams, "pview", cancellationToken);
 
-            return markets;
+            return markets.OrderByDescending(x => x.RF01_MARKET_ID).ToList(); ;
         }
 
         public async Task<MarketViewModel> GetMarketById(int marketId, CancellationToken cancellationToken)
@@ -85,7 +85,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Market
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_TYPE", Value = null, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_EDITED_BY", Value = market.RF01_CREATED_BY, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_CREATED_BY", Value = market.RF01_CREATED_BY, Direction = System.Data.ParameterDirection.Input, });
-            lstParams.Add(new OracleParameter { ParameterName = "PError", Size = 32767, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter { ParameterName = "P_Error", Size = 32767, Direction = ParameterDirection.Output });
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF01_MARKETS.Add_Data", lstParams);
 

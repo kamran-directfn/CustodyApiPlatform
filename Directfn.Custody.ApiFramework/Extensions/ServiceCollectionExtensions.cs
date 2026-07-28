@@ -18,6 +18,7 @@ using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.Bank;
 using Directfn.Custody.ApiFramework.Repositories.BankBranch;
 using Directfn.Custody.ApiFramework.Repositories.Broker;
+using Directfn.Custody.ApiFramework.Repositories.Cities;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Countries;
 using Directfn.Custody.ApiFramework.Repositories.Currency;
@@ -157,6 +158,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IMarketRepository, MarketRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
+            services.AddScoped<ICitiesRepository, CitiesRepository>();
 
             services.AddCors(options =>
             {

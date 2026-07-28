@@ -1,10 +1,7 @@
-﻿using Directfn.Custody.ApiFramework.Common.DTOs.Banks;
-using Directfn.Custody.ApiFramework.Common.DTOs.Currency;
+﻿using Directfn.Custody.ApiFramework.Common.DTOs.Currency;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
 using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
@@ -32,7 +29,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Currency
 
         public async Task<CurrencyViewModel> GetCurrencyById(int currencyId, CancellationToken cancellationToken)
         {
-
             List<CurrencyViewModel> data = await GetAllCurrenciesAsync(cancellationToken);
 
             CurrencyViewModel currency = data.FirstOrDefault(x => x.RF08_ID == currencyId);
@@ -87,7 +83,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Currency
 
             return currency;
         }
-
+         
         public async Task<CurrencyReqModel> UpdateCurrency(CurrencyReqModel currency, CancellationToken cancellationToken)
         {
             List<OracleParameter> lstParams = new List<OracleParameter>();

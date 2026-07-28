@@ -92,5 +92,14 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(data);
         }
+
+        [AuditAction("GET_COUNTRY_DRP")]
+        [HttpGet("get-countries")]
+        public async Task<IActionResult> GetCountries(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetCountries(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

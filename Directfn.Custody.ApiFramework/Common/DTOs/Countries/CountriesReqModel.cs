@@ -13,5 +13,6 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Countries
         public int RF09_IS_GCC { get; set; }
         public int RF09_CREATED_BY { get; set; }
         public int RF09_MODIFIED_BY { get; set; }
+        public string? ERROR_MESSAGE { get; set; }
     }
 }

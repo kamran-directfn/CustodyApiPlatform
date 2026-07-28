@@ -22,6 +22,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Cities
         public decimal RF10_CMS_CITY_ID { get; set; }
         public decimal RF10_RF09_CMS_COUNTRY_ID { get; set; }
         public string RF10_IP_ADDRESS { get; set; }
+        public int RF10_IS_POSTED { get; set; }
         public bool IsPosted { get; set; }
         public List<CitiesViewModel> lstCities { get; set; }
         public List<DropDowns> Countries { get; set; }

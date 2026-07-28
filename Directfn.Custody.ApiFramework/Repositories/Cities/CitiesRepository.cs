@@ -60,7 +60,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Cities
         public async Task<CitiesReqModel> SaveCity(CitiesReqModel _cities, CancellationToken cancellationToken)
         {
             List<OracleParameter> lstParams = new List<OracleParameter>();
-            lstParams.Add(new OracleParameter() { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter() { ParameterName = "PKey", Size = 32767, Direction = ParameterDirection.Output });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_DESCRIPTION", Value = _cities.RF10_DESCRIPTION, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_DESCRIPTION_AR", Value = _cities.RF10_DESCRIPTION_AR, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_COUNTRY_ID", Value = _cities.RF10_COUNTRY_ID, Direction = System.Data.ParameterDirection.Input, });
@@ -82,6 +82,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Cities
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_DESCRIPTION_AR", Value = _cities.RF10_DESCRIPTION_AR, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_COUNTRY_ID", Value = _cities.RF10_COUNTRY_ID, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF10_EDITED_BY", Value = _cities.RF10_MODIFIED_BY, Direction = System.Data.ParameterDirection.Input, });
+            lstParams.Add(new OracleParameter { ParameterName = "PError", Size = 32767, Direction = ParameterDirection.Output });
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("PKG_RF10_CITIES.EDIT_DATA", lstParams);
 

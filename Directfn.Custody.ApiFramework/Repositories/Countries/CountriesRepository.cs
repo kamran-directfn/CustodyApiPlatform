@@ -86,7 +86,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.Countries
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF09_COUNTRY.ADD_DATA", lstParams);
 
-            _countries.RF09_COUNTRY_ID = Convert.ToInt32(result.GetString("PKey"));
+            _countries.ERROR_MESSAGE = result.GetString("PERROR");
+
+            if(string.IsNullOrEmpty(_countries.ERROR_MESSAGE))
+            {
+                _countries.RF09_COUNTRY_ID = Convert.ToInt32(result.GetString("PKey"));
+            }
 
             return _countries;
         }
@@ -112,6 +117,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Countries
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF09_COUNTRY.EDIT_DATA", lstParams);
 
+            _countries.ERROR_MESSAGE = result.GetString("PERROR");
             return _countries;
         }
 

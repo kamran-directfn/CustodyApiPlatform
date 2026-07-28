@@ -179,7 +179,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
 
             lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
 
-            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Countries", lstParams, "Pview", cancellationToken);
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Countries_New", lstParams, "Pview", cancellationToken);
 
             return data;
 

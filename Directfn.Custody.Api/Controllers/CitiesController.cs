@@ -30,7 +30,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_CITIES")]
-        [HttpGet("get-cities")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<CitiesViewModel> data = await _citiesRepository.GetAllCitiesAsync(cancellationToken);
@@ -39,7 +39,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_CITY_BY_ID")]
-        [HttpGet("get-city-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int cityId, CancellationToken cancellationToken)
         {
             CitiesViewModel data = await _citiesRepository.GetCityById(cityId, cancellationToken);
@@ -48,7 +48,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_CITY")]
-        [HttpPost("approve-city")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -59,7 +59,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_CITY")]
-        [HttpPost("pending-city")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -69,7 +69,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_CITY")]
-        [HttpPost("delete-city")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -79,7 +79,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_CITY")]
-        [HttpPost("save-city")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(CitiesReqModel request, CancellationToken cancellationToken)
         {
             request.RF10_CREATED_BY = (int)_custodyUserContext.UserId;
@@ -89,7 +89,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_CITY")]
-        [HttpPost("update-city")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(CitiesReqModel request, CancellationToken cancellationToken)
         {
             request.RF10_MODIFIED_BY = (int)_custodyUserContext.UserId;

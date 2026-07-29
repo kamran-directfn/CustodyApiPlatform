@@ -32,7 +32,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_PORTFOLIO")]
-        [HttpGet("get-portfolio")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             int rd48_id = 1;// (int)_custodyUserContext.MemberCodeId;
@@ -44,7 +44,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_PORTFOLIO_BY_ID")]
-        [HttpGet("get-portfolio-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetByID(int um14_id, CancellationToken cancellationToken)
         {
             PortfolioGroupById data = await _portfolioGroupRepository.GetPortfolioByID(um14_id, cancellationToken);
@@ -53,7 +53,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_PORTFOLIO")]
-        [HttpPost("save-portfolio")]
+        [HttpPost("save")]
         public async Task<IActionResult> Save(PortfolioGroupReqModel portfolio, CancellationToken cancellationToken)
         {
             portfolio.um14_rf48_id = 1; // User.MemberCodeID; need to be change
@@ -77,7 +77,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_PORTFOLIO")]
-        [HttpPost("update-portfolio")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(PortfolioGroupReqModel portfolio, CancellationToken cancellationToken)
         {
             portfolio.um14_updated_by = 1;// User.Id; need to be change
@@ -89,7 +89,7 @@ namespace Directfn.Custody.Api.Controllers
 
 
         [AuditAction("DELETE_PORTFOLIO")]
-        [HttpPost("delete-portfolio")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             //int user_id = Int32.Parse(_currentUserService.UserId);
@@ -98,7 +98,7 @@ namespace Directfn.Custody.Api.Controllers
             return Success(data);
         }
 
-        [HttpPost("upload-portfolio-excel")]
+        [HttpPost("upload-excel")]
         public async Task<IActionResult> Upload_ExcelFile(IFormFile file, CancellationToken cancellationToken)
         {
             int rf48_id = 1; // User.MemberCodeID; need to be change

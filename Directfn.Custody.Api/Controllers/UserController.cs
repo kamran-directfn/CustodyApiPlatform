@@ -29,7 +29,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_USER")]
-        [HttpGet("get-user")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<UserViewModel> data = await _userRepository.GetAllUserAsync(cancellationToken);
@@ -38,7 +38,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_USER_BY_ID")]
-        [HttpGet("get-user-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int UserId, CancellationToken cancellationToken)
         {
             UserViewModel data = await _userRepository.GetUserByIDAsync(UserId, cancellationToken);
@@ -47,7 +47,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("VERIFY_USER_NAME")]
-        [HttpGet("verify-username")]
+        [HttpGet("verifyname")]
         public async Task<IActionResult> VerifyUserName(string userName, CancellationToken cancellationToken)
         {
             var data = await _userRepository.VerifyUserNameAsync(userName, cancellationToken);

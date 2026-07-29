@@ -32,7 +32,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BANK_BRANCH_BRANCHES")]
-        [HttpGet("get-bank-branches")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<BankBranchViewModel> data = await _bankBranchRepository.GetAllBranchesAsync(cancellationToken);
@@ -41,7 +41,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BANK_BRANCH_BY_ID")]
-        [HttpGet("get-bank-branch-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int branchId, CancellationToken cancellationToken)
         {
             BankBranchViewModel data = await _bankBranchRepository.GetBranchById(branchId, cancellationToken);
@@ -50,7 +50,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_BANK_BRANCH")]
-        [HttpPost("approve-bank-branch")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -61,7 +61,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_BANK_BRANCH")]
-        [HttpPost("pending-bank-branch")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -71,7 +71,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_BANK_BRANCH")]
-        [HttpPost("delete-bank-branch")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -81,7 +81,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_BANK_BRANCH")]
-        [HttpPost("save-bank-branch")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(BankBranchReqModel request, CancellationToken cancellationToken)
         {
             request.RF04_MODIFIED_BY = (int)_custodyUserContext.UserId;
@@ -91,7 +91,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_BANK_BRANCH")]
-        [HttpPost("update-bank-branch")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(BankBranchReqModel request, CancellationToken cancellationToken)
         {
             request.RF04_MODIFIED_BY = (int)_custodyUserContext.UserId;

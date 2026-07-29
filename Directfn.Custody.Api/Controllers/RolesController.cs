@@ -49,7 +49,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_ROLES")]
-        [HttpGet("get-roles")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<RoleViewModel> data = await _rolesRepository.GetAllRoles(cancellationToken);
@@ -58,7 +58,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_ROLES_BY_ID")]
-        [HttpGet("get-roles-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int roleId, CancellationToken cancellationToken)
         {
             List<Group> entitlments = new List<Group>();

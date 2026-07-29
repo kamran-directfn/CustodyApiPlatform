@@ -23,6 +23,7 @@ using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Countries;
 using Directfn.Custody.ApiFramework.Repositories.Currency;
 using Directfn.Custody.ApiFramework.Repositories.Market;
+using Directfn.Custody.ApiFramework.Repositories.MarketSector;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
@@ -159,6 +160,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IMarketRepository, MarketRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<ICitiesRepository, CitiesRepository>();
+            services.AddScoped<IMarketSectorRepository, MarketSectorRepository>();
 
             services.AddCors(options =>
             {

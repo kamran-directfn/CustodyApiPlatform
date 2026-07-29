@@ -31,7 +31,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BANKS")]
-        [HttpGet("get-banks")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<BanksViewModel> data = await _bankRepository.GetAllBanksAsync(cancellationToken);
@@ -40,7 +40,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BANK_BY_ID")]
-        [HttpGet("get-bank-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int bankId, CancellationToken cancellationToken)
         {
             BanksViewModel data = await _bankRepository.GetBankById(bankId, cancellationToken);
@@ -49,7 +49,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_BANK")]
-        [HttpPost("approve-bank")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -60,7 +60,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_BANK")]
-        [HttpPost("pending-bank")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -70,7 +70,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_BANK")]
-        [HttpPost("delete-bank")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -80,7 +80,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_BANK")]
-        [HttpPost("save-bank")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(BankReqModel request, CancellationToken cancellationToken)
         {
             request.RF03_MODIFIED_BY = (int)_custodyUserContext.UserId;
@@ -90,7 +90,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_BANK")]
-        [HttpPost("update-bank")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(BankReqModel request, CancellationToken cancellationToken)
         {
             request.RF03_MODIFIED_BY = (int)_custodyUserContext.UserId;

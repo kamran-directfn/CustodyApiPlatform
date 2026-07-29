@@ -30,7 +30,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BROKER")]
-        [HttpGet("get-broker")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<BrokerViewModel> data = await _brokerRepository.GetAllBrokersAsync(cancellationToken);
@@ -39,7 +39,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BROKER_BY_ID")]
-        [HttpGet("get-broker-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int brokerId, CancellationToken cancellationToken)
         {
             BrokerViewModel data = await _brokerRepository.GetBrokerById(brokerId, cancellationToken);
@@ -48,7 +48,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_BROKER")]
-        [HttpPost("approve-broker")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -59,7 +59,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_BROKER")]
-        [HttpPost("pending-broker")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -69,7 +69,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_BROKER")]
-        [HttpPost("delete-broker")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -79,7 +79,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_BROKER_CACHE_DATA")]
-        [HttpGet("get-broker-cache-data")]
+        [HttpGet("get-cache-data")]
         public async Task<IActionResult> CacheBrokerData(CancellationToken cancellationToken)
         {
             List<BrokerCache> data = await _brokerRepository.CacheBrokerData(cancellationToken);
@@ -88,7 +88,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_BROKER_DATA")]
-        [HttpPost("save-broker-data")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(BrokerReqModel broker, CancellationToken cancellationToken)
         {
             BrokerReqModel data = await _brokerRepository.SaveBroker(broker, cancellationToken);
@@ -97,7 +97,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_BROKER_DATA")]
-        [HttpPost("update-broker-data")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(BrokerReqModel broker, CancellationToken cancellationToken)
         {
             BrokerReqModel data = await _brokerRepository.UpdateBroker(broker, cancellationToken);

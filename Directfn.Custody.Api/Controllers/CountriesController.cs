@@ -31,7 +31,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_COUNTRIES")]
-        [HttpGet("get-countries")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<CountriesViewModel> data = await _countriesRepository.GetAllCountriesAsync(cancellationToken);
@@ -40,7 +40,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_COUNTRY_BY_ID")]
-        [HttpGet("get-country-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int countryId, CancellationToken cancellationToken)
         {
             CountriesViewModel data = await _countriesRepository.GetCountryById(countryId, cancellationToken);
@@ -49,7 +49,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_COUNTRY")]
-        [HttpPost("approve-country")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -60,7 +60,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_COUNTRY")]
-        [HttpPost("pending-country")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -70,7 +70,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_COUNTRY")]
-        [HttpPost("delete-country")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -80,7 +80,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_COUNTRY")]
-        [HttpPost("save-country")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(CountriesReqModel request, CancellationToken cancellationToken)
         {
             request.RF09_CREATED_BY = (int)_custodyUserContext.UserId;
@@ -90,7 +90,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_COUNTRY")]
-        [HttpPost("update-country")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(CountriesReqModel request, CancellationToken cancellationToken)
         {
             request.RF09_MODIFIED_BY = (int)_custodyUserContext.UserId;

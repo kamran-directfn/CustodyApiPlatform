@@ -31,7 +31,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_MARKETS")]
-        [HttpGet("get-markets")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<MarketViewModel> data = await _marketRepository.GetAllMarketsAsync(cancellationToken);
@@ -40,7 +40,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_MARKET_BY_ID")]
-        [HttpGet("get-market-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int marketId, CancellationToken cancellationToken)
         {
             MarketViewModel data = await _marketRepository.GetMarketById(marketId, cancellationToken);
@@ -49,7 +49,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_MARKET")]
-        [HttpPost("approve-market")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -60,7 +60,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_MARKET")]
-        [HttpPost("pending-market")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -70,7 +70,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_MARKET")]
-        [HttpPost("delete-market")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -80,7 +80,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_MARKET")]
-        [HttpPost("save-market")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(MarketReqModel request, CancellationToken cancellationToken)
         {
             request.RF01_CREATED_BY = (int)_custodyUserContext.UserId;
@@ -90,7 +90,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_MARKET")]
-        [HttpPost("update-market")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(MarketReqModel request, CancellationToken cancellationToken)
         {
             request.RF01_MODIFIED_BY = (int)_custodyUserContext.UserId;

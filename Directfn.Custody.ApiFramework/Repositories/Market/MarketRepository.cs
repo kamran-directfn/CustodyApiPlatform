@@ -1,5 +1,4 @@
-﻿using Directfn.Custody.ApiFramework.Common.DTOs.Currency;
-using Directfn.Custody.ApiFramework.Common.DTOs.Market;
+﻿using Directfn.Custody.ApiFramework.Common.DTOs.Market;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
 using Oracle.ManagedDataAccess.Client;
@@ -32,9 +31,9 @@ namespace Directfn.Custody.ApiFramework.Repositories.Market
         {
             List<MarketViewModel> data = await GetAllMarketsAsync(cancellationToken);
 
-            MarketViewModel currency = data.FirstOrDefault(x => x.RF01_MARKET_ID == marketId);
+            MarketViewModel market = data.FirstOrDefault(x => x.RF01_MARKET_ID == marketId);
 
-            return currency;
+            return market;
         }
 
         public async Task<List<MarketViewModel>> UpdatePostStatus(int rf01_id, int isPosted, int user_id, CancellationToken cancellationToken)
@@ -83,7 +82,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Market
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_DESCRIPTION_SEC", Value = market.RF01_DESCRIPTION_SEC, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_STATUS", Value = 1, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_TYPE", Value = null, Direction = System.Data.ParameterDirection.Input, });
-            lstParams.Add(new OracleParameter() { ParameterName = "PRF01_EDITED_BY", Value = market.RF01_CREATED_BY, Direction = System.Data.ParameterDirection.Input, });
+            lstParams.Add(new OracleParameter() { ParameterName = "PRF01_EDITED_BY", Value = null, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRF01_CREATED_BY", Value = market.RF01_CREATED_BY, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter { ParameterName = "P_Error", Size = 32767, Direction = ParameterDirection.Output });
 

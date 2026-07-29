@@ -31,7 +31,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_CURRENCIES")]
-        [HttpGet("get-currencies")]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             List<CurrencyViewModel> data = await _currencyRepository.GetAllCurrenciesAsync(cancellationToken);
@@ -40,7 +40,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_CURRENCY_BY_ID")]
-        [HttpGet("get-currency-by-id")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(int currencyId, CancellationToken cancellationToken)
         {
             CurrencyViewModel data = await _currencyRepository.GetCurrencyById(currencyId, cancellationToken);
@@ -49,7 +49,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("APPROVE_CURRENCY")]
-        [HttpPost("approve-currency")]
+        [HttpPost("approve")]
         // [RequireOperationApprovalCheck("user", "Um02_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
@@ -60,7 +60,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("PENDING_CURRENCY")]
-        [HttpPost("pending-currency")]
+        [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -70,7 +70,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("DELETE_CURRENCY")]
-        [HttpPost("delete-currency")]
+        [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteRequest request, CancellationToken cancellationToken)
         {
             int user_id = (int)_custodyUserContext.UserId;
@@ -80,7 +80,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("SAVE_CURRENCY")]
-        [HttpPost("save-currency")]
+        [HttpPost("save")]
         public async Task<IActionResult> Add(CurrencyReqModel request, CancellationToken cancellationToken)
         {
             request.RF08_CREATED_BY = (int)_custodyUserContext.UserId;
@@ -90,7 +90,7 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("UPDATE_CURRENCY")]
-        [HttpPost("update-currency")]
+        [HttpPost("update")]
         public async Task<IActionResult> Update(CurrencyReqModel request, CancellationToken cancellationToken)
         {
             request.RF08_MODIFIED_BY = (int)_custodyUserContext.UserId;

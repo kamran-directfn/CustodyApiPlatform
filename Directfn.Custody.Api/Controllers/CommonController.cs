@@ -65,5 +65,41 @@ namespace Directfn.Custody.Api.Controllers
           
             return Success(data);
         }
+
+        [AuditAction("GET_BANK_DRP")]
+        [HttpGet("get-banks")]
+        public async Task<IActionResult> GetBanks(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetBanks(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_MARKET_DRP")]
+        [HttpGet("get-markets")]
+        public async Task<IActionResult> GetMarkets(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetMarkets(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_CURRENCY_DRP")]
+        [HttpGet("get-currencies")]
+        public async Task<IActionResult> GetCurrencies(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetCurrencies(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_COUNTRY_DRP")]
+        [HttpGet("get-countries")]
+        public async Task<IActionResult> GetCountries(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetCountries(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

@@ -25,11 +25,11 @@ namespace Directfn.Custody.Api.Controllers
     public class RolesController : CustodyControllerBase
     {
         private readonly IRolesRepository _rolesRepository;
-        private readonly ICurrentUserService _currentUserService;
-        public RolesController(IRolesRepository rolesRepository, ICurrentUserService currentUserService)
+        private readonly ICustodyUserContext _custodyUserContext;
+        public RolesController(IRolesRepository rolesRepository, ICustodyUserContext custodyUserContext)
         {
             _rolesRepository = rolesRepository;
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
         }
 
         [AuditAction("get-CONTROLS")]
@@ -78,7 +78,7 @@ namespace Directfn.Custody.Api.Controllers
         //[RequireOperationApprovalCheck("roles", "Um03_Id")]
         public async Task<IActionResult> Post(PostUnpostRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _rolesRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
 
             return Success(data);
@@ -88,7 +88,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("pending")]
         public async Task<IActionResult> UnPost(PostUnpostRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _rolesRepository.UpdatePostStatus(request.id, request.Is_posted, user_id, cancellationToken);
 
             return Success(data);
@@ -98,7 +98,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete (DeleteRequest request, CancellationToken cancellationToken)
         {
-            int user_id = Int32.Parse(_currentUserService.UserId);
+            int user_id = (int)_custodyUserContext.UserId;
             var data = await _rolesRepository.DeleteRoles(request.id, user_id, cancellationToken);
 
             return Success(data);
@@ -108,7 +108,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("save")]
         public async Task<IActionResult> Save(RoleRequest request, CancellationToken cancellationToken)
         {
-            request.Role.UM03_CREATED_BY =  Int32.Parse(_currentUserService.UserId);
+            request.Role.UM03_CREATED_BY = (int)_custodyUserContext.UserId;
 
             var data = await _rolesRepository.AddRoles(request.Role, request.Entitlements, cancellationToken);
 
@@ -119,7 +119,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> Update(RoleRequest request, CancellationToken cancellationToken)
         {
-            request.Role.UM03_MODIFIED_BY =  Int32.Parse(_currentUserService.UserId);
+            request.Role.UM03_MODIFIED_BY = (int)_custodyUserContext.UserId;
 
             var data = await _rolesRepository.UpdateRole(request.Role, request.Entitlements, cancellationToken);
 

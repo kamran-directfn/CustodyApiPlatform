@@ -15,7 +15,14 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Passwords;
+using Directfn.Custody.ApiFramework.Repositories.Bank;
+using Directfn.Custody.ApiFramework.Repositories.BankBranch;
+using Directfn.Custody.ApiFramework.Repositories.Broker;
+using Directfn.Custody.ApiFramework.Repositories.Cities;
 using Directfn.Custody.ApiFramework.Repositories.Common;
+using Directfn.Custody.ApiFramework.Repositories.Countries;
+using Directfn.Custody.ApiFramework.Repositories.Currency;
+using Directfn.Custody.ApiFramework.Repositories.Market;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
@@ -145,6 +152,13 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<OperationApprovalActionFilter>();
             services.AddScoped<ICommonRepository, CommonRepository>();
             services.AddScoped<IPortfolioGroupRepository, PortfolioGroupRepository>();
+            services.AddScoped<IBankRepository, BankRepository>();
+            services.AddScoped<IBankBranchRepository, BankBranchRepository>();
+            services.AddScoped<IBrokerRepository, BrokerRepository>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IMarketRepository, MarketRepository>();
+            services.AddScoped<ICountriesRepository, CountriesRepository>();
+            services.AddScoped<ICitiesRepository, CitiesRepository>();
 
             services.AddCors(options =>
             {

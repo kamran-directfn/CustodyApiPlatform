@@ -98,7 +98,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.PortfolioGroup
             return result;
         }
 
-        public async Task<int> AddUpdatePortfolio(PortfolioGroupReqModel portfolioGroup)
+        public async Task<int> AddUpdatePortfolio(PortfolioGroupReqModel portfolioGroup, CancellationToken cancellationToken)
         {
             int portfolio_id = 0;
             List<OracleParameter> lstParams = new();
@@ -110,7 +110,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.PortfolioGroup
                 lstParams.Add(new OracleParameter { ParameterName = "PUM14_NAME_SEC", OracleDbType = OracleDbType.Varchar2, Value = portfolioGroup.um14_group_description, Direction = ParameterDirection.Input });
                 lstParams.Add(new OracleParameter { ParameterName = "PUPDATED_BY", OracleDbType = OracleDbType.Int32, Value = portfolioGroup.um14_updated_by, Direction = ParameterDirection.Input });
 
-                await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.Edit_data", lstParams);
+                await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.Edit_data", lstParams, cancellationToken);
             }
             else
             {
@@ -120,7 +120,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.PortfolioGroup
                 lstParams.Add(new OracleParameter { ParameterName = "PRF48_ID", OracleDbType = OracleDbType.Int32, Value = portfolioGroup.um14_rf48_id, Direction = ParameterDirection.Input });
                 lstParams.Add(new OracleParameter { ParameterName = "PCREATED_BY", OracleDbType = OracleDbType.Int32, Value = portfolioGroup.um14_created_by, Direction = ParameterDirection.Input });
 
-                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("pkg_portfolio_groups.add_data", lstParams);
+                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("pkg_portfolio_groups.add_data", lstParams, cancellationToken);
                 portfolioGroup.um14_id = Convert.ToInt32(result.GetString("PKey"));
             }
 
@@ -129,14 +129,14 @@ namespace Directfn.Custody.ApiFramework.Repositories.PortfolioGroup
                 var _batchid = portfolioGroup.uploadedList.Select(x => x.UM15_BATCH_ID).First();
                 var _rf48_id = portfolioGroup.uploadedList.Select(x => x.UM14_RF48_ID).First();
 
-                await AddDetails(_batchid, portfolioGroup.um14_id);
+                await AddDetails(_batchid, portfolioGroup.um14_id, cancellationToken);
             }
 
             return portfolio_id;
         }
 
 
-        public async Task<bool> BulkInsertPortfolioAccount(List<PortfolioGroupValidate> portfolios)
+        public async Task<bool> BulkInsertPortfolioAccount(List<PortfolioGroupValidate> portfolios, CancellationToken cancellationToken)
         {
             string query = "insert into UM15_PORTFOLIO_GROUPS_VALIDATE(um15_id,um15_security_account,um15_created_date,um15_batch_id,um15_status,um15_remarks,um15_um14_id,um15_created_by,um15_rf48_id)  " +
                "values (um15_portfolio_groups_seq.nextval,:p_um15_security_account,sysdate,:p_um15_batch_id,:p_um15_status,:p_um15_remarks,:p_um15_um14_id,:p_um15_created_by,:p_um15_rf48_id)";
@@ -154,17 +154,17 @@ namespace Directfn.Custody.ApiFramework.Repositories.PortfolioGroup
             return await _dbManager.BulkInsertAsync(query, parameters, portfolios.Count) == portfolios.Count;
         }
 
-        public async Task AddDetails(int batchid, int um14_id)
+        public async Task AddDetails(int batchid, int um14_id, CancellationToken cancellationToken)
         {
             List<OracleParameter> lstParams = new();
 
             lstParams.Add(new OracleParameter { ParameterName = "p_batch_id", OracleDbType = OracleDbType.Varchar2, Value = batchid, Direction = ParameterDirection.Input });
             lstParams.Add(new OracleParameter { ParameterName = "p_um14_id", OracleDbType = OracleDbType.Varchar2, Value = um14_id, Direction = ParameterDirection.Input });
 
-            await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.add_details", lstParams);
+            await _dbManager.ExecuteStoredProcedureAsync("pkg_portfolio_groups.add_details", lstParams, cancellationToken);
         }
 
-        public List<PortfolioGroupValidate> GetPortfolioGroup(DataSet result, int batch_id, int rf48_id, int created_by)
+        public List<PortfolioGroupValidate> GetPortfolioGroup(DataSet result, int batch_id, int rf48_id, int created_by, CancellationToken cancellationToken)
         {
             List<PortfolioGroupValidate> portfolioList = new List<PortfolioGroupValidate>();
 

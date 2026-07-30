@@ -136,5 +136,53 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return batchid;
 
         }
+
+        public async Task<List<DropDowns>> GetBanks(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Bank_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+
+        }
+
+        public async Task<List<DropDowns>> GetMarkets(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Market_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+
+        }
+
+        public async Task<List<DropDowns>> GetCurrencies(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Currency_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+
+        }
+
+        public async Task<List<DropDowns>> GetCountries(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Countries_New", lstParams, "Pview", cancellationToken);
+
+            return data;
+
+        }
     }
 }

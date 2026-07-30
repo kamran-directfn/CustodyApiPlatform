@@ -23,19 +23,19 @@ namespace Directfn.Custody.Api.Controllers
     {
         private readonly IPortfolioGroupRepository _portfolioGroupRepository;
         private readonly ICommonRepository _commonRepository;
-        private readonly ICurrentUserService _currentUserService;
-        public PortfolioGroupController(IPortfolioGroupRepository portfolioGroupRepository, ICommonRepository commonRepository, ICurrentUserService currentUserService)
+        private readonly ICustodyUserContext _custodyUserContext;
+        public PortfolioGroupController(IPortfolioGroupRepository portfolioGroupRepository, ICommonRepository commonRepository, ICustodyUserContext custodyUserContext)
         {
             _portfolioGroupRepository = portfolioGroupRepository;
             _commonRepository = commonRepository;
-            _currentUserService = currentUserService;
+            _custodyUserContext = custodyUserContext;
         }
 
         [AuditAction("GET_PORTFOLIO")]
         [HttpGet("get-portfolio")]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            int rd48_id = 1;// _currentUserService.m;
+            int rd48_id = 1;// (int)_custodyUserContext.MemberCodeId;
 
             List<PortfolioGroupViewModel> data = await _portfolioGroupRepository.GetPortfolio(rd48_id, cancellationToken);
 
@@ -65,7 +65,7 @@ namespace Directfn.Custody.Api.Controllers
 
                 if (string.IsNullOrEmpty(name))
                 {
-                    int potfolio_id = await _portfolioGroupRepository.AddUpdatePortfolio(portfolio);
+                    int potfolio_id = await _portfolioGroupRepository.AddUpdatePortfolio(portfolio, cancellationToken);
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace Directfn.Custody.Api.Controllers
         {
             portfolio.um14_updated_by = 1;// User.Id; need to be change
 
-            int potfolio_id = await _portfolioGroupRepository.AddUpdatePortfolio(portfolio);
+            int potfolio_id = await _portfolioGroupRepository.AddUpdatePortfolio(portfolio, cancellationToken);
 
             return Success(portfolio);
         }
@@ -111,9 +111,9 @@ namespace Directfn.Custody.Api.Controllers
             {
                 int batch_id = await _commonRepository.GetBatchID("PORTFOLIO_GROUP", cancellationToken);
 
-                var Portfolio2 = _portfolioGroupRepository.GetPortfolioGroup(result, batch_id, rf48_id, created_by);
+                var Portfolio2 = _portfolioGroupRepository.GetPortfolioGroup(result, batch_id, rf48_id, created_by, cancellationToken);
 
-                bool is_sucess = _portfolioGroupRepository.BulkInsertPortfolioAccount(Portfolio2).Result;
+                bool is_sucess = _portfolioGroupRepository.BulkInsertPortfolioAccount(Portfolio2, cancellationToken).Result;
 
                 if (is_sucess)
                 {

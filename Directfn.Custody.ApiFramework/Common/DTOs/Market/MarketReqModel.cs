@@ -17,5 +17,6 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Market
         public string? RF01_WEEKEND { get; set; }
         public int RF01_CREATED_BY { get; set; }
         public int RF01_MODIFIED_BY { get; set; }
+        public string? ERROR_MESSAGE { get; set; }
     }
 }

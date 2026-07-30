@@ -27,6 +27,7 @@ using Directfn.Custody.ApiFramework.Repositories.MarketSector;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
+using Directfn.Custody.ApiFramework.Repositories.SubMarket;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Responses;
 using Directfn.Custody.ApiFramework.Security;
@@ -161,6 +162,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<ICitiesRepository, CitiesRepository>();
             services.AddScoped<IMarketSectorRepository, MarketSectorRepository>();
+            services.AddScoped<ISubMarketRepository, SubMarketRepository>();
 
             services.AddCors(options =>
             {

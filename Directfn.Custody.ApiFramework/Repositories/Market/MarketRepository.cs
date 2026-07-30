@@ -88,7 +88,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.Market
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF01_MARKETS.Add_Data", lstParams);
 
-            market.RF01_MARKET_ID = Convert.ToInt32(result.GetString("PKey"));
+            market.ERROR_MESSAGE = result.GetString("P_Error");
+
+            if (string.IsNullOrEmpty(market.ERROR_MESSAGE))
+            {
+                market.RF01_MARKET_ID = Convert.ToInt32(result.GetString("PKey"));
+            }
 
             return market;
         }

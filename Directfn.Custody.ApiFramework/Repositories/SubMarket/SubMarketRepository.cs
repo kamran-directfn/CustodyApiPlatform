@@ -58,7 +58,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.SubMarket
             lstParams.Add(new OracleParameter { ParameterName = "PRF16_EDITED_BY", OracleDbType = OracleDbType.Int32, Value = user_id, Direction = ParameterDirection.Input });
             lstParams.Add(new OracleParameter { ParameterName = "PError", Size = 32767, Direction = ParameterDirection.Output });
 
-            await _dbManager.ExecuteStoredProcedureAsync("Pkg_RF16_SUB_MARKETS.Delete_Data", lstParams, cancellationToken);
+            await _dbManager.ExecuteStoredProcedureAsync("Pkg_RF16_SUB_MARKETS.DELETE_DATA", lstParams, cancellationToken);
 
             List<SubMarketViewModel> data = await GetAllSubMarketsAsync(cancellationToken);
             return data;

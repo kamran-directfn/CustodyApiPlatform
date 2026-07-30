@@ -17,6 +17,7 @@ using Directfn.Custody.ApiFramework.Menus;
 using Directfn.Custody.ApiFramework.Passwords;
 using Directfn.Custody.ApiFramework.Repositories.Bank;
 using Directfn.Custody.ApiFramework.Repositories.BankBranch;
+using Directfn.Custody.ApiFramework.Repositories.BicCodeConfig;
 using Directfn.Custody.ApiFramework.Repositories.Broker;
 using Directfn.Custody.ApiFramework.Repositories.Cities;
 using Directfn.Custody.ApiFramework.Repositories.Common;
@@ -163,6 +164,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ICitiesRepository, CitiesRepository>();
             services.AddScoped<IMarketSectorRepository, MarketSectorRepository>();
             services.AddScoped<ISubMarketRepository, SubMarketRepository>();
+            services.AddScoped<IBicCodeConfigRepository, BicCodeConfigRepository>();
 
             services.AddCors(options =>
             {

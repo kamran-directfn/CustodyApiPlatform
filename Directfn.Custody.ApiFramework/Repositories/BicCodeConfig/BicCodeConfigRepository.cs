@@ -92,11 +92,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.BicCodeConfig
 
             StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF84_BIC_CODE_CONFIG.EDIT_DATA", lstParams);
 
-            _bicCode.RF84_ID = Convert.ToInt32(result.GetString("PKey"));
-
             return _bicCode;
         }
-
-        
     }
 }

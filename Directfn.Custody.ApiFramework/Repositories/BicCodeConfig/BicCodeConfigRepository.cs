@@ -27,7 +27,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.BicCodeConfig
 
             List<BicCodeConfigViewModel> _bicCode = await _dbManager.GetStoredProcedureRefCursorAsync<BicCodeConfigViewModel>("Pkg_RF84_BIC_CODE_CONFIG.GET_DATA", lstParams, "pview", cancellationToken);
 
-            return _bicCode.OrderByDescending(x => x.RF84_ID).ToList(); ;
+            return _bicCode.OrderByDescending(x => x.RF84_ID).ToList();
         }
 
         public async Task<BicCodeConfigViewModel> GetBicCodeConfigById(int bicCodeId, CancellationToken cancellationToken)

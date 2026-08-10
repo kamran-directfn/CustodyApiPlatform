@@ -1,5 +1,4 @@
-﻿using Directfn.Custody.ApiFramework.Common.DTOs.SubMarket;
-using Directfn.Custody.ApiFramework.Common.DTOs.Symbol;
+﻿using Directfn.Custody.ApiFramework.Common.DTOs.Symbol;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
 using Oracle.ManagedDataAccess.Client;
@@ -20,7 +19,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Symbol
 
         public async Task<List<SymbolViewModel>> GetAllSymbolsAsync(CancellationToken cancellationToken)
         {
-
             List<OracleParameter> lstParams = new List<OracleParameter>();
 
             lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });

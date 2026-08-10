@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.Api.Requests;
 using Directfn.Custody.ApiFramework.Auditing;
-using Directfn.Custody.ApiFramework.Common.DTOs.SubMarket;
 using Directfn.Custody.ApiFramework.Common.DTOs.Symbol;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;

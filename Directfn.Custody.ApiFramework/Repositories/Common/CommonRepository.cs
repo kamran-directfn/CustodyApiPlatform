@@ -8,6 +8,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -183,6 +184,40 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
 
             return data;
 
+        }
+
+        public async Task<List<DropDowns>> GetEconomicSector(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Economic_Sector_New", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
+
+        public async Task<List<DropDowns>> GetMarketSector(CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Market_Sector_New", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
+
+        public async Task<List<DropDowns>> GetSubMarket(int marketId, CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter { ParameterName = "P_market", Value = marketId, Direction = ParameterDirection.Input });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_SubMarket_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
         }
     }
 }

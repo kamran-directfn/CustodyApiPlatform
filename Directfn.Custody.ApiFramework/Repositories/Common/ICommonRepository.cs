@@ -18,5 +18,8 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         Task<List<DropDowns>> GetMarkets(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetCurrencies(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetCountries(CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetEconomicSector(CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetMarketSector(CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetSubMarket(int marketId, CancellationToken cancellationToken);
     }
 }

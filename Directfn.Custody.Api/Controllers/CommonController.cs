@@ -101,5 +101,32 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(data);
         }
+
+        [AuditAction("GET_ECONOMIC_SECTOR_DRP")]
+        [HttpGet("get-economic-sector")]
+        public async Task<IActionResult> GetEconomicSector(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetEconomicSector(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_MARKET_SECTOR_DRP")]
+        [HttpGet("get-market-sector")]
+        public async Task<IActionResult> GetMarketSector(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetMarketSector(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_SUB_MARKET_DRP")]
+        [HttpGet("get-sub-market")]
+        public async Task<IActionResult> GetSubMarket(int marketId, CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetSubMarket(marketId, cancellationToken);
+
+            return Success(data);
+        }
     }
 }

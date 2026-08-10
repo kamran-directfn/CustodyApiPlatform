@@ -30,6 +30,7 @@ using Directfn.Custody.ApiFramework.Repositories.Operations;
 using Directfn.Custody.ApiFramework.Repositories.PortfolioGroup;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Repositories.SubMarket;
+using Directfn.Custody.ApiFramework.Repositories.Symbol;
 using Directfn.Custody.ApiFramework.Repositories.User;
 using Directfn.Custody.ApiFramework.Responses;
 using Directfn.Custody.ApiFramework.Security;
@@ -167,6 +168,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<ISubMarketRepository, SubMarketRepository>();
             services.AddScoped<IBicCodeConfigRepository, BicCodeConfigRepository>();
             services.AddScoped<IHeadRoomConfigRepository, HeadRoomConfigRepository>();
+            services.AddScoped<ISymbolRepository, SymbolRepository>();
 
             services.AddCors(options =>
             {

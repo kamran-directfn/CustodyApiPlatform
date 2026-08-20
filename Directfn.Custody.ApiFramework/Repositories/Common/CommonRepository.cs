@@ -1,9 +1,11 @@
 ﻿using Directfn.Custody.ApiFramework.Common.DTOs;
+using Directfn.Custody.ApiFramework.Common.DTOs.GroupAccounts;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -17,10 +19,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
     public sealed class CommonRepository : ICommonRepository
     {
         private readonly IOracleDbManagerAsync _dbManager;
+        private readonly IConfiguration _configuration;
 
-        public CommonRepository(IOracleDbManagerAsync dbManager)
+        public CommonRepository(IOracleDbManagerAsync dbManager, IConfiguration configuration)
         {
             _dbManager = dbManager;
+            _configuration = configuration;
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
@@ -91,7 +95,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             });
         }
 
-        public async Task<int> GetBatchID(string ScreenName, CancellationToken cancellationToken)
+        public async Task<int> GetBatchID(string ScreenName, int rf48_id, CancellationToken cancellationToken)
         {
             int batchid = 0;
             BatchExecute _batch = new BatchExecute();
@@ -103,7 +107,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             _batch.RF42_KIND = ScreenName;
             _batch.RF42_STATUS = 1;
             _batch.RF42_TYPE = ScreenName;
-            _batch.RF42_MEMBER_CODE_ID = 1;// User.MemberCodeID; need to change by shahzaib
+            _batch.RF42_MEMBER_CODE_ID = rf48_id;
 
 
             var parameters = new List<OracleParameter>();
@@ -129,13 +133,12 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             else
             {
                 parameters.Add(new OracleParameter { ParameterName = "PRF42_Member_Code_Id", Value = _batch.RF42_MEMBER_CODE_ID, Direction = ParameterDirection.Input });
-                
+
                 StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_RF42_BATCH.Add_Data", parameters, cancellationToken);
                 batchid = int.Parse(result.GetString("PKey"));
             }
 
             return batchid;
-
         }
 
         public async Task<List<DropDowns>> GetBanks(CancellationToken cancellationToken)
@@ -147,7 +150,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Bank_Dropdown", lstParams, "Pview", cancellationToken);
 
             return data;
-
         }
 
         public async Task<List<DropDowns>> GetMarkets(CancellationToken cancellationToken)
@@ -159,7 +161,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Market_Dropdown", lstParams, "Pview", cancellationToken);
 
             return data;
-
         }
 
         public async Task<List<DropDowns>> GetCurrencies(CancellationToken cancellationToken)
@@ -171,7 +172,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Currency_Dropdown", lstParams, "Pview", cancellationToken);
 
             return data;
-
         }
 
         public async Task<List<DropDowns>> GetCountries(CancellationToken cancellationToken)
@@ -183,7 +183,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_Countries_New", lstParams, "Pview", cancellationToken);
 
             return data;
-
         }
 
         public async Task<List<DropDowns>> GetEconomicSector(CancellationToken cancellationToken)
@@ -219,5 +218,70 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
 
             return data;
         }
+
+        public async Task<List<GroupAccounts>> GetPortfolioAccountsByUser(int portfolioId, int rf48Id, CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter { ParameterName = "p_group_id", Value = portfolioId, Direction = ParameterDirection.Input });
+            lstParams.Add(new OracleParameter { ParameterName = "p_rf48_id", Value = rf48Id, Direction = ParameterDirection.Input });
+
+            List<GroupAccounts> data = await _dbManager.GetStoredProcedureRefCursorAsync<GroupAccounts>("PKG_PORTFOLIO_GROUPS.GET_ACC_BY_PORTFOLIO", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
+
+        //need to be change converted into extension method
+        public string GetReqId()
+        {
+            string req = Guid.NewGuid().ToString().Replace("-", "").Substring(1, 11);
+            req = "ICMS" + req.ToUpper();
+            return req;
+
+        }
+        //need to be change converted into extension method
+
+        public string EDAA_BIC()
+        {
+            string edaaBic = _configuration["EDAA_BIC"];
+            return edaaBic;
+        }
+
+        public string GetMT5BasicHeaderBlock()
+        {
+            string EDAA_BIC = "";
+            string header = "";
+            try
+            {
+                EDAA_BIC = _configuration["EDAA_Header_BIC"];
+            }
+            catch { }
+           
+            header = "{1:F01" + EDAA_BIC + "0000000000}";
+            return header;
+        }
+
+        public string Get_Header_Block(string messageType, string memberCode)
+        {
+            string headerBlock = "";
+            string senderBIC = "";
+            if (!string.IsNullOrEmpty(messageType))
+            {
+                string key_Sender_Bic = memberCode + "_Sender_BIC";
+                string sender_Bic = _configuration[key_Sender_Bic];
+                headerBlock = "{2:O" + messageType + "HHMMYYMMDD" + sender_Bic + "0000000000YYMMDDHHMMN}";
+               
+                var dt = DateTime.Now.ToString("yyMMdd");
+                var tm = DateTime.Now.ToString("hhmm");
+                headerBlock = headerBlock.Replace("YYMMDD", dt).Replace("HHMM", tm);
+            }
+            else
+            {
+                throw new Exception("Message Type is mandatory.");
+            }
+            return headerBlock;
+        }
+
     }
 }

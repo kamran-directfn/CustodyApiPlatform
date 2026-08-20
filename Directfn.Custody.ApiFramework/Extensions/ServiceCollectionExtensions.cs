@@ -9,6 +9,7 @@ using Directfn.Custody.ApiFramework.Authentication;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore.Oracle;
 using Directfn.Custody.ApiFramework.Authentication.TokenStore.SQLite;
+using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Correlation;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Entitlements;
@@ -23,6 +24,7 @@ using Directfn.Custody.ApiFramework.Repositories.Cities;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Countries;
 using Directfn.Custody.ApiFramework.Repositories.Currency;
+using Directfn.Custody.ApiFramework.Repositories.FOP;
 using Directfn.Custody.ApiFramework.Repositories.HeadRoomConfig;
 using Directfn.Custody.ApiFramework.Repositories.Market;
 using Directfn.Custody.ApiFramework.Repositories.MarketSector;
@@ -119,6 +121,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IDbConnectionFactory, OracleConnectionFactory>();
             services.AddScoped<IOracleDbManager, OracleDbManager>();
             services.AddScoped<IOracleDbManagerAsync, OracleDbManagerAsync>();
+          //  services.AddScoped<Enumerations>();
 
             services.Configure<AuditOptions>(configuration.GetSection(AuditOptions.SectionName));
 
@@ -169,6 +172,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IBicCodeConfigRepository, BicCodeConfigRepository>();
             services.AddScoped<IHeadRoomConfigRepository, HeadRoomConfigRepository>();
             services.AddScoped<ISymbolRepository, SymbolRepository>();
+            services.AddScoped<IFOPRepository, FOPRepository>();
 
             services.AddCors(options =>
             {

@@ -101,15 +101,15 @@ namespace Directfn.Custody.Api.Controllers
         [HttpPost("upload-excel")]
         public async Task<IActionResult> Upload_ExcelFile(IFormFile file, CancellationToken cancellationToken)
         {
-            int rf48_id = 1; // User.MemberCodeID; need to be change
-            int created_by = 1;// User.Id; need to be change
+            int rf48_id = (int)_custodyUserContext.MemberCodeId;
+            int created_by = (int)_custodyUserContext.UserId;
 
             List<PortfolioGroupValidate> Portfolio = new List<PortfolioGroupValidate>();
 
             DataSet result = _commonRepository.UploadFileDataSet(file);
             if (result != null && result.Tables != null && result.Tables[0].Rows.Count > 0)
             {
-                int batch_id = await _commonRepository.GetBatchID("PORTFOLIO_GROUP", cancellationToken);
+                int batch_id = await _commonRepository.GetBatchID("PORTFOLIO_GROUP", rf48_id, cancellationToken);
 
                 var Portfolio2 = _portfolioGroupRepository.GetPortfolioGroup(result, batch_id, rf48_id, created_by, cancellationToken);
 

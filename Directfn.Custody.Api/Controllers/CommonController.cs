@@ -2,6 +2,7 @@
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
+using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Common;
@@ -125,6 +126,33 @@ namespace Directfn.Custody.Api.Controllers
         public async Task<IActionResult> GetSubMarket(int marketId, CancellationToken cancellationToken)
         {
             List<DropDowns> data = await _commonRepository.GetSubMarket(marketId, cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_FOP_TRANSFER_TYPES_DRP")]
+        [HttpGet("get-fop-transfer-types-dropdown")]
+        public async Task<IActionResult> GetFopTransferTypesDropdown(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetFopTransferTypesDropdown(cancellationToken); 
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_FOP_TRADE_TYPES_DRP")]
+        [HttpGet("get-fop-trade-types-dropdown")]
+        public async Task<IActionResult> GetTradeTypes(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetTradeTypes(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_FOP_EDAA_STATUS_DRP")]
+        [HttpGet("get-fop-edaa-status-dropdown")]
+        public async Task<IActionResult> GetEdaaStatus(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetEdaaStatus(cancellationToken);
 
             return Success(data);
         }

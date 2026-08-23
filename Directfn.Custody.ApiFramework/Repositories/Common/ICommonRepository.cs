@@ -22,6 +22,9 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         Task<List<DropDowns>> GetEconomicSector(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetMarketSector(CancellationToken cancellationToken);
         Task<List<DropDowns>> GetSubMarket(int marketId, CancellationToken cancellationToken);
+        List<DropDowns> GetFopTransferTypesDropdown(CancellationToken cancellationToken);
+        List<DropDowns> GetTradeTypes(CancellationToken cancellationToken);
+        List<DropDowns> GetEdaaStatus(CancellationToken cancellationToken);
         Task<List<GroupAccounts>> GetPortfolioAccountsByUser(int portfolioId, int rf48Id, CancellationToken cancellationToken);
 
         string GetReqId();

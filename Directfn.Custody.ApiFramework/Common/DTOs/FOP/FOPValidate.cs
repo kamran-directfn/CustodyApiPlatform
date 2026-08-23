@@ -6,6 +6,9 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.FOP
 {
     public class FOPValidate
     {
+        public int p_take;
+        public int skip;
+
         public int PRS50_ID { get; set; }
         public string PRS50_TRADE_TYPE { get; set; }
         public string PRS50_TRADE_DATE { get; set; }
@@ -47,5 +50,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.FOP
         public string PRS50_QUANTITY_TYPE { get; set; }
         public string GuId { get; set; }
         public int BatchId { get; set; }
+
+        public string sorting { get; set; }
     }
 }

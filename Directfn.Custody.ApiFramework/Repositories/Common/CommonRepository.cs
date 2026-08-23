@@ -1,6 +1,7 @@
 ﻿using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.GroupAccounts;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
+using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
 using ExcelDataReader;
@@ -232,6 +233,37 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return data;
         }
 
+        public List<DropDowns> GetFopTransferTypesDropdown(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = Enumerations.GetFopTransferTypes()
+               .Select((x, index) => new DropDowns
+               {
+                   Id = (index + 1).ToString(),
+                   text = x.Key,
+                   Code = x.Value
+               }).ToList();
+
+            return data;
+        }
+
+        public List<DropDowns> GetTradeTypes(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "DF", text = "Deliver Free" });
+            data.Add(new DropDowns { Id = "RF", text = "Receive Free" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetEdaaStatus(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "Processed" });
+            data.Add(new DropDowns { Id = "2", text = "Un Processed" });
+
+            return data;
+        }
+
         //need to be change converted into extension method
         public string GetReqId()
         {
@@ -257,7 +289,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
                 EDAA_BIC = _configuration["EDAA_Header_BIC"];
             }
             catch { }
-           
+
             header = "{1:F01" + EDAA_BIC + "0000000000}";
             return header;
         }
@@ -271,7 +303,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
                 string key_Sender_Bic = memberCode + "_Sender_BIC";
                 string sender_Bic = _configuration[key_Sender_Bic];
                 headerBlock = "{2:O" + messageType + "HHMMYYMMDD" + sender_Bic + "0000000000YYMMDDHHMMN}";
-               
+
                 var dt = DateTime.Now.ToString("yyMMdd");
                 var tm = DateTime.Now.ToString("hhmm");
                 headerBlock = headerBlock.Replace("YYMMDD", dt).Replace("HHMM", tm);
@@ -283,5 +315,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return headerBlock;
         }
 
+       
     }
 }

@@ -10,7 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers;
 
+#if !DEBUG
 [Authorize]
+#endif
+
 [SkipEntitlement]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/menu")]

@@ -17,6 +17,8 @@ public sealed class UserEntitlementRecord
     public string? SectionName { get; init; }
 
     public bool HasChild { get; init; }
+
+    public int order_by { get; set; }
 }
 
 public class UserRoleEntitlements

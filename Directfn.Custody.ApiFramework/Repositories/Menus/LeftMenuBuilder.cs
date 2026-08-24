@@ -18,11 +18,13 @@ public sealed class LeftMenuBuilder : ILeftMenuBuilder
             .Select((group, index) => new LeftMenuGroupDto
             {
                 GroupLabel = group.Key,
+                MenuOrder = group.First().order_by,
                 Expanded = index == 0,
                 Items = group
                     .GroupBy(x => CleanText(x.ScreenName!))
                     .Select(itemGroup =>
                     {
+                        
                         string label = itemGroup.Key;
 
                         return new LeftMenuItemDto
@@ -40,7 +42,11 @@ public sealed class LeftMenuBuilder : ILeftMenuBuilder
             .ThenBy(x => x.GroupLabel)
             .ToList();
 
-        return groups;
+
+        return groups
+    .OrderBy(x => x.MenuOrder)
+    .ThenBy(x => x.GroupLabel.Length)
+    .ToList();
     }
 
     private static string CleanText(string value)

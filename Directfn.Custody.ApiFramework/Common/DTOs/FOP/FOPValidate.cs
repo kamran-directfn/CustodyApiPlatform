@@ -50,7 +50,22 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.FOP
         public string PRS50_QUANTITY_TYPE { get; set; }
         public string GuId { get; set; }
         public int BatchId { get; set; }
-
+        public int totalCount { get; set; }
         public string sorting { get; set; }
+    }
+
+    public class FOP_Child_Data
+    {
+        public string prs50_trade_type { get; set; }
+        public string quantity { get; set; }
+        public string tradedate { get; set; }
+        public string prs38_sett_date { get; set; }
+        public string PROCESSING_STATUS { get; set; }
+        public string SETTLEMENT_STATUS { get; set; }
+        public string MATCH_STATUS { get; set; }
+        public string RAW_MESSAGE { get; set; }
+        public string msg_ref { get; set; }
+
+        public string REASON { get; set; }
     }
 }

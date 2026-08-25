@@ -1,4 +1,5 @@
 ﻿using Directfn.Custody.ApiFramework.Auditing;
+using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.Broker;
 using Directfn.Custody.ApiFramework.Common.DTOs.Currency;
 using Directfn.Custody.ApiFramework.Common.DTOs.FOP;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.Json;
 using static System.Net.WebRequestMethods;
@@ -83,30 +85,30 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
                     {
                         parameters.PRS50_ACC_RECEIVER_CUSTODIAN = item.value.Trim().ToString();
                     }
-                }
-                
-                if (req.sort.Length > 0 && req.sort != "[]")
-                {
-                    var sortValue = JsonSerializer.Deserialize<List<Sort>>(req.sort);
-                    var field = sortValue.FirstOrDefault().field;
-                    var dir = sortValue.FirstOrDefault().dir;
-                    parameters.sorting = field + " " + dir;
-                }
-
-                parameters.PRS50_TRADE_DATE = req.TradeDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
-                if (parameters.PRS50_TRADE_DATE == "00010101")
-                {
-                    parameters.PRS50_TRADE_DATE = null;
-                }
-                parameters.PRS50_SETT_DATE = req.SettlementDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
-                if (parameters.PRS50_SETT_DATE == "00010101")
-                {
-                    parameters.PRS50_SETT_DATE = null;
-                }
-                parameters.PRS50_TRADE_TYPE = req.TradeType;
-                parameters.PRS50_UNIQUE_REFERENCE = req.UniqueReference;
-                parameters.PRS50_TRANSFER_TYPE = req.TransferType;
+                }                
             }
+
+            if (req.sort.Length > 0 && req.sort != "[]")
+            {
+                var sortValue = JsonSerializer.Deserialize<List<Sort>>(req.sort);
+                var field = sortValue.FirstOrDefault().field;
+                var dir = sortValue.FirstOrDefault().dir;
+                parameters.sorting = field + " " + dir;
+            }
+
+            parameters.PRS50_TRADE_DATE = req.TradeDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            if (parameters.PRS50_TRADE_DATE == "00010101")
+            {
+                parameters.PRS50_TRADE_DATE = null;
+            }
+            parameters.PRS50_SETT_DATE = req.SettlementDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            if (parameters.PRS50_SETT_DATE == "00010101")
+            {
+                parameters.PRS50_SETT_DATE = null;
+            }
+            parameters.PRS50_TRADE_TYPE = req.TradeType;
+            parameters.PRS50_UNIQUE_REFERENCE = req.UniqueReference;
+            parameters.PRS50_TRANSFER_TYPE = req.TransferType;
 
             List<FOPValidate> _lst = new List<FOPValidate>();
             List<OracleParameter> lstParams = new List<OracleParameter>();
@@ -119,7 +121,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_SETT_DATE", Value = parameters.PRS50_SETT_DATE, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_ISIN", Value = parameters.PRS50_ISIN, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_BROKER", Value = parameters.PRS50_BROKER, Direction = System.Data.ParameterDirection.Input, });
-            lstParams.Add(new OracleParameter() { ParameterName = "PRS50_QUANTITY", Value = parameters.PRS50_QUANTITY, Direction = System.Data.ParameterDirection.Input, });
+            lstParams.Add(new OracleParameter() { ParameterName = "PRS50_QUANTITY", Value = parameters.PRS50_QUANTITY > 0 ? parameters.PRS50_QUANTITY : null, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_UNIQUE_REFERENCE", Value = parameters.PRS50_UNIQUE_REFERENCE, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_SENDER_CUSTODIAN", Value = parameters.PRS50_SENDER_CUSTODIAN, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_ACC_SENDER_CUSTODIAN", Value = parameters.PRS50_ACC_SENDER_CUSTODIAN, Direction = System.Data.ParameterDirection.Input, });
@@ -134,6 +136,32 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
             _lst = await _dbManager.GetStoredProcedureRefCursorAsync<FOPValidate>("Pkg_PRS50_FOP.Get_Data_EDAA", lstParams, "pview", cancellationToken);
             
             return _lst;
+        }
+
+        public async Task<List<FOP_Child_Data>> GetFopEddaChild(string referenceNo, CancellationToken cancellationToken)
+        {
+            List<FOP_Child_Data> _lst = new List<FOP_Child_Data>();
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter() { ParameterName = "p_message_id", Value = referenceNo, Direction = System.Data.ParameterDirection.Input, });
+
+            _lst = await _dbManager.GetStoredProcedureRefCursorAsync<FOP_Child_Data>("Pkg_PRS50_FOP.GET_ACKNOWLEDGMENTS", lstParams, "pview", cancellationToken);
+
+            return _lst;
+        }
+
+        public async Task<FOPValidate> ExportMT540Msg(int id, CancellationToken cancellationToken)
+        {
+            List<FOPValidate> _message = new List<FOPValidate>();
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter() { ParameterName = "p_prs50_id", Value = id, Direction = System.Data.ParameterDirection.Input, });
+
+            _message = await _dbManager.GetStoredProcedureRefCursorAsync<FOPValidate>("Pkg_PRS50_FOP.GET_DATA_BY_ID", lstParams, "pview", cancellationToken);
+
+            return _message.FirstOrDefault();
         }
     }
 }

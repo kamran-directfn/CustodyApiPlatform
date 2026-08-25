@@ -27,6 +27,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         List<DropDowns> GetEdaaStatus(CancellationToken cancellationToken);
         Task<List<GroupAccounts>> GetPortfolioAccountsByUser(int portfolioId, int rf48Id, CancellationToken cancellationToken);
 
+        string GetDateTimeForExportMsgs();
         string GetReqId();
         string EDAA_BIC();
         string GetMT5BasicHeaderBlock();

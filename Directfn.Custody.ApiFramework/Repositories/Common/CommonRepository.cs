@@ -315,6 +315,11 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return headerBlock;
         }
 
-       
+
+        public string GetDateTimeForExportMsgs()
+        {
+            return DateTime.Now.ToString("yyMMddhhmmss");
+        }
+
     }
 }

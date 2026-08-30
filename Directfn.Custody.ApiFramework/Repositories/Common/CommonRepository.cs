@@ -264,6 +264,26 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             return data;
         }
 
+        public List<DropDowns> GetAgents(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+
+         var agents =   _configuration
+            .GetSection("Agents")
+            .Get<List<string>>() ?? [];
+
+            foreach ( var agent in agents ) 
+                {
+                    DropDowns drp = new DropDowns();
+                    drp.Id = agent;
+                    drp.text = agent;
+
+                    data.Add(drp);
+                }
+
+            return data;
+        }
+
         //need to be change converted into extension method
         public string GetReqId()
         {

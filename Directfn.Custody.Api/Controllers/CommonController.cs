@@ -156,5 +156,14 @@ namespace Directfn.Custody.Api.Controllers
 
             return Success(data);
         }
+
+        [AuditAction("GET_AGENTS_DRP")]
+        [HttpGet("get-agents-dropdown")]
+        public async Task<IActionResult> GetAgents(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetAgents(cancellationToken);
+
+            return Success(data);
+        }
     }
 }

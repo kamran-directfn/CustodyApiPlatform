@@ -7,7 +7,6 @@ using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.SubMarket;
 using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers

@@ -2,14 +2,12 @@
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
-using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.User;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Directfn.Custody.Api.Controllers
 {

@@ -1,21 +1,15 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.ApiFramework.Auditing;
-using Directfn.Custody.ApiFramework.Common.DTOs;
-using Directfn.Custody.ApiFramework.Common.DTOs.Broker;
 using Directfn.Custody.ApiFramework.Common.DTOs.FOP;
 using Directfn.Custody.ApiFramework.Common.DTOs.Pagination;
-using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Common;
-using Directfn.Custody.ApiFramework.Repositories.FOP;
 using Directfn.Custody.ApiFramework.Repositories.FOP_EDAA;
 using Directfn.Custody.ApiFramework.Security;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Directfn.Custody.Api.Controllers
 {

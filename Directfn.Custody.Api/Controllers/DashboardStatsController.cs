@@ -1,14 +1,11 @@
 ﻿using Asp.Versioning;
-using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs.DashBoard;
-using Directfn.Custody.ApiFramework.Common.DTOs.HeadRoomConfig;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.DashBoard;
 using Directfn.Custody.ApiFramework.Security;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Directfn.Custody.Api.Controllers
 {

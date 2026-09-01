@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.Api.Requests;
-using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Controllers;

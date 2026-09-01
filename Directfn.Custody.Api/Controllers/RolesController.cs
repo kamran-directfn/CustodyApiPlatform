@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using Directfn.Custody.Api.Requests;
 using Directfn.Custody.Api.Requests.Roles;
-using Directfn.Custody.ApiFramework.Approvals;
 using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.DTOs;
@@ -9,9 +8,8 @@ using Directfn.Custody.ApiFramework.DTOs.Entitlements;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Roles;
 using Directfn.Custody.ApiFramework.Security;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Directfn.Custody.Api.Controllers
 {

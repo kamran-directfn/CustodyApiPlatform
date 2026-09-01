@@ -28,7 +28,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
             _commonRepository = commonRepository;
         }
 
-        public async Task<List<FOPValidate>> GetAllFOP_EDAA_Async(PaginationRequest req, int memberCodeId, int groupId, CancellationToken cancellationToken)
+        public async Task<List<FOPValidate>> GetAllFOP_EDAA_Async(PaginationRequest<FOPEDAAFilter> req, int memberCodeId, int groupId, CancellationToken cancellationToken)
         {
             string filtersObj = JsonSerializer.Serialize(req.filter);
 
@@ -96,19 +96,19 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
                 parameters.sorting = field + " " + dir;
             }
 
-            parameters.PRS50_TRADE_DATE = req.TradeDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            parameters.PRS50_TRADE_DATE = req.Filters.TradeDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             if (parameters.PRS50_TRADE_DATE == "00010101")
             {
                 parameters.PRS50_TRADE_DATE = null;
             }
-            parameters.PRS50_SETT_DATE = req.SettlementDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
+            parameters.PRS50_SETT_DATE = req.Filters.SettlementDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
             if (parameters.PRS50_SETT_DATE == "00010101")
             {
                 parameters.PRS50_SETT_DATE = null;
             }
-            parameters.PRS50_TRADE_TYPE = req.TradeType;
-            parameters.PRS50_UNIQUE_REFERENCE = req.UniqueReference;
-            parameters.PRS50_TRANSFER_TYPE = req.TransferType;
+            parameters.PRS50_TRADE_TYPE = req.Filters.TradeType;
+            parameters.PRS50_UNIQUE_REFERENCE = req.Filters.UniqueReference;
+            parameters.PRS50_TRANSFER_TYPE = req.Filters.TransferType;
 
             List<FOPValidate> _lst = new List<FOPValidate>();
             List<OracleParameter> lstParams = new List<OracleParameter>();
@@ -130,7 +130,7 @@ namespace Directfn.Custody.ApiFramework.Repositories.FOP_EDAA
             lstParams.Add(new OracleParameter() { ParameterName = "p_sorting", Value = parameters.sorting, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "p_rf48_id", Value = memberCodeId, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "PRS50_TRANSFER_TYPE", Value = parameters.PRS50_TRANSFER_TYPE, Direction = System.Data.ParameterDirection.Input, });
-            lstParams.Add(new OracleParameter() { ParameterName = "IsSent", Value = req.IsSent, Direction = System.Data.ParameterDirection.Input, });
+            lstParams.Add(new OracleParameter() { ParameterName = "IsSent", Value = req.Filters.IsSent, Direction = System.Data.ParameterDirection.Input, });
             lstParams.Add(new OracleParameter() { ParameterName = "p_group_id", Value = groupId, Direction = System.Data.ParameterDirection.Input, });
             
             _lst = await _dbManager.GetStoredProcedureRefCursorAsync<FOPValidate>("Pkg_PRS50_FOP.Get_Data_EDAA", lstParams, "pview", cancellationToken);

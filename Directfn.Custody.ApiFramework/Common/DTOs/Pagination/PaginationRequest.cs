@@ -1,21 +1,15 @@
 ﻿namespace Directfn.Custody.ApiFramework.Common.DTOs.Pagination
 {
 
-    public class PaginationRequest
+    public class PaginationRequest<TFilter>
     {
         public int Take { get; set; }
         public int Skip { get; set; }
-        public int Page { get; set; }
+        public int PageNo { get; set; }
         public int PageSize { get; set; }
         public string? filter { get; set; }
         public string? sort { get; set; }
-        public DateTime SettlementDate { get; set; }
-        public string? TradeType { get; set; }
-        public string? TransferType { get; set; }
-        public DateTime TradeDate { get; set; }
-        public string? UniqueReference { get; set; }
-
-        public string? IsSent { get; set; }
+        public TFilter? Filters { get; set; }
     }
 
     public class Sort

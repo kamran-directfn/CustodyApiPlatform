@@ -68,4 +68,14 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.FOP
 
         public string REASON { get; set; }
     }
+
+    public class FOPEDAAFilter
+    {
+        public DateTime SettlementDate { get; set; }
+        public string? TradeType { get; set; }
+        public string? TransferType { get; set; }
+        public DateTime TradeDate { get; set; }
+        public string? UniqueReference { get; set; }
+        public string? IsSent { get; set; }
+    }
 }

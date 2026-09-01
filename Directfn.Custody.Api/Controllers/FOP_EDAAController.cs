@@ -41,7 +41,7 @@ namespace Directfn.Custody.Api.Controllers
 
         [AuditAction("GET_FOP_EDAA")]
         [HttpPost("get")]
-        public async Task<IActionResult> Get(PaginationRequest req, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(PaginationRequest<FOPEDAAFilter> req, CancellationToken cancellationToken)
         {
             int rf48_id = (int)_custodyUserContext.MemberCodeId;
             int created_by = (int)_custodyUserContext.UserId;

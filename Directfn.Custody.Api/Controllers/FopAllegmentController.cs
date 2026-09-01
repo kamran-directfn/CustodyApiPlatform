@@ -3,6 +3,8 @@ using Directfn.Custody.ApiFramework.Auditing;
 using Directfn.Custody.ApiFramework.Common.DTOs.Countries;
 using Directfn.Custody.ApiFramework.Common.DTOs.FOP;
 using Directfn.Custody.ApiFramework.Common.DTOs.FOPAllegment;
+using Directfn.Custody.ApiFramework.Common.DTOs.FOPSettlement;
+using Directfn.Custody.ApiFramework.Common.DTOs.Pagination;
 using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Common;
@@ -36,15 +38,17 @@ namespace Directfn.Custody.Api.Controllers
         }
 
         [AuditAction("GET_FOP_ALLEGMENT")]
-        [HttpGet("get")]
-        public async Task<IActionResult> Get(string date, string? recAgnt, string? delAgnt,CancellationToken cancellationToken)
+        [HttpPost("get")]
+        public async Task<IActionResult> Get(PaginationRequest<FOPAllegmentFilter> req, CancellationToken cancellationToken)
         {
             int rf48_id = (int)_custodyUserContext.MemberCodeId;
             int portfolioId = (int)_custodyUserContext.PortfolioGroupId;
 
-            List<FOPAllegmentViewModel> data = await _fOPAllegmentRepository.GetFopAllegmentAsync(date, recAgnt, delAgnt, rf48_id, portfolioId, cancellationToken);
+            List<FOPAllegmentViewModel> data = await _fOPAllegmentRepository.GetFopAllegmentAsync(req, rf48_id, portfolioId, cancellationToken);
 
-            return Success(data);
+            int totalCount = data?.FirstOrDefault()?.totalCount ?? 0;
+
+            return Success(new { data, totalCount });
         }
 
         [AuditAction("GET_FOP_ALLEGMENT-CHILD")]

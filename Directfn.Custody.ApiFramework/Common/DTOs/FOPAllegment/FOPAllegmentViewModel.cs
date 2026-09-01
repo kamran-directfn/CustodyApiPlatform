@@ -37,5 +37,17 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.FOPAllegment
         public DateTime PRS62MODIFIED_DATE { get; set; }
         public string rf02_symbol { get; set; }
         public string PRS62_QUANTITY_TYPE { get; set; }
+
+        public int totalCount { get; set; }
+    }
+
+    public class FOPAllegmentFilter
+    {
+        public int PageNo { get; set; }
+        public int PageSize { get; set; }
+        public string? sorting { get; set; }
+        public string? date { get; set; }
+        public string? recAgnt { get; set; }
+        public string? delAgnt { get; set; }
     }
 }

@@ -28,6 +28,7 @@ using Directfn.Custody.ApiFramework.Repositories.DashBoard;
 using Directfn.Custody.ApiFramework.Repositories.FOP;
 using Directfn.Custody.ApiFramework.Repositories.FOP_Allegment;
 using Directfn.Custody.ApiFramework.Repositories.FOP_EDAA;
+using Directfn.Custody.ApiFramework.Repositories.FOP_Settlement;
 using Directfn.Custody.ApiFramework.Repositories.HeadRoomConfig;
 using Directfn.Custody.ApiFramework.Repositories.Market;
 using Directfn.Custody.ApiFramework.Repositories.MarketSector;
@@ -179,6 +180,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IFOP_EDAARepository, FOP_EDAARepository>();
             services.AddScoped<IDashBoardRepository, DashBoardRepository>();
             services.AddScoped<IFOPAllegmentRepository, FOPAllegmentRepository>();
+            services.AddScoped<IFOPSettlementRepository, FOPSettlementRepository>();
 
             services.AddCors(options =>
             {

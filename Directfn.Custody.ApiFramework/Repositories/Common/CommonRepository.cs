@@ -110,7 +110,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             _batch.RF42_TYPE = ScreenName;
             _batch.RF42_MEMBER_CODE_ID = rf48_id;
 
-
             var parameters = new List<OracleParameter>();
 
             if (_batch.RF42_ID > 0)
@@ -268,18 +267,125 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         {
             List<DropDowns> data = new List<DropDowns>();
 
-         var agents =   _configuration
-            .GetSection("Agents")
-            .Get<List<string>>() ?? [];
+            var agents = _configuration.GetSection("Agents").Get<List<string>>() ?? [];
 
-            foreach ( var agent in agents ) 
-                {
-                    DropDowns drp = new DropDowns();
-                    drp.Id = agent;
-                    drp.text = agent;
+            foreach (var agent in agents)
+            {
+                DropDowns drp = new DropDowns();
+                drp.Id = agent;
+                drp.text = agent;
 
-                    data.Add(drp);
-                }
+                data.Add(drp);
+            }
+
+            return data;
+        }
+
+        public List<DropDowns> GetActivationType(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "Active" });
+            data.Add(new DropDowns { Id = "2", text = "Deactivated" });
+            data.Add(new DropDowns { Id = "3", text = "Suspended" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetLagalStatus(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "LIQUIDATED" });
+            data.Add(new DropDowns { Id = "2", text = "INSOLVENT" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetLanguage(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "English" });
+            data.Add(new DropDowns { Id = "2", text = "Arabic" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetCommunicationMethod(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "Post" });
+            data.Add(new DropDowns { Id = "2", text = "Phone" });
+            data.Add(new DropDowns { Id = "3", text = "Fax" });
+            data.Add(new DropDowns { Id = "4", text = "E-mail" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetInterestedPartyInd(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "investor individual" });
+            data.Add(new DropDowns { Id = "2", text = "interested pty individual" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetInterestedPartyOrg(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "investor organization" });
+            data.Add(new DropDowns { Id = "2", text = "interested pty organization" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetStakeholderType(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "Individual" });
+            data.Add(new DropDowns { Id = "2", text = "Company" });
+
+            return data;
+        }
+
+        public async Task<List<DropDowns>> GetInvestorCategory(int type, CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter { ParameterName = "p_type", Value = type, Direction = ParameterDirection.Input });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_InvestorCategory_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
+
+        public async Task<List<DropDowns>> GetStakeholderIdentify(int type, CancellationToken cancellationToken)
+        {
+            List<OracleParameter> lstParams = new List<OracleParameter>();
+
+            lstParams.Add(new OracleParameter { ParameterName = "pview", OracleDbType = OracleDbType.RefCursor, Direction = ParameterDirection.Output });
+            lstParams.Add(new OracleParameter { ParameterName = "p_type", Value = type, Direction = ParameterDirection.Input });
+
+            var data = await _dbManager.GetStoredProcedureRefCursorAsync<DropDowns>("Pkg_Dropdowns.Get_StackholdtIndType_Dropdown", lstParams, "Pview", cancellationToken);
+
+            return data;
+        }
+
+        public List<DropDowns> GetAddressTypes(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "MAIN" });
+            data.Add(new DropDowns { Id = "2", text = "OFFICE" });
+            data.Add(new DropDowns { Id = "3", text = "OTHER" });
+
+            return data;
+        }
+
+        public List<DropDowns> GetYesNoDrp(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = new List<DropDowns>();
+            data.Add(new DropDowns { Id = "1", text = "Yes" });
+            data.Add(new DropDowns { Id = "0", text = "No" });
 
             return data;
         }
@@ -334,7 +440,6 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
             }
             return headerBlock;
         }
-
 
         public string GetDateTimeForExportMsgs()
         {

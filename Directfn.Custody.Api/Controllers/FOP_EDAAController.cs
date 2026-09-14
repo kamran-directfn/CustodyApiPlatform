@@ -18,7 +18,7 @@ namespace Directfn.Custody.Api.Controllers
 #endif
     [SkipEntitlement]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/fop")]
+    [Route("api/v{version:apiVersion}/fop-edaa")]
     [ApiController]
 
     public class FOP_EDAAController : CustodyControllerBase

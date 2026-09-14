@@ -24,6 +24,7 @@ using Directfn.Custody.ApiFramework.Repositories.Cities;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.Countries;
 using Directfn.Custody.ApiFramework.Repositories.Currency;
+using Directfn.Custody.ApiFramework.Repositories.Customer;
 using Directfn.Custody.ApiFramework.Repositories.DashBoard;
 using Directfn.Custody.ApiFramework.Repositories.FOP;
 using Directfn.Custody.ApiFramework.Repositories.FOP_Allegment;
@@ -181,6 +182,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IDashBoardRepository, DashBoardRepository>();
             services.AddScoped<IFOPAllegmentRepository, FOPAllegmentRepository>();
             services.AddScoped<IFOPSettlementRepository, FOPSettlementRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddCors(options =>
             {

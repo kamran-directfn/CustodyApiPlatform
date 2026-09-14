@@ -6,8 +6,9 @@ using Directfn.Custody.ApiFramework.Controllers;
 using Directfn.Custody.ApiFramework.Entitlements;
 using Directfn.Custody.ApiFramework.Repositories.Common;
 using Directfn.Custody.ApiFramework.Repositories.User;
-using Microsoft.AspNetCore.Mvc;
+using Directfn.Custody.ApiFramework.Security;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Directfn.Custody.Api.Controllers
 {
@@ -21,10 +22,12 @@ namespace Directfn.Custody.Api.Controllers
     {
         private readonly ICommonRepository _commonRepository;
         private readonly IUserRepository _userRepository;
-        public CommonController(ICommonRepository commonRepository, IUserRepository userRepository)
+        private readonly ICustodyUserContext _custodyUserContext;
+        public CommonController(ICommonRepository commonRepository, IUserRepository userRepository, ICustodyUserContext custodyUserContext)
         {
             _commonRepository = commonRepository;
             _userRepository = userRepository;
+            _custodyUserContext = custodyUserContext;
         }
 
         [AuditAction("GET_ROLES")]
@@ -52,7 +55,7 @@ namespace Directfn.Custody.Api.Controllers
             List<UserViewModel> user = await _userRepository.GetAllUserAsync(cancellationToken);
 
             List<DropDowns> data = user.AsEnumerable().Select(item => new DropDowns() { Id = item.UM02_ID.ToString(), text = item.UM02_NAME }).ToList();
-            
+
             return Success(data);
         }
 
@@ -61,7 +64,7 @@ namespace Directfn.Custody.Api.Controllers
         public async Task<IActionResult> GetGroupsByMember(CancellationToken cancellationToken)
         {
             List<PortfoliosByMembers> data = await _commonRepository.GetGroupsByMember(cancellationToken);
-          
+
             return Success(data);
         }
 
@@ -132,7 +135,7 @@ namespace Directfn.Custody.Api.Controllers
         [HttpGet("get-fop-transfer-types-dropdown")]
         public async Task<IActionResult> GetFopTransferTypesDropdown(CancellationToken cancellationToken)
         {
-            List<DropDowns> data = _commonRepository.GetFopTransferTypesDropdown(cancellationToken); 
+            List<DropDowns> data = _commonRepository.GetFopTransferTypesDropdown(cancellationToken);
 
             return Success(data);
         }
@@ -160,6 +163,115 @@ namespace Directfn.Custody.Api.Controllers
         public async Task<IActionResult> GetAgents(CancellationToken cancellationToken)
         {
             List<DropDowns> data = _commonRepository.GetAgents(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_ACTIVATION_TYPE_DRP")]
+        [HttpGet("get-activation-type-dropdown")]
+        public async Task<IActionResult> GetActivationType(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetActivationType(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_ADMINISTRATOR_CODE_DRP")]
+        [HttpGet("get-administrator-code-dropdown")]
+        public async Task<IActionResult> GetAdministratorCode(CancellationToken cancellationToken)
+        {
+            List<DropDowns> result = await _commonRepository.GetMemberCode(cancellationToken);
+
+            List<DropDowns> data = result.Where(x => x.text.Equals(_custodyUserContext.MemberCode)).ToList();
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_LEGAL_STATUS_DRP")]
+        [HttpGet("get-lagal-status-dropdown")]
+        public async Task<IActionResult> GetLagalStatus(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetLagalStatus(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_PREFERRED_LANGUAGE_DRP")]
+        [HttpGet("get-preferred-language-dropdown")]
+        public async Task<IActionResult> GetLanguage(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetLanguage(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_COMMUNICATION_METHOD_DRP")]
+        [HttpGet("get-communication-method-dropdown")]
+        public async Task<IActionResult> GetCommunicationMethod(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetCommunicationMethod(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_INTERESTED_PARTY_IND_DRP")]
+        [HttpGet("get-interested-party-ind-dropdown")]
+        public async Task<IActionResult> GetInterestedPartyInd(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetInterestedPartyInd(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_INTERESTED_PARTY_ORG_DRP")]
+        [HttpGet("get-interested-party-org-dropdown")]
+        public async Task<IActionResult> GetInterestedPartyOrg(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetInterestedPartyOrg(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_STAKEHOLDER_TYPE_DRP")]
+        [HttpGet("get-stakeholder-type-dropdown")]
+        public async Task<IActionResult> GetStakeholderType(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetStakeholderType(cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_INVESTOR_CATEGORY_DRP")]
+        [HttpGet("get-investor-category-dropdown")]
+        public async Task<IActionResult> GetInvestorCategory(int type, CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetInvestorCategory(type, cancellationToken);
+
+            return Success(data);
+        }
+
+        [AuditAction("GET_STAKEHOLDER_IDENTIFY")]
+        [HttpGet("get-stakeholder-identify-dropdown")]
+        public async Task<IActionResult> GetStakeholderIdentify(int type, CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = await _commonRepository.GetStakeholderIdentify(type, cancellationToken);
+
+            return Success(data);
+        }
+
+       // [AuditAction("GET_STAKEHOLDER_IDENTIFY")]
+        [HttpGet("get-address-types-dropdown")]
+        public async Task<IActionResult> GetAddressTypes(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetAddressTypes( cancellationToken);
+
+            return Success(data);
+        }
+
+        [HttpGet("get-yes-no-dropdown")]
+        public async Task<IActionResult> GetYesNoDrp(CancellationToken cancellationToken)
+        {
+            List<DropDowns> data = _commonRepository.GetYesNoDrp( cancellationToken);
 
             return Success(data);
         }

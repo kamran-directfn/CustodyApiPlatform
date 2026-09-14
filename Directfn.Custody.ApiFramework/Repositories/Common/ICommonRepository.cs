@@ -26,6 +26,17 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         List<DropDowns> GetTradeTypes(CancellationToken cancellationToken);
         List<DropDowns> GetEdaaStatus(CancellationToken cancellationToken);
         List<DropDowns> GetAgents(CancellationToken cancellationToken);
+        List<DropDowns> GetActivationType(CancellationToken cancellationToken);
+        List<DropDowns> GetLagalStatus(CancellationToken cancellationToken);
+        List<DropDowns> GetLanguage(CancellationToken cancellationToken);
+        List<DropDowns> GetCommunicationMethod(CancellationToken cancellationToken);
+        List<DropDowns> GetInterestedPartyInd(CancellationToken cancellationToken);
+        List<DropDowns> GetInterestedPartyOrg(CancellationToken cancellationToken);
+        List<DropDowns> GetStakeholderType(CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetInvestorCategory(int type,CancellationToken cancellationToken);
+        Task<List<DropDowns>> GetStakeholderIdentify(int type,CancellationToken cancellationToken);
+        List<DropDowns> GetAddressTypes(CancellationToken cancellationToken);
+        List<DropDowns> GetYesNoDrp(CancellationToken cancellationToken);
         Task<List<GroupAccounts>> GetPortfolioAccountsByUser(int portfolioId, int rf48Id, CancellationToken cancellationToken);
 
         string GetDateTimeForExportMsgs();

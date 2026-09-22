@@ -17,5 +17,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Customer
         public int crm04_rf10_id { get; set; }
         public int crm04_addresstype { get; set; }
         public int crm04_created_by { get; set; }
+
+        public string? country_code { get; set; }
     }
 }

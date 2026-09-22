@@ -15,5 +15,7 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Customer
         public DateTime crm02_created_date { get; set; }
         public int crm02_modified_by { get; set; }
         public DateTime crm02_modified_date { get; set; }
+
+        public string? Type { get; set; }
     }
 }

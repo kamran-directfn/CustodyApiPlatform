@@ -42,5 +42,6 @@ namespace Directfn.Custody.ApiFramework.Common.DTOs.Customer
         public int CRM01_MODIFIED_BY { get; set; }
 
         public int CRM01_IS_EDAA_CREATED { get; set; }
+        public string? member_code { get; set; }
     }
 }

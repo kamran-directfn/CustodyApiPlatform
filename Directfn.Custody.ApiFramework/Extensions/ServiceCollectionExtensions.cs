@@ -31,6 +31,7 @@ using Directfn.Custody.ApiFramework.Repositories.FOP_Allegment;
 using Directfn.Custody.ApiFramework.Repositories.FOP_EDAA;
 using Directfn.Custody.ApiFramework.Repositories.FOP_Settlement;
 using Directfn.Custody.ApiFramework.Repositories.HeadRoomConfig;
+using Directfn.Custody.ApiFramework.Repositories.InvestorSync;
 using Directfn.Custody.ApiFramework.Repositories.Market;
 using Directfn.Custody.ApiFramework.Repositories.MarketSector;
 using Directfn.Custody.ApiFramework.Repositories.Operations;
@@ -183,6 +184,7 @@ namespace Directfn.Custody.ApiFramework.Extensions
             services.AddScoped<IFOPAllegmentRepository, FOPAllegmentRepository>();
             services.AddScoped<IFOPSettlementRepository, FOPSettlementRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IInvestorSyncReopsitory, InvestorSyncReopsitory>();
 
             services.AddCors(options =>
             {

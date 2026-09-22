@@ -4,6 +4,9 @@ using Directfn.Custody.ApiFramework.Common.DTOs.Users;
 using Directfn.Custody.ApiFramework.Common.Enumerations;
 using Directfn.Custody.ApiFramework.Database;
 using Directfn.Custody.ApiFramework.Database.Results;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -444,6 +448,146 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         public string GetDateTimeForExportMsgs()
         {
             return DateTime.Now.ToString("yyMMddhhmmss");
+        }
+
+        public byte[] ExportToExcel<T>(List<T> data, string sheetName = "Sheet1")
+        {
+            using var stream = new MemoryStream();
+
+            using (var document = SpreadsheetDocument.Create(
+                stream,
+                SpreadsheetDocumentType.Workbook))
+            {
+                WorkbookPart workbookPart = document.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
+
+                Sheets sheets = workbookPart.Workbook.AppendChild(
+                    new Sheets());
+
+                WorksheetPart worksheetPart =
+                    workbookPart.AddNewPart<WorksheetPart>();
+
+                SheetData sheetData = new SheetData();
+
+                worksheetPart.Worksheet = new Worksheet(sheetData);
+
+                Sheet sheet = new Sheet
+                {
+                    Id = workbookPart.GetIdOfPart(worksheetPart),
+                    SheetId = 1,
+                    Name = sheetName
+                };
+
+                sheets.Append(sheet);
+
+                // Get model properties
+                PropertyInfo[] properties = typeof(T)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                // ==========================
+                // Header
+                // ==========================
+
+                Row headerRow = new Row();
+
+                foreach (var property in properties)
+                {
+                    string header = ConvertToExcelHeader(property.Name);
+
+                    headerRow.Append(
+                        CreateTextCell(header));
+                }
+
+                sheetData.Append(headerRow);
+
+                // ==========================
+                // Data
+                // ==========================
+
+                foreach (var item in data)
+                {
+                    Row row = new Row();
+
+                    foreach (var property in properties)
+                    {
+                        object? value = property.GetValue(item);
+
+                        row.Append(
+                            CreateTextCell(value));
+                    }
+
+                    sheetData.Append(row);
+                }
+
+                workbookPart.Workbook.Save();
+            }
+
+            return stream.ToArray();
+        }
+
+        private static string ConvertToExcelHeader(string propertyName)
+        {
+            if (string.IsNullOrWhiteSpace(propertyName))
+                return string.Empty;
+
+            // Remove any 3 letters + 2 numbers prefix
+            // Examples: CRM01_, ABC12_, XYZ99_
+            propertyName = Regex.Replace(
+                propertyName,
+                @"^[A-Za-z]{3}\d{2}_",
+                "");
+
+            // Replace underscores with spaces
+            propertyName = propertyName.Replace("_", " ");
+
+            // Add spaces between camelCase words
+            propertyName = Regex.Replace(
+                propertyName,
+                @"(?<=[a-z])(?=[A-Z])",
+                " ");
+
+            // Add spaces before common suffixes
+            propertyName = Regex.Replace(
+                propertyName,
+                @"(?i)(Id|Name|Type|Date|Message|Sync|Status|Code|Number|Ref)$",
+                " $1");
+
+            // Remove multiple spaces
+            propertyName = Regex.Replace(
+                propertyName,
+                @"\s+",
+                " ").Trim();
+
+            // Convert to Title Case
+            propertyName = System.Globalization.CultureInfo
+                .CurrentCulture
+                .TextInfo
+                .ToTitleCase(propertyName.ToLower());
+
+            return propertyName;
+        }
+
+        private static Cell CreateTextCell(object? value)
+        {
+            return new Cell
+            {
+                DataType = CellValues.InlineString,
+                InlineString = new InlineString(
+                    new Text(value?.ToString() ?? string.Empty))
+            };
+        }
+
+        public string GetBetween(string strSource, string strStart, string strEnd)
+        {
+            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+            {
+                int Start, End;
+                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                End = strSource.IndexOf(strEnd, Start);
+                return strSource.Substring(Start, End - Start);
+            }
+
+            return "";
         }
 
     }

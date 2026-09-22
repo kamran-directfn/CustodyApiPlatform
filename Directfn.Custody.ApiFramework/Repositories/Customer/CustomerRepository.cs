@@ -218,11 +218,11 @@ namespace Directfn.Custody.ApiFramework.Repositories.Customer
 
             if (req.CRM01_ID > 0)
             {
-                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_CRM01_CUSTOMER.Edit_Data", lstParams);
+                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_CRM01_CUSTOMER.Edit_Data", lstParams, cancellationToken);
             }
             else
             {
-                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_CRM01_CUSTOMER.Add_Data", lstParams);
+                StoredProcedureResult result = await _dbManager.ExecuteStoredProcedureWithOutputAsync("Pkg_CRM01_CUSTOMER.Add_Data", lstParams, cancellationToken);
 
                 req.CRM01_ID = Convert.ToInt32(result.GetString("PKey"));
             }

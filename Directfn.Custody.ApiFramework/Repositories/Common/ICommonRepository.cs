@@ -44,5 +44,9 @@ namespace Directfn.Custody.ApiFramework.Repositories.Common
         string EDAA_BIC();
         string GetMT5BasicHeaderBlock();
         string Get_Header_Block(string messageType, string memberCode);
+
+        byte[] ExportToExcel<T>(List<T> data, string sheetName = "Sheet1");
+
+        string GetBetween(string strSource, string strStart, string strEnd);
     }
 }
